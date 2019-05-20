@@ -12,6 +12,7 @@ PREFIX = ['orb.']
 import discord
 from discord.ext import commands as bot_commands
 import random
+import os
 print("Base libraries successfully loaded")
 
 # Assigns bot & client
@@ -177,4 +178,4 @@ async def on_message(message):
     else:
         await bot.process_commands(message)
 
-bot.run("No token for you")
+bot.run(os.environ['DISCORD_TOKEN'])
