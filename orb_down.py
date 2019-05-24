@@ -40,4 +40,4 @@ async def status(ctx):
     embed.add_field(name="Online Status", value=ONLINE_STATUS, inline=False)
     await ctx.send(embed=embed)
 
-bot.run("NTY5NzU4MjcxOTMwMzY4MDEw.XL1ThA.jZA4c1-iugWKLwVKCHq42Md1u1Q")
+bot.run("no")
