@@ -29,7 +29,7 @@ print("Module orb_commands loaded - Version " + COMMANDS_VERSION["version"] + ",
 MESSAGE = discord.Game("with orbs. Try orb.help")
 VERSION_DATA = {
     "Chromatic": "Sinopia",
-    "Version": 6,
+    "Version": 7,
     "Build": 1,
     "ChromaticHex": 0xcb410b
 }
@@ -41,7 +41,10 @@ async def on_ready():
     with open("data/banned_channels.csv", mode="r") as file:
         reader = csv.reader(file, delimiter=",")
         for line in reader:
-            BANNED_CHANNELS.append(line[0])
+            try:
+                BANNED_CHANNELS.append(int(line[0]))
+            except:
+                pass
     await bot.change_presence(status=discord.Status.online, activity=MESSAGE)
     print("\nORB Core", VERSION_DATA["Chromatic"], VERSION_DATA["Version"], "Build", VERSION_DATA["Build"])
     print('Bot startup successful. Logged in as {0.user}'.format(bot))

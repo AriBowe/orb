@@ -76,7 +76,10 @@ async def update_banned(ctx):
         with open("data/banned_channels.csv", mode="r") as file:
             reader = csv.reader(file, delimiter=",")
             for line in reader:
-                BANNED_CHANNELS.append(line[0])
+                try:
+                    BANNED_CHANNELS.append(int(line[0]))
+                except:
+                    pass
         await ctx.send("Done!")
 
 # Add a new banned channel
@@ -84,8 +87,8 @@ async def update_banned(ctx):
 async def add_banned(ctx, target, *, comment=None):
     if ctx.author.id == 138198892968804352:
         with open("data/banned_channels.csv", mode="a") as file:
-            writer = csv.reader(file, delimiter=",")
-            writer.writerow([target, str("#", target)])
+            writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([target, str(" # " + comment)])
         await ctx.send("Done!")
 
 # New rank
