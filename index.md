@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Orb
 #### Orb is a Discord bot, custom built for SMACK UQ. Orb has tons of cool features, and there are more to come.
 
