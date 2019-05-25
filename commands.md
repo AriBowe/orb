@@ -10,65 +10,55 @@ Note: Some commands a secret. They're not listed here, you'll have to find them 
 ## All commands are prefixed with 'orb.'
 Commands list:
 
-#### orb.
-**help**
+#### orb.**help**
 
 `Function: Displays a short help blurb`
 
 `Arguments: None`
 
-#### orb.
-**commands**
+#### orb.**commands**
 
 `Function: Lists all commands`
 
 `Arguments: Any command name, or all`
 
-#### orb.
-**ping**
+#### orb.**ping**
 
 `Function: Pings the bot, with various responses`
 
 `Arguments: None`
 
-#### orb.
-**ban**
+#### orb.**ban**
 
 `Function: 'Bans' the target`
 
 `Arguments: Any input`
 
-#### orb.
-**bully**
+#### orb.**bully**
 
 `Function: Bullies the target`
 
 `Arguments: Any input`
 
-#### orb.
-**rank**
+#### orb.**rank**
 
 `Function: Ranks the target out of 10`
 
 `Arguments: Any input`
 
-#### orb.
-**bde**
+#### orb.**bde**
 
 `Function: Ranks the target's big dick energy`
 
 `Arguments: Any input`
 
-#### orb.
-**status**
+#### orb.**status**
 
 `Function: Displays the current status of orb`
 
 `Arguments: None`
 
-#### orb.
-**illya**
-*Requested by orb users*
+#### orb.**illya***Requested by orb users*
 
 `Function: Posts images of Illya from Fate/Kaleid Liner Prisma Illya`
 
