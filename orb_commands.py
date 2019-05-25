@@ -11,7 +11,7 @@ COMMANDS_VERSION = {
 
 COMMAND_DATA = [
     ("help", "Displays help blurb", "None"), 
-    ("commands", "Lists all commands", "None"), 
+    ("commands", "Lists all commands", "Any command name, or all"), 
     ("ping", "Pings the bot, with various responses", "None"),
     ("ban", "'Bans' the user named (hint: doesn't work)", "Any input"),
     ("bully", "Bullies the user named", "Any input"),
