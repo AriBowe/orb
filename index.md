@@ -17,5 +17,5 @@ A full list of reactions can be found at [the reactions page](reactions.md)
 ## ECONOMY:
 Soon™
 
-## [COMING SOON:](reactions.md)
+## [COMING SOON:](comingsoon.md)
 New features are always in development. There's a list [here](comingsoon.md)
