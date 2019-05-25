@@ -13,6 +13,8 @@ import discord
 from discord.ext import commands as bot_commands
 import random
 import os
+import csv
+import re
 print("Base libraries successfully loaded")
 
 # Assigns bot & client
@@ -32,27 +34,6 @@ VERSION_DATA = {
     "ChromaticHex": 0xcb410b
 }
 ONLINE_STATUS = "Online"
-allowed_channelS = [
-    "579281409403781131",
-    "370068687782150144",
-    "286411114969956352",
-    "510668832403095575",
-    "286460412415967233",
-    "287090586509377537",
-    "286485013904621568",
-    "510667650125398016",
-    "421260651038638096",
-    "286460629215215618",
-    "286460275496845312",
-    "286460275496845312",
-    "286695380530495489",
-    "286460358695190529",
-    "504537542797033472",
-    "559348553214853130",
-    "286460137168961537",
-    "553588340516192266",
-    "387159010861645824"
-]
 
 # Displays boot complete message
 @bot.event
@@ -74,7 +55,7 @@ async def ping(ctx):
 async def help(ctx):
     if allowed_channel(ctx):
         print("Help request received from", ctx.author.display_name)
-        await ctx.send("Orb bot is a bot that does things.Features include:\n   - Reactions\n   - Posting Illya\n   - Ranking\nFor a list of commands see" + PREFIX + "commands. To check the bot status, see " + PREFIX + "status.\nDeveloped by xiii™#0013.")
+        await ctx.send("Orb bot is a bot that does things. Features include:\n   - Reactions\n   - Posting Illya\n   - Ranking\nFor a list of commands see " + PREFIX + "commands. To check the bot status, see " + PREFIX + "status.\nDeveloped by xiii™#0013.")
 
 # Status
 @bot.command()
@@ -83,9 +64,9 @@ async def status(ctx):
         print("Status requested from", ctx.author.display_name)
         embed=discord.Embed(title="", color=VERSION_DATA["ChromaticHex"])
         embed.set_author(name="ORB STATUS")
-        embed.add_field(name="Colour", value=VERSION_DATA["Chromatic"], inline=True)
-        embed.add_field(name="Version", value=VERSION_DATA["Version"], inline=True)
-        embed.add_field(name="Build", value=VERSION_DATA["Build"], inline=True)
+        embed.add_field(name="Core Version", value=VERSION_DATA["Version"], inline=True)
+        embed.add_field(name="Core Build", value=VERSION_DATA["Build"], inline=True)
+        embed.add_field(name="Commands Version", value=COMMANDS_VERSION["Version"], inline=True)
         embed.add_field(name="Online Status", value=ONLINE_STATUS, inline=False)
         await ctx.send(embed=embed)
 
@@ -121,51 +102,35 @@ async def commands(ctx, target=None):
 @bot.event
 async def on_message(message):
     # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
-    if "VERY COOL" in message.content.upper() or random.randint(1, 2000) == 1:
-        await message.add_reaction("🇻")
-        await message.add_reaction("🇪")
-        await message.add_reaction("🇷")
-        await message.add_reaction("🇾")
-        await message.add_reaction("🇨")
-        await message.add_reaction("🇴")
-        await message.add_reaction("🅾")
-        await message.add_reaction("🇱")
+    if re.match(r"(^|\s)very cool($|\s)", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
+        map(lambda y : message.add_reaction(y), "🇻🇪🇷🇾🇨🇴🇴🇱")
         print("Reacted 'very cool' to message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Girls aren't real
-    elif "GIRLS AREN'T REAL" in message.content.upper() or "GIRLS ARENT REAL" in message.content.upper():
+    elif re.match(r"(^|\s)girl[']? aren[']?t real($|\s)", message.content, re.IGNORECASE):
         rand_int = random.randint(1, 10)
         if rand_int <= 3:
-            await message.add_reaction("🇹")
-            await message.add_reaction("🇷")
-            await message.add_reaction("🇺")
-            await message.add_reaction("🇪")
+            map(lambda y : message.add_reaction(y), "🇹🇷🇺🇪")
             print("Reacted 'true' to the message", "'" + message.content + "'", "from user", message.author.display_name)
         elif rand_int > 3 and rand_int <= 5:
             print("Ignored", "'" + message.content + "'", "from user", message.author.display_name)
             pass
         else:
-            await message.add_reaction("🇫")
-            await message.add_reaction("🇦")
-            await message.add_reaction("🇨")
-            await message.add_reaction("🇹")
+            map(lambda y : message.add_reaction(y), "🇫🇦🇨🇹")
             print("Reacted 'fact' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Epic reaction time
-    elif "EPIC" in message.content.upper():
-        if random.randint(1, 20) == 2:
-            await message.add_reaction("🇪")
-            await message.add_reaction("🅱")
-            await message.add_reaction("🇮")
-            await message.add_reaction("🇨")
+    elif re.match(r"(^|\s)epic($|\s)", message.content, re.IGNORECASE):
+        if random.randint(1, 15) == 1:
+            map(lambda y : message.add_reaction(y), "🇪🅱🇮🇨")
             print("Reacted 'ebic' to the message", "'" + message.content + "'", "from user", message.author.display_name)
         else:
-            await message.add_reaction("🇪")
-            await message.add_reaction("🇵")
-            await message.add_reaction("🇮")
-            await message.add_reaction("🇨")
+            map(lambda y : message.add_reaction(y), "🇪🇵🇮🇨")
             print("Reacted 'epic' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
+    elif re.match(r"(^|\s)big guy($|\s)", message.content, re.IGNORECASE):
+        if allowed_channel(message):
+            await message.channel.send("For you")
     # # Boomer time
     # elif "BOOMER" in message.content.upper():
     #     if random.randint(1, 10):
