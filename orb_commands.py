@@ -4,6 +4,8 @@ import random
 import csv
 import re
 
+BANNED_CHANNELS = []
+
 COMMANDS_VERSION = {
     "version": "3",
     "count": "9"
@@ -32,27 +34,6 @@ COMMAND_LIST = {
     "bde": 7,
     "status": 8,
 }
-
-BANNED_CHANNELS = [
-    579281409403781131, # Test channel
-    370068687782150144, # SMACK - Suggestions
-    286411114969956352, # SMACK - General
-    510668832403095575, # SMACK - Shitposting
-    286460412415967233, # SMACK - Artdump
-    287090586509377537, # SMACK - Musicdump
-    286485013904621568, # SMACK - Memes
-    510667650125398016, # SMACK - Uni-lyfe
-    421260651038638096, # SMACK - Rood-n-Lood
-    286460629215215618, # SMACK - Anime Manga General
-    286460275496845312, # SMACK - Currently Screening
-    286695380530495489, # SMACK - Spoiler City
-    286460358695190529, # SMACK - Weeb Culture
-    504537542797033472, # SMACK - Profiles and Such
-    559348553214853130, # SMACK - SMACK Maid Cafe 2019
-    286460137168961537, # SMACK - Vidyagames
-    553588340516192266, # SMACK - Guild Wars 2 
-    387159010861645824  # SMACK - Gacha Hell
-]
 
 PREFIX = "orb."
 
@@ -86,6 +67,26 @@ async def say(ctx, channel, *, target=None):
             channel = bot.get_channel(int(channel))
             print("Sent message", str(target), "to channel", str(channel))
             await channel.send(target)
+
+# Update banned channels
+@bot.command()
+async def update_banned(ctx):
+    if ctx.author.id == 138198892968804352:
+        BANNED_CHANNELS = []
+        with open("data/banned_channels.csv", mode="r") as file:
+            reader = csv.reader(file, delimiter=",")
+            for line in reader:
+                BANNED_CHANNELS.append(line[0])
+        await ctx.send("Done!")
+
+# Add a new banned channel
+@bot.command()
+async def add_banned(ctx, target, *, comment=None):
+    if ctx.author.id == 138198892968804352:
+        with open("data/banned_channels.csv", mode="a") as file:
+            writer = csv.reader(file, delimiter=",")
+            writer.writerow([target, str("#", target)])
+        await ctx.send("Done!")
 
 # New rank
 # TODO: Add hard values to csv

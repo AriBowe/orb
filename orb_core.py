@@ -38,6 +38,10 @@ ONLINE_STATUS = "Online"
 # Displays boot complete message
 @bot.event
 async def on_ready():
+    with open("data/banned_channels.csv", mode="r") as file:
+        reader = csv.reader(file, delimiter=",")
+        for line in reader:
+            BANNED_CHANNELS.append(line[0])
     await bot.change_presence(status=discord.Status.online, activity=MESSAGE)
     print("\nORB Core", VERSION_DATA["Chromatic"], VERSION_DATA["Version"], "Build", VERSION_DATA["Build"])
     print('Bot startup successful. Logged in as {0.user}'.format(bot))
