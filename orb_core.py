@@ -22,6 +22,9 @@ bot = bot_commands.Bot(command_prefix=PREFIX, help_command=None, case_insensitiv
 client = discord.Client()
 
 # Imports orb modules
+# from orb_commands import allowed_channel
+# bot.load_extension("orb_commands")
+
 from orb_commands import *
 print("Module orb_commands loaded - Version " + COMMANDS_VERSION["version"] + ", containing " + COMMANDS_VERSION["count"] + " commands")
 
@@ -77,7 +80,7 @@ async def status(ctx):
         embed.add_field(name="Online Status", value=ONLINE_STATUS, inline=False)
         await ctx.send(embed=embed)
 
-# Lists all commands from the COMMANDS list
+# Lists commands
 @bot.command()
 async def commands(ctx, target=None):
     if allowed_channel(ctx):
@@ -97,10 +100,10 @@ async def commands(ctx, target=None):
         else:
             print("Info on " + target + " requested by " + ctx.author.display_name)
             try:
-                command = COMMAND_DATA[COMMAND_LIST[target]]
-                output += "```Command: " + PREFIX + command[0] + "\n"
-                output += "Function: " + command[1] + "\n"
-                output += "Arguments: " + command[2] + "```"
+                command = COMMAND_DATA[target]
+                output += "```Command: " + PREFIX + command + "\n"
+                output += "Function: " + command[1][0] + "\n"
+                output += "Arguments: " + command[1][1] + "```"
             except:
                 print("Command not found")
                 output = "Error: Command not found"
@@ -149,6 +152,7 @@ async def on_message(message):
     #     await message.add_reaction(emoji)
     else:
         await bot.process_commands(message)
-        await message.add_reaction("🤔")
+        # if message.content.startswith("orb."):
+        #     await message.add_reaction("🤔")
 
 bot.run(os.environ['DISCORD_TOKEN'])

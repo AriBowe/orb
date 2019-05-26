@@ -11,33 +11,44 @@ COMMANDS_VERSION = {
     "count": "9"
 }
 
-COMMAND_DATA = [
-    ("help", "Displays help blurb", "None"), 
-    ("commands", "Lists all commands", "Any command name, or all"), 
-    ("ping", "Pings the bot, with various responses", "None"),
-    ("ban", "'Bans' the user named (hint: doesn't work)", "Any input"),
-    ("bully", "Bullies the user named", "Any input"),
-    ("rank", "Ranks something", "Any input"),
-    ("illya", "Posts Illya (weeb shit be warned)", "None"),
-    ("bde", "Ranks your BDE", "Any input"),
-    ("status", "Supplies info on orb's status", "None")
-]
-
-COMMAND_LIST = {
-    "help": 0, 
-    "commands": 1,
-    "ping": 2,
-    "ban": 3,
-    "bully": 4, 
-    "rank": 5,
-    "illya": 6,
-    "bde": 7,
-    "status": 8,
+# PUBLIC list of commands, not all of them
+COMMAND_DATA = {
+    "ping": ("Pings the bot, with various responses", "None"),
+    "help": ("Displays help blurb", "None"), 
+    "status": ("Supplies info on orb's status", "None"),
+    "commands": ("Lists all commands", "Any command name, or all"), 
+    
+    "ban": ("'Bans' the user named (hint: doesn't work)", "Any input"),
+    "bully": ("Bullies the user named", "Any input"),
+    "rank": ("Ranks something", "Any input"),
+    "illya": ("Posts Illya (weeb shit be warned)", "None"),
+    "bde": ("Ranks your BDE", "Any input")
 }
+
+# List of all the commands in this module, for loading/internal purposes
+_COMMANDS = [
+    "ban",
+    "bully",
+    "rank",
+    "bde",
+    "illya",
+    "secret",
+    "say",
+    "update_banned",
+    "add_banned",
+    "fishy",
+    "slots",
+    "fuckmeintheass"
+]
 
 PREFIX = "orb."
 
 bot = bot_commands.Bot(command_prefix=PREFIX, help_command=None)
+
+# One day this will work
+# def setup(bot):
+#     for command in _COMMANDS:
+#         bot.add_command(command)
 
 # Verifies if the command is allowed to be executed
 # This is a utility function and shouldn't be called on it's own (hence the lack of .command decorator)
