@@ -15,6 +15,7 @@ Orb gets semi-regular feature updates and bug fixes. Here's a preview what's com
 - 'Big guy' reaction
 - Regex (more accurate command triggers)
 - Live code edits possible in some areas (faster fixes)
+- Code fully moved to the new discord bot standard
 - Bug fixes
 
 ## orb_commands Version 3
