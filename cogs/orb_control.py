@@ -39,10 +39,8 @@ class ControlCog(bot_commands.Cog):
             with open("data/banned_channels.csv", mode="r", newline="") as file:
                 reader = csv.reader(file, delimiter=",")
                 for line in reader:
-                    try:
-                        BANNED_CHANNELS.append(int(line[0]))
-                    except:
-                        pass
+                    BANNED_CHANNELS.append(int(line[0]))
+                    print(BANNED_CHANNELS)
             await ctx.send("Done!")
 
     # Add a new banned channel
@@ -52,7 +50,7 @@ class ControlCog(bot_commands.Cog):
             print("Adding", target, "to banned channels list with comment", comment)
             with open("data/banned_channels.csv", mode="a", newline="") as file:
                 writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                writer.writerow([target, str(" # " + comment)])
+                writer.writerow([target, str(" # " + str(comment))])
             await ctx.send("Done!")
 
     # Remove a banned channel
@@ -70,8 +68,14 @@ class ControlCog(bot_commands.Cog):
             with open("data/banned_channels.csv", mode="w", newline="") as file:
                 writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 for line in temp:
-                    if line[0] != target:
-                        writer.writerow(line)
+                    try:
+                        if line[0] != target:
+                            try:
+                                writer.writerow(line)
+                            except:
+                                pass
+                    except:
+                        pass
             temp=[]
             await ctx.send("Done!")
 
