@@ -107,11 +107,14 @@ async def add_banned(ctx, target, *, comment=None):
 @bot.command()
 async def rank(ctx, *, target=None):
     if allowed_channel(ctx):
+        print("Ranking", target, "for user", ctx.author.display_name, "id", ctx.author.id)
         with open("data/rank.csv", mode="r") as file:
             reader = csv.reader(file, delimiter=",")
             if target is None:
                 await ctx.send("I can't rank nothing")
-                return            
+                return    
+            elif re.match(r"(^|\s)@everyone($|\s)", target, re.IGNORECASE):
+                return
             elif re.match(r"(^|\s)me($|\s)", target, re.IGNORECASE):
                 search_target = "<@" + str(ctx.author.id) + ">"
                 target = "you"
@@ -147,6 +150,8 @@ async def bde(ctx, *, target=None):
             if target is None:
                 target = "the universe"
                 search_target = "the universe"
+            elif re.match(r"(^|\s)@everyone($|\s)", target, re.IGNORECASE):
+                return
             elif re.match(r"(^|\s)me($|\s)", target, re.IGNORECASE):
                 search_target = "<@" + str(ctx.author.id) + ">"
                 target = ctx.author.display_name
@@ -200,6 +205,8 @@ async def ban(ctx, *, target=None):
         else:
             if target is None:
                 await ctx.send(random.choice(["I can't ban nothing", "Specifiy a person please", "This command doesn't work like that"]))
+            elif re.match(r"(^|\s)@everyone($|\s)", target, re.IGNORECASE):
+                return
             elif "ORB" in target.upper() or "<@569758271930368010>" in target or "ｏｒｂ" in target:
                 await ctx.send("Pls no ban am good bot")
             elif re.match(r"(^|\s)me($|\s)", target, re.IGNORECASE):
