@@ -1,12 +1,12 @@
 """
 Use the following link to add the bot:
 https://discordapp.com/oauth2/authorize?client_id=569758271930368010&scope=bot&permissions=64
-
-or try orb.xiiitm.com
 """
 
-# Assigns prefix early because of some positional issues
-PREFIX = ['orb.']
+# Get prefixes
+def get_prefix(bot, message):
+    PREFIXES = ["orb.", "o."]
+    return bot_commands.when_mentioned_or(*PREFIXES)(bot, message)
 
 # Imports libraries needed
 import discord
@@ -15,18 +15,16 @@ import random
 import os
 import csv
 import re
+import sys
 print("Base libraries successfully loaded")
 
+# Gets constants from files. Yay interlinking
+from cogs.orb_commands import COMMANDS_VERSION, COMMAND_DATA
+from cogs.orb_control import BANNED_CHANNELS, allowed_channel
+
 # Assigns bot & client
-bot = bot_commands.Bot(command_prefix=PREFIX, help_command=None, case_insensitive=True)
+bot = bot_commands.Bot(command_prefix=get_prefix, help_command=None, case_insensitive=True)
 client = discord.Client()
-
-# Imports orb modules
-# from orb_commands import allowed_channel
-# bot.load_extension("orb_commands")
-
-from orb_commands import *
-print("Module orb_commands loaded - Version " + COMMANDS_VERSION["version"] + ", containing " + COMMANDS_VERSION["count"] + " commands")
 
 # Assigns constants
 MESSAGE = discord.Game("with orbs. Try orb.help")
@@ -37,6 +35,19 @@ VERSION_DATA = {
     "ChromaticHex": 0xcb410b
 }
 ONLINE_STATUS = "Online"
+
+# List of extensions
+INITIAL_EXTENSIONS = [
+    "cogs.orb_commands",
+    "cogs.orb_control"
+]
+
+# Imports extensions
+if __name__ == '__main__':
+    for extension in INITIAL_EXTENSIONS:
+        bot.load_extension(extension)
+
+
 
 # Displays boot complete message
 @bot.event
@@ -65,7 +76,7 @@ async def ping(ctx):
 async def help(ctx):
     if allowed_channel(ctx):
         print("Help request received from", ctx.author.display_name)
-        await ctx.send("Orb bot is a bot that does things. Features include:\n   - Reactions\n   - Posting Illya\n   - Ranking\nFor a list of commands see " + PREFIX + "commands. To check the bot status, see " + PREFIX + "status.\nDeveloped by xiii™#0013.")
+        await ctx.send("Orb bot is a bot that does things. Features include:\n   - Reactions\n   - Posting Illya\n   - Ranking\nFor a list of commands see orb.commands, or check them out online at https://aribowe.github.io/orb/commands. To check the bot status, see orb.status.\nDeveloped by xiii™#0013.")
 
 # Status
 @bot.command()
@@ -89,24 +100,24 @@ async def commands(ctx, target=None):
             print("Command overview requested from", ctx.author.display_name)
             output += "**Accepted commands:**\n```"
             for command in COMMAND_DATA:
-                output += PREFIX + command[0] + "\n"
+                output += "orb." + command + "\n"
             output += "```\n```Call a specific command for more info, or all for a full command dump```"
         elif target.upper() == "ALL":
             print("Full commands list requested from", ctx.author.display_name)
-            for command in COMMAND_DATA:
-                output += "```Command: " + PREFIX + command[0] + "\n"
-                output += "Function: " + command[1] + "\n"
-                output += "Arguments: " + command[2] + "```"
+            for command, info in COMMAND_DATA:
+                output += "```Command: " + "orb." + command + "\n"
+                output += "Function: " + info[0] + "\n"
+                output += "Arguments: " + info[1] + "```"
         else:
             print("Info on " + target + " requested by " + ctx.author.display_name)
-            try:
-                command = COMMAND_DATA[target]
-                output += "```Command: " + PREFIX + command + "\n"
-                output += "Function: " + command[1][0] + "\n"
-                output += "Arguments: " + command[1][1] + "```"
-            except:
-                print("Command not found")
-                output = "Error: Command not found"
+
+            info, args = COMMAND_DATA[target]
+            output += "```Command: orb." + target + "\n"
+            output += "Function: " + str(info) + "\n"
+            output += "Arguments: " + str(args) + "```"
+            # except:
+            #     print("Command not found")
+            #     output = "Error: Command not found"
         await ctx.send(output)
 
 @bot.event
@@ -141,18 +152,8 @@ async def on_message(message):
     elif re.match(r"(^|\s)big guy($|\s)", message.content, re.IGNORECASE):
         if allowed_channel(message):
             await message.channel.send("For you")
-    # # Boomer time
-    # elif "BOOMER" in message.content.upper():
-    #     if random.randint(1, 10):
-    #         await message.channel.send(random.choice(["What, like pepper?"]))
 
-    # elif message.author.id == 138198892968804352:
-    #     print("Reacting")
-    #     emoji = bot.get_emoji(579537455397470229)
-    #     await message.add_reaction(emoji)
     else:
         await bot.process_commands(message)
-        # if message.content.startswith("orb."):
-        #     await message.add_reaction("🤔")
 
-bot.run(os.environ['DISCORD_TOKEN'])
+bot.run(os.environ['DISCORD_TOKEN'], bot=True, reconnect=True)
