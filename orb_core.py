@@ -29,10 +29,10 @@ client = discord.Client()
 # Assigns constants
 MESSAGE = discord.Game("with orbs. Try orb.help")
 VERSION_DATA = {
-    "Chromatic": "Sinopia",
+    "Colour": "Sinopia",
     "Version": 7,
-    "Build": 1,
-    "ChromaticHex": 0xcb410b
+    "Build": 2,
+    "ColourHex": 0xcb410b
 }
 ONLINE_STATUS = "Online"
 
@@ -60,7 +60,7 @@ async def on_ready():
             except:
                 pass
     await bot.change_presence(status=discord.Status.online, activity=MESSAGE)
-    print("\nORB Core", VERSION_DATA["Chromatic"], VERSION_DATA["Version"], "Build", VERSION_DATA["Build"])
+    print("\nORB Core", VERSION_DATA["Colour"], VERSION_DATA["Version"], "Build", VERSION_DATA["Build"])
     print('Bot startup successful. Logged in as {0.user}'.format(bot))
 
 # Ping
@@ -83,7 +83,7 @@ async def help(ctx):
 async def status(ctx):
     if allowed_channel(ctx):
         print("Status requested from", ctx.author.display_name)
-        embed=discord.Embed(title="", color=VERSION_DATA["ChromaticHex"])
+        embed=discord.Embed(title="", color=VERSION_DATA["ColourHex"])
         embed.set_author(name="ORB STATUS")
         embed.add_field(name="Core Version", value=VERSION_DATA["Version"], inline=True)
         embed.add_field(name="Core Build", value=VERSION_DATA["Build"], inline=True)

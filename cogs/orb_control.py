@@ -36,7 +36,7 @@ class ControlCog(bot_commands.Cog):
     async def update_banned(self, ctx):
         if ctx.author.id == 138198892968804352:
             BANNED_CHANNELS = []
-            with open("data/banned_channels.csv", mode="r") as file:
+            with open("data/banned_channels.csv", mode="r", newline="") as file:
                 reader = csv.reader(file, delimiter=",")
                 for line in reader:
                     try:
@@ -49,10 +49,41 @@ class ControlCog(bot_commands.Cog):
     @bot_commands.command()
     async def add_banned(self, ctx, target, *, comment=None):
         if ctx.author.id == 138198892968804352:
-            with open("data/banned_channels.csv", mode="a") as file:
+            print("Adding", target, "to banned channels list with comment", comment)
+            with open("data/banned_channels.csv", mode="a", newline="") as file:
                 writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow([target, str(" # " + comment)])
             await ctx.send("Done!")
+
+    # Remove a banned channel
+    @bot_commands.command()
+    async def remove_banned(self, ctx, target):
+        if ctx.author.id == 138198892968804352:
+            print("Removing", target, "from banned channels list")
+            print(type(target))
+            temp = []
+            with open("data/banned_channels.csv", mode="r", newline="") as file:
+                try:
+                    temp = list(csv.reader(file, delimiter=","))
+                except:
+                    pass
+            with open("data/banned_channels.csv", mode="w", newline="") as file:
+                writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                for line in temp:
+                    if line[0] != target:
+                        writer.writerow(line)
+            temp=[]
+            await ctx.send("Done!")
+
+    # Lists banned channels
+    @bot_commands.command()
+    async def list_banned(self, ctx):
+        if ctx.author.id == 138198892968804352:
+            output = ""
+            with open("data/banned_channels.csv", mode="r", newline="") as file:
+                for line in file:
+                    output += "Channel: " + line + "\n"
+                await ctx.send(output)
 
 def setup(bot):
     bot.add_cog(ControlCog(bot))
