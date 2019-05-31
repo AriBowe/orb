@@ -125,11 +125,13 @@ async def on_message(message):
     # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
     if re.match(r"(^|\s)very cool($|\s)", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
         map(lambda y : message.add_reaction(y), "🇻🇪🇷🇾🇨🇴🇴🇱")
+        message.add_reaction("🇻")
         print("Reacted 'very cool' to message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Girls aren't real
     elif re.match(r"(^|\s)girl[']? aren[']?t real($|\s)", message.content, re.IGNORECASE):
         rand_int = random.randint(1, 10)
+        print("Not real")
         if rand_int <= 3:
             map(lambda y : message.add_reaction(y), "🇹🇷🇺🇪")
             print("Reacted 'true' to the message", "'" + message.content + "'", "from user", message.author.display_name)
@@ -155,7 +157,7 @@ async def on_message(message):
             await message.channel.send("For you")
 
     # Awoo react
-    elif re.match(r"(^|\s)big guy($|\s)", message.content, re.IGNORECASE):
+    elif re.match(r"(^|\s)awoo($|\s)", message.content, re.IGNORECASE):
         map(lambda y : message.add_reaction(y), "🇦🇼🇴🅾")
 
     else:
