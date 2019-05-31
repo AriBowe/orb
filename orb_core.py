@@ -149,9 +149,14 @@ async def on_message(message):
             map(lambda y : message.add_reaction(y), "🇪🇵🇮🇨")
             print("Reacted 'epic' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
+    # Big guy react
     elif re.match(r"(^|\s)big guy($|\s)", message.content, re.IGNORECASE):
         if allowed_channel(message):
             await message.channel.send("For you")
+
+    # Awoo react
+    elif re.match(r"(^|\s)big guy($|\s)", message.content, re.IGNORECASE):
+        map(lambda y : message.add_reaction(y), "🇦🇼🇴🅾")
 
     else:
         await bot.process_commands(message)
