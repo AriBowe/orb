@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands as bot_commands
 import csv
 import random
+import asyncio
+import datetime
 
 class UserManagement():
     """General management for orb users"""
@@ -44,6 +46,12 @@ class UserManagement():
     
     async def add_active(self, user):
         self._active_users.append(user)
+
+    async def check_active(self, user):
+        if user in self._active_users:
+            return True
+        else:
+            return False
     
 
 class User():
@@ -127,6 +135,14 @@ class User():
 
         return output
 
+rarity_table = {
+    0: "common",
+    1: "uncommon",
+    2: "rare",
+    3: "mythical",
+    4: "unique"
+}
+
 class Orb():
     """Representation of an orb, the basic unit of an item.
     Should not be initialised on its own"""
@@ -140,4 +156,18 @@ class Orb():
         pass
 
     async def get_rarity(self):
+        return 0
+
+class ChaoticOrb():
+    """Randomises a stat"""
+    def __init__(self):
         pass
+    
+    async def get_type(self):
+        pass
+
+    async def get_integrity(self):
+        pass
+
+    async def get_rarity(self):
+        return 1
