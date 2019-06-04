@@ -6,13 +6,14 @@ layout: default
 
 Orb gets semi-regular feature updates and bug fixes. Here's a preview what's coming in the next one:
 
-# The Big Database Update
+# The Big Memory Update
 
 ## orb_core Version 7
 
 - Better core management
 - `o.` prefix
 - 'Big guy' reaction
+- Awoo reaction
 - Regex (more accurate command triggers)
 - Live code edits possible in some areas (faster fixes)
 - Code fully moved to the new discord bot standard
