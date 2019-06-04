@@ -10,8 +10,9 @@ class UserManagement():
     def __init__(self):
         """Constructor"""
         self._active_users = []
+        self._autosave = False
     
-    def save(self):
+    async def save(self):
         """Saves the users
         
         A bit of a mess of a function, but it basically does 3 major tasks
@@ -43,7 +44,13 @@ class UserManagement():
                 writer.writerow(user)
 
         self._active_users = []
-    
+
+    async def save_loop(self):
+        """Automatic saving loop, designed to save every minute rather than on a trigger"""
+        while self._autosave:
+            self.save()
+            asyncio.sleep(60)
+
     async def add_active(self, user):
         self._active_users.append(user)
 
@@ -52,6 +59,9 @@ class UserManagement():
             return True
         else:
             return False
+
+    def break_next_save(self):
+        self._autosave = False
     
 
 class User():
@@ -135,6 +145,8 @@ class User():
 
         return output
 
+
+
 rarity_table = {
     0: "common",
     1: "uncommon",
@@ -150,24 +162,57 @@ class Orb():
         pass
     
     async def get_type(self):
-        pass
+        """The orb type, aka the name"""
+        raise NotImplementedError
 
     async def get_integrity(self):
-        pass
+        """How many times the orb can be used before breaking"""
+        return 1
 
     async def get_rarity(self):
+        """How rare the orb is, following rarity_table"""
         return 0
 
-class ChaoticOrb():
+# --- All the orbs ---
+
+class ChaoticOrb(Orb):
     """Randomises a stat"""
-    def __init__(self):
-        pass
     
     async def get_type(self):
-        pass
+        return "Chaotic"
+
+    async def get_rarity(self):
+        return 1
+
+class EnergyOrb(Orb):
+    """Changes a bde stat by a small amount"""
+
+    async def get_type(self):
+        return "Energy"
+
+class RankOrb(Orb):
+    """Changes a rank stat by a small amount"""
+
+    async def get_type(self):
+        return "Rank"
+
+class TransmutationOrb(Orb):
+    """Transmutes another orb to the same rarity or lower"""
+
+    async def get_type(self):
+        return "Transmutation"
 
     async def get_integrity(self):
-        pass
+        return 3
+
+    async def get_rarity(self):
+        return 2
+
+class ImmuneOrb(Orb):
+    """Makes a user immune to orb reacts, rank, and BDE for a limited time"""
+
+    async def get_type(self):
+        return "Immunity"
 
     async def get_rarity(self):
         return 1
