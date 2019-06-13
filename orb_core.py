@@ -39,7 +39,8 @@ ONLINE_STATUS = "Online"
 # List of extensions
 INITIAL_EXTENSIONS = [
     "cogs.orb_commands",
-    "cogs.orb_control"
+    "cogs.orb_control",
+    "cogs.orb_economy"
 ]
 
 # Imports extensions
@@ -104,10 +105,10 @@ async def commands(ctx, target=None):
             output += "```\n```Call a specific command for more info, or all for a full command dump```"
         elif target.upper() == "ALL":
             print("Full commands list requested from", ctx.author.display_name)
-            for command, info in COMMAND_DATA:
+            for command in COMMAND_DATA:
                 output += "```Command: " + "orb." + command + "\n"
-                output += "Function: " + info[0] + "\n"
-                output += "Arguments: " + info[1] + "```"
+                output += "Function: " + COMMAND_DATA[command][0] + "\n"
+                output += "Arguments: " + COMMAND_DATA[command][1] + "```"
         else:
             print("Info on " + target + " requested by " + ctx.author.display_name)
 
@@ -124,8 +125,14 @@ async def commands(ctx, target=None):
 async def on_message(message):
     # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
     if re.match(r"(^|\s)very cool($|\s)", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
-        map(lambda y : message.add_reaction(y), "🇻🇪🇷🇾🇨🇴🇴🇱")
-        message.add_reaction("🇻")
+        await message.add_reaction("🇻")
+        await message.add_reaction("🇪")
+        await message.add_reaction("🇷")
+        await message.add_reaction("🇾")
+        await message.add_reaction("🇨")
+        await message.add_reaction("🇴")
+        await message.add_reaction("🅾")
+        await message.add_reaction("🇱")
         print("Reacted 'very cool' to message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Girls aren't real
@@ -133,22 +140,34 @@ async def on_message(message):
         rand_int = random.randint(1, 10)
         print("Not real")
         if rand_int <= 3:
-            map(lambda y : message.add_reaction(y), "🇹🇷🇺🇪")
+            await message.add_reaction("🇹")
+            await message.add_reaction("🇷")
+            await message.add_reaction("🇺")
+            await message.add_reaction("🇪")
             print("Reacted 'true' to the message", "'" + message.content + "'", "from user", message.author.display_name)
         elif rand_int > 3 and rand_int <= 5:
             print("Ignored", "'" + message.content + "'", "from user", message.author.display_name)
             pass
         else:
-            map(lambda y : message.add_reaction(y), "🇫🇦🇨🇹")
+            await message.add_reaction("🇫")
+            await message.add_reaction("🇦")
+            await message.add_reaction("🇨")
+            await message.add_reaction("🇹")
             print("Reacted 'fact' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Epic reaction time
     elif re.match(r"(^|\s)epic($|\s)", message.content, re.IGNORECASE):
         if random.randint(1, 15) == 1:
-            map(lambda y : message.add_reaction(y), "🇪🅱🇮🇨")
+            await message.add_reaction("🇪")
+            await message.add_reaction("🅱")
+            await message.add_reaction("🇮")
+            await message.add_reaction("🇨")
             print("Reacted 'ebic' to the message", "'" + message.content + "'", "from user", message.author.display_name)
         else:
-            map(lambda y : message.add_reaction(y), "🇪🇵🇮🇨")
+            await message.add_reaction("🇪")
+            await message.add_reaction("🇵")
+            await message.add_reaction("🇮")
+            await message.add_reaction("🇨")
             print("Reacted 'epic' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Big guy react
@@ -158,8 +177,11 @@ async def on_message(message):
 
     # Awoo react
     elif re.match(r"(^|\s)awoo($|\s)", message.content, re.IGNORECASE):
-        map(lambda y : message.add_reaction(y), "🇦🇼🇴🅾")
-
+        await message.add_reaction("🇦")
+        await message.add_reaction("🇼")
+        await message.add_reaction("🇴")
+        await message.add_reaction("🅾")
+        
     else:
         await bot.process_commands(message)
 

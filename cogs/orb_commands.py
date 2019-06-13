@@ -7,8 +7,8 @@ import re
 from cogs.orb_control import allowed_channel
 
 COMMANDS_VERSION = {
-    "version": "3",
-    "count": "9"
+    "Version": "3",
+    "Count": "9"
 }
 
 # PUBLIC list of commands, not all of them
@@ -28,6 +28,7 @@ COMMAND_DATA = {
 class CommandsCog(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        print("orb_commands loaded")
 
     # Secreto
     @bot_commands.command()
@@ -42,8 +43,8 @@ class CommandsCog(bot_commands.Cog):
     async def rank(self, ctx, *, target=None):
         if allowed_channel(ctx):
             print("Ranking", target, "for user", ctx.author.display_name, "id", ctx.author.id)
-            with open("data/rank.csv", mode="r") as file:
-                reader = csv.reader(file, delimiter=",", newline="")
+            with open("data/rank.csv", mode="r", newline="") as file:
+                reader = csv.reader(file, delimiter=",")
                 if target is None:
                     await ctx.send("I can't rank nothing")
                     return    
@@ -68,8 +69,8 @@ class CommandsCog(bot_commands.Cog):
                             return
                     except:
                         pass
-            with open("data/rank.csv", mode="a") as file:
-                writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL, newline="")    
+            with open("data/rank.csv", mode="a", newline="") as file:
+                writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)    
                 random_value = str(random.randint(1,10))
                 writer.writerow([str(search_target), random_value])
                 await ctx.send("I'd give " + str(target) + " a " + str(random_value) + " out of 10")
@@ -79,8 +80,8 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def bde(self, ctx, *, target=None):
         if allowed_channel(ctx):
-            with open("data/bde.csv", mode="r") as file:
-                reader = csv.reader(file, delimiter=",", newline="")
+            with open("data/bde.csv", mode="r", newline="") as file:
+                reader = csv.reader(file, delimiter=",")
                 if target is None:
                     target = "the universe"
                     search_target = "the universe"
@@ -103,8 +104,8 @@ class CommandsCog(bot_commands.Cog):
                             return
                     except:
                         pass
-            with open("data/bde.csv", mode="a") as file:
-                writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL, newline="")    
+            with open("data/bde.csv", mode="a", newline="") as file:
+                writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)    
                 random_value = str(random.randint(0,100))
                 writer.writerow([str(search_target), random_value])
                 await ctx.send(str(target) + " has " + str(random_value) + "% big dick energy")
@@ -183,7 +184,7 @@ class CommandsCog(bot_commands.Cog):
                 await ctx.send(file=discord.File(fp="images/lolice.gif"))
             else:
                 await ctx.trigger_typing()
-                await ctx.send(file=discord.File(fp="images/illya (" + str(random.randint(1, 40)) + ").png"))
+                await ctx.send(file=discord.File(fp="images/illya/illya (" + str(random.randint(1, 40)) + ").png"))
 
     # Slots
     @bot_commands.command()

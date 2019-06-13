@@ -5,6 +5,8 @@ import random
 import asyncio
 import datetime
 
+client = discord.Client()
+
 class UserManagement():
     """General management for orb users"""
     def __init__(self):
@@ -51,11 +53,11 @@ class UserManagement():
             self.save()
             asyncio.sleep(60)
 
-    async def add_active(self, user):
-        self._active_users.append(user)
+    async def add_active(self, user_id):
+        self._active_users.append(User(user_id))
 
-    async def check_active(self, user):
-        if user in self._active_users:
+    async def check_active(self, user_id):
+        if user_id in self._active_users:
             return True
         else:
             return False
@@ -216,3 +218,60 @@ class ImmuneOrb(Orb):
 
     async def get_rarity(self):
         return 1
+
+# --- Economy interaction cog ---
+
+class EconomyCog(bot_commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self._users = UserManagement()
+
+        print("orb_economy loaded")
+
+    @bot_commands.command()
+    async def economy(self, ctx):
+        self._author = ctx.author
+        
+        def check(reaction, user):
+            print("Checking")
+            return user == self._author and (str(reaction.emoji) == '🗃' or str(reaction.emoji) == '🗓' or str(reaction.emoji) == '✉' or str(reaction.emoji) == '⚙')
+
+        main_embed=discord.Embed(title="\u200b", desciption="Click on one of the reactions below to select that option", color=0xcb410b)
+        main_embed.set_author(name="ORB ECONOMY", icon_url="https://cdn.discordapp.com/avatars/569758271930368010/3b243502ea9079f6a4f33fb0e270105c.webp?size=1024")
+        main_embed.add_field(name="🗃️ Inventory", value="\u200b", inline=False)
+        main_embed.add_field(name="🗓️ Daily", value="\u200b", inline=False)
+        main_embed.add_field(name="✉️ Send Orbs/Shards", value="\u200b", inline=False)
+        main_embed.add_field(name="⚙️ Use Orbs/Shards", value="\u200b", inline=False)
+        main_embed.set_footer(text="This window will time out after 45 seconds of inactivity")
+        
+        timeout_embed=discord.Embed(title=" ", color=0xcb410b)
+        timeout_embed.set_author(name="ORB ECONOMY", icon_url="https://cdn.discordapp.com/avatars/569758271930368010/3b243502ea9079f6a4f33fb0e270105c.webp?size=1024")
+        timeout_embed.add_field(name="Error: Timed out", value="Responses must be within 45 seconds", inline=False)
+
+        message = await ctx.send(embed=main_embed)
+        await message.add_reaction("🗃")
+        await message.add_reaction("🗓")
+        await message.add_reaction("✉")
+        await message.add_reaction("⚙")
+
+        try:
+            reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=check)
+        except asyncio.TimeoutError:
+            await message.edit(embed=timeout_embed)
+            await ctx.remove_reaction(reaction.emoji, user)
+
+        else:
+            if reaction.emoji == "🗃":
+                pass
+            elif reaction.emoji == "🗓":
+                pass
+            elif reaction.emoji == "✉":
+                pass
+            elif reaction.emoji == "✉":
+                pass
+            else:
+                pass
+
+
+def setup(bot):
+    bot.add_cog(EconomyCog(bot))

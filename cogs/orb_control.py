@@ -19,6 +19,7 @@ def allowed_channel(ctx):
 class ControlCog(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        print("orb_control loaded")
         
     # Manual speaking
     @bot_commands.command()
