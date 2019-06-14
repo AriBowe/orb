@@ -232,16 +232,35 @@ class EconomyCog(bot_commands.Cog):
     async def economy(self, ctx):
         self._author = ctx.author
         
-        def check(reaction, user):
+        def main_check(reaction, user):
             print("Checking")
             return user == self._author and (str(reaction.emoji) == '🗃' or str(reaction.emoji) == '🗓' or str(reaction.emoji) == '✉' or str(reaction.emoji) == '⚙')
 
+        def use_check():
+            pass
+
+        def inv_check():
+            pass
+
+        def send_check():
+            pass
+
+        async def reset_reactions(message):
+            """Clear reactions needs manage messages permission, so this provides a fallback"""
+            try:
+                await message.clear_reactions()
+            except:
+                await message.remove_reaction('🗃', message.author)
+                await message.remove_reaction('🗓', message.author)
+                await message.remove_reaction('✉', message.author)
+                await message.remove_reaction('⚙', message.author)
+
         main_embed=discord.Embed(title="\u200b", desciption="Click on one of the reactions below to select that option", color=0xcb410b)
         main_embed.set_author(name="ORB ECONOMY", icon_url="https://cdn.discordapp.com/avatars/569758271930368010/3b243502ea9079f6a4f33fb0e270105c.webp?size=1024")
-        main_embed.add_field(name="🗃️ Inventory", value="\u200b", inline=False)
-        main_embed.add_field(name="🗓️ Daily", value="\u200b", inline=False)
-        main_embed.add_field(name="✉️ Send Orbs/Shards", value="\u200b", inline=False)
-        main_embed.add_field(name="⚙️ Use Orbs/Shards", value="\u200b", inline=False)
+        main_embed.add_field(name="🗃 Inventory", value="\u200b", inline=False)
+        main_embed.add_field(name="🗓 Daily", value="\u200b", inline=False)
+        main_embed.add_field(name="✉ Send Orbs/Shards", value="\u200b", inline=False)
+        main_embed.add_field(name="⚙ Use Orbs/Shards", value="\u200b", inline=False)
         main_embed.set_footer(text="This window will time out after 45 seconds of inactivity")
         
         timeout_embed=discord.Embed(title=" ", color=0xcb410b)
@@ -249,26 +268,51 @@ class EconomyCog(bot_commands.Cog):
         timeout_embed.add_field(name="Error: Timed out", value="Responses must be within 45 seconds", inline=False)
 
         message = await ctx.send(embed=main_embed)
+        
         await message.add_reaction("🗃")
         await message.add_reaction("🗓")
         await message.add_reaction("✉")
         await message.add_reaction("⚙")
 
         try:
-            reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=check)
+            reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=main_check)
         except asyncio.TimeoutError:
             await message.edit(embed=timeout_embed)
-            await ctx.remove_reaction(reaction.emoji, user)
-
+            await reset_reactions(message)
         else:
             if reaction.emoji == "🗃":
-                pass
+
+
+                try:
+                    reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=inv_check)
+                except asyncio.TimeoutError:
+                    await message.edit(embed=timeout_embed)
+                    await reset_reactions(message)
+                else:
+                    pass
             elif reaction.emoji == "🗓":
+                # main_embed=discord.Embed(title="\u200b", color=0xcb410b)
+                # main_embed.set_author(name="ORB ECONOMY", icon_url="https://cdn.discordapp.com/avatars/569758271930368010/3b243502ea9079f6a4f33fb0e270105c.webp?size=1024")
+                # main_embed.add_field(name="🗃 Inventory", value="\u200b", inline=False)
+                # main_embed.add_field(name="🗓 Daily", value="\u200b", inline=False)
                 pass
+
             elif reaction.emoji == "✉":
-                pass
+                try:
+                    reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=send_check)
+                except asyncio.TimeoutError:
+                    await message.edit(embed=timeout_embed)
+                    await reset_reactions(message)
+                else:
+                    pass
             elif reaction.emoji == "✉":
-                pass
+                try:
+                    reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=use_check)
+                except asyncio.TimeoutError:
+                    await message.edit(embed=timeout_embed)
+                    await reset_reactions(message)
+                else:
+                    pass
             else:
                 pass
 
