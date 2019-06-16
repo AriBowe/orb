@@ -259,14 +259,14 @@ class EconomyCog(bot_commands.Cog):
 
     @bot_commands.command()
     async def economy(self, ctx):
+        print("Economy module activated")
         self._author = ctx.author
         
         def main_check(reaction, user):
-            print("Checking")
             return user == self._author and (str(reaction.emoji) == '🗃' or str(reaction.emoji) == '🗓' or str(reaction.emoji) == '✉' or str(reaction.emoji) == '⚙')
 
         def use_check():
-            pass
+            return user == self._author and (str(reaction.emoji) == '🗃' or str(reaction.emoji) == '🗓' or str(reaction.emoji) == '✉' or str(reaction.emoji) == '⚙')
 
         def inv_check():
             pass
@@ -310,7 +310,7 @@ class EconomyCog(bot_commands.Cog):
             await reset_reactions(message)
         else:
             if reaction.emoji == "🗃":
-
+                await reset_reactions(message)
 
                 try:
                     reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=inv_check)
@@ -322,11 +322,13 @@ class EconomyCog(bot_commands.Cog):
             elif reaction.emoji == "🗓":
                 main_embed=discord.Embed(title="\u200b", color=0xcb410b)
                 main_embed.set_author(name="ORB ECONOMY", icon_url="https://cdn.discordapp.com/avatars/569758271930368010/3b243502ea9079f6a4f33fb0e270105c.webp?size=1024")
-                main_embed.add_field(name="🗃 Inventory", value="\u200b", inline=False)
-                main_embed.add_field(name="🗓 Daily", value="\u200b", inline=False)
-                pass
+                main_embed.add_field(name="🗓 Daily", value=collected_str, inline=False)
+                
+                # if self.
 
             elif reaction.emoji == "✉":
+                await reset_reactions(message)
+
                 try:
                     reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=send_check)
                 except asyncio.TimeoutError:
@@ -335,6 +337,8 @@ class EconomyCog(bot_commands.Cog):
                 else:
                     pass
             elif reaction.emoji == "✉":
+                await reset_reactions(message)
+
                 try:
                     reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=use_check)
                 except asyncio.TimeoutError:
