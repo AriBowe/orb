@@ -1,2 +1,2 @@
-UserID; Status; Shards; Dict<type:count>
-177013;None;69;orbs,2;coolorbs,1
+UserID; Status; Shards; LastDaily; Dict<type:count>
+177013;None;69;None;orbs,2;coolorbs,1

@@ -29,6 +29,7 @@ class UserManagement():
         data on a line without doing this. This should get shifted to a SQL
         database eventually"""
 
+        # Loads all inactive users from the old file and adds to the new file
         with open("data/orbs.csv", mode="r", newline="") as file:
             all_users_list = []
             reader = csv.reader(file, delimiter=";")
@@ -37,9 +38,11 @@ class UserManagement():
                     all_users_list.append(list(line))
             print(all_users_list)
         
+        # Adds the active users to the list of users
         for user in self._active_users:
             all_users_list.append(user.generate_line())
 
+        # Writes all the saved data to the file
         with open("data/orbs.csv", mode="w", newline="") as file:
             writer = csv.writer(file, delimiter=";", quotechar='"', quoting=csv.QUOTE_MINIMAL)
             for user in all_users_list:
@@ -79,27 +82,45 @@ class User():
 
         Parameters:
             user_id (str): The discord user ID of the target to load"""
+        
+        found = False
+
         with open("data/orbs.csv", mode="r", newline="") as file:
             reader = csv.reader(file, delimiter=";")
-            for line in reader:
-                try:
-                    if line[0] == str(user_id):
-                        user_id = line[0]
-                        user_status = line[1]
-                        user_shards = line[2]
 
-                        orb_data = line[3:]
-                        tupify = lambda x : x.split(",")
-                        user_orbs = dict(map(tupify, orb_data))
-                except:
-                    pass
-        
+            # Checks if user is in the saved data, and if they are loads their data
+            for line in reader:
+                if line[0] == str(user_id):
+                    user_id = line[0]
+                    user_status = line[1]
+                    user_shards = line[2]
+                    try:
+                        user_lastdaily = line[3]
+                    except:
+                        user_lastdaily = None
+
+                    orb_data = line[4:]
+                    tupify = lambda x : x.split(",")
+                    user_orbs = dict(map(tupify, orb_data))
+                    found = True
+                    break
+                
+            # Exception for a new user who has no recorded data
+            if not found: 
+                user_status = None
+                user_shards = 0
+                user_lastdaily = None
+                user_orbs = {}
+                
+        # 2nd pass to ensure consistency
         for orb_type in user_orbs:
             user_orbs[orb_type] = int(user_orbs[orb_type])
 
+        # Assigns variables to the class
         self.user_id = user_id
         self._user_status = user_status
         self._user_shards = user_shards
+        self._user_lastdaily = user_lastdaily
         self._user_orbs = user_orbs
 
     async def get_orbs(self, orb_type):
@@ -135,13 +156,21 @@ class User():
     async def get_status(self):
         return self._user_status
 
+    async def get_last_daily(self):
+        return self._user_lastdaily
+
     async def generate_line(self):
-        # flattened_dict = ';'.join('"{!s}",{!r}'.format(item,self._user_orbs[item]) for item in self._user_orbs)
+        """Generates a saveable data line
+        
+        Returns"""
 
         output = []
+
         output.append(self.user_id)
         output.append(self.get_status())
         output.append(self.get_shards())
+        output.append(self.get_last_daily())
+
         for item in self._user_orbs:
 	        output.append('"{!s}",{!r}'.format(item,self._user_orbs[item]))
 
@@ -291,10 +320,10 @@ class EconomyCog(bot_commands.Cog):
                 else:
                     pass
             elif reaction.emoji == "🗓":
-                # main_embed=discord.Embed(title="\u200b", color=0xcb410b)
-                # main_embed.set_author(name="ORB ECONOMY", icon_url="https://cdn.discordapp.com/avatars/569758271930368010/3b243502ea9079f6a4f33fb0e270105c.webp?size=1024")
-                # main_embed.add_field(name="🗃 Inventory", value="\u200b", inline=False)
-                # main_embed.add_field(name="🗓 Daily", value="\u200b", inline=False)
+                main_embed=discord.Embed(title="\u200b", color=0xcb410b)
+                main_embed.set_author(name="ORB ECONOMY", icon_url="https://cdn.discordapp.com/avatars/569758271930368010/3b243502ea9079f6a4f33fb0e270105c.webp?size=1024")
+                main_embed.add_field(name="🗃 Inventory", value="\u200b", inline=False)
+                main_embed.add_field(name="🗓 Daily", value="\u200b", inline=False)
                 pass
 
             elif reaction.emoji == "✉":

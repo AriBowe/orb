@@ -39,7 +39,7 @@ class CommandsCog(bot_commands.Cog):
 
     # New rank
     # TODO: Add hard values to csv
-    @bot_commands.command()
+    @bot_commands.command(aliases=["rate"])
     async def rank(self, ctx, *, target=None):
         if allowed_channel(ctx):
             print("Ranking", target, "for user", ctx.author.display_name, "id", ctx.author.id)
