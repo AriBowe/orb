@@ -12,7 +12,7 @@ class UserManagement():
     def __init__(self):
         """Constructor"""
         self._active_users = []
-        self._autosave = False
+        self._autosave = True
     
     async def save(self):
         """Saves the users
@@ -56,8 +56,8 @@ class UserManagement():
             self.save()
             asyncio.sleep(60)
 
-    async def add_active(self, user_id):
-        self._active_users.append(User(user_id))
+    # async def add_active(self, user_id):
+    #     self._active_users.append(User(user_id))
 
     async def check_active(self, user_id):
         if user_id in self._active_users:
@@ -67,7 +67,26 @@ class UserManagement():
 
     def break_next_save(self):
         self._autosave = False
-    
+
+    def begin_saving(self):
+        self._autosave = True
+        self.save_loop()
+
+    def get_random_orb(self):
+        value = random.randint(1,1000)
+        if value <= 100:
+            return random.choice(rarity_table[2])
+        if value <= 250:
+            return random.choice(rarity_table[1])
+        else:
+            return random.choice(rarity_table[0])
+
+    def generate_new_user(self):
+        pass
+
+    def load_user(self, user_id):
+        User(user_id)
+        self._active_users.append(User(user_id))
 
 class User():
     """An orb user, this class manages their economy"""
@@ -177,13 +196,12 @@ class User():
         return output
 
 
-
 rarity_table = {
-    0: "common",
-    1: "uncommon",
-    2: "rare",
-    3: "mythical",
-    4: "unique"
+    0: ("Energy", "Rank"), # Common
+    1: ("Immune", "Chaotic"), # Uncommon
+    2: ("Transmutation"), # Rare
+    # 3: "mythical",
+    # 4: "unique"
 }
 
 class Orb():
@@ -320,11 +338,12 @@ class EconomyCog(bot_commands.Cog):
                 else:
                     pass
             elif reaction.emoji == "🗓":
+                if self._users.check_active(user) is False:
+                    raise NotImplementedError
+
                 main_embed=discord.Embed(title="\u200b", color=0xcb410b)
                 main_embed.set_author(name="ORB ECONOMY", icon_url="https://cdn.discordapp.com/avatars/569758271930368010/3b243502ea9079f6a4f33fb0e270105c.webp?size=1024")
                 main_embed.add_field(name="🗓 Daily", value=collected_str, inline=False)
-                
-                # if self.
 
             elif reaction.emoji == "✉":
                 await reset_reactions(message)
@@ -336,7 +355,7 @@ class EconomyCog(bot_commands.Cog):
                     await reset_reactions(message)
                 else:
                     pass
-            elif reaction.emoji == "✉":
+            elif reaction.emoji == "⚙":
                 await reset_reactions(message)
 
                 try:
