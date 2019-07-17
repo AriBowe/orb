@@ -38,7 +38,6 @@ class CommandsCog(bot_commands.Cog):
             await ctx.send(random.choice([":wink:", "Shhhh", ":thinking:"]))
 
     # New rank
-    # TODO: Add hard values to csv
     @bot_commands.command(aliases=["rate"])
     async def rank(self, ctx, *, target=None):
         if allowed_channel(ctx):
@@ -60,6 +59,7 @@ class CommandsCog(bot_commands.Cog):
                     await ctx.send("I'd give " + target + " a " + target + " out of " + target)
                 elif re.match(r"(^|\s)orb($|\s)", target, re.IGNORECASE) or re.match(r"(^|\s)<@569758271930368010>($|\s)", target, re.IGNORECASE):
                     await ctx.send("I'd give me a 10 out of 10")
+                    return
                 else:
                     search_target = target
                 for line in reader:
@@ -76,10 +76,10 @@ class CommandsCog(bot_commands.Cog):
                 await ctx.send("I'd give " + str(target) + " a " + str(random_value) + " out of 10")
 
     # New BDE
-    # TODO: Code inital values
     @bot_commands.command()
     async def bde(self, ctx, *, target=None):
         if allowed_channel(ctx):
+            print("BDEing " + target + " for " + ctx.author.display_name)
             with open("data/bde.csv", mode="r", newline="") as file:
                 reader = csv.reader(file, delimiter=",")
                 if target is None:
@@ -95,6 +95,7 @@ class CommandsCog(bot_commands.Cog):
                     target = ctx.author.display_name
                 elif re.match(r"(^|\s)orb($|\s)", target, re.IGNORECASE) or re.match(r"(^|\s)<@569758271930368010>($|\s)", target, re.IGNORECASE):
                     await ctx.send("I have 101% bde")
+                    return
                 else:
                     search_target = target
                 for line in reader:
@@ -159,10 +160,10 @@ class CommandsCog(bot_commands.Cog):
         if allowed_channel(ctx):
             print("Bullying", target, "for", ctx.author.display_name)
             if target is None:
-                await ctx.send("I can't bullly nothing")
-            elif "NOTHING" in target.upper():
-                await ctx.send("I can't bullly nothing")
-            elif "ORB" in target.upper() or "<@569758271930368010>" in target:
+                await ctx.send("I can't bully nothing")
+            elif re.match(r"(^|\s)nothing($|\s)", target, re.IGNORECASE):
+                await ctx.send("I can't bully nothing")
+            elif re.match(r"(^|\s)orb($|\s)", target, re.IGNORECASE) or re.match(r"(^|\s)<@569758271930368010>($|\s)", target, re.IGNORECASE):
                 await ctx.send("No bulli :sadkot:")
             elif re.match(r"(^|\s)me($|\s)", target, re.IGNORECASE):
                 await ctx.send(random.choice([("You're asking to be bullied? Isn't that kind of pathetic?"), ("You're a meanie!"), ("You're a dumb dumb")]), )
@@ -184,7 +185,7 @@ class CommandsCog(bot_commands.Cog):
                 await ctx.send(file=discord.File(fp="images/lolice.gif"))
             else:
                 await ctx.trigger_typing()
-                await ctx.send(file=discord.File(fp="images/illya/illya (" + str(random.randint(1, 40)) + ").png"))
+                await ctx.send(file=discord.File(fp="images/illya/illya (" + str(random.randint(1, 47)) + ").jpg"))
 
     # Slots
     @bot_commands.command()
