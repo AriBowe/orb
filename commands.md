@@ -7,7 +7,7 @@ Orb has a ton of commands, which can be accessed in discord via the `orb.command
 
 Note: Some commands are secret. They're not listed here, you'll have to find them on your own
 
-## All commands are prefixed with 'orb.'
+## All commands are prefixed with 'orb.' or 'o.'
 Commands list:
 
 #### orb.**help**

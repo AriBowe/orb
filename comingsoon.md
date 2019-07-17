@@ -8,26 +8,22 @@ Orb gets semi-regular feature updates and bug fixes. Here's a preview what's com
 
 # The Big Memory Update
 
-## orb_core Version 7
+## orb_core Version 8
 
-- Better core management
-- `o.` prefix
-- 'Big guy' reaction
-- Awoo reaction
-- Regex (more accurate command triggers)
-- Live code edits possible in some areas (faster fixes)
-- Code fully moved to the new discord bot standard
-- Bug fixes
+- Nothing planned yet
 
-## orb_commands Version 3
+## orb_commands Version 4
 
-- Permenant rank and BDE tracking
-- More Illya
 - orb.rin
 - orb.gembutt
-- More bully responses
-- More secrets
-- And of course, bug fixes
+- Possible pixiv lookups
+
+## orb_pins Version 1
+- Automatic pinning system using a dedicated channel
+
+---
+
+# In the future, one day...
 
 ## orb_economy Version 1
 

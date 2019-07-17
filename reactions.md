@@ -14,4 +14,10 @@ causes orb to react with 'epic', spelt in Discord emoji
 **'girl's aren't real'**
 causes orb to react with 'true' or 'fact', spelt in Discord emoji
 
+**'big guy"**
+causes orb to respond 'for you'
+
+**'awoo'**
+causes orb to awoo react
+
 ## New reactions are always in development. See a list [here](comingsoon.md)
