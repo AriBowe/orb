@@ -38,7 +38,7 @@ ONLINE_STATUS = "Online"
 
 # List of extensions
 INITIAL_EXTENSIONS = [
-    "cogs.orb_commands",
+    "cogs.orb_commands",\
     "cogs.orb_control",
     # "cogs.orb_economy"
 ]
