@@ -56,8 +56,8 @@ class UserManagement():
             self.save()
             asyncio.sleep(60)
 
-    # async def add_active(self, user_id):
-    #     self._active_users.append(User(user_id))
+    async def add_active(self, user_id):
+        self._active_users.append(User(user_id))
 
     async def check_active(self, user_id):
         if user_id in self._active_users:
@@ -85,8 +85,7 @@ class UserManagement():
         pass
 
     def load_user(self, user_id):
-        User(user_id)
-        self._active_users.append(User(user_id))
+        return None
 
 class User():
     """An orb user, this class manages their economy"""
@@ -327,44 +326,53 @@ class EconomyCog(bot_commands.Cog):
             await message.edit(embed=timeout_embed)
             await reset_reactions(message)
         else:
+            self._user_id = ctx.author.id
             if reaction.emoji == "🗃":
-                await reset_reactions(message)
+                # Display inventory
+                raise NotImplementedError
 
-                try:
-                    reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=inv_check)
-                except asyncio.TimeoutError:
-                    await message.edit(embed=timeout_embed)
-                    await reset_reactions(message)
-                else:
-                    pass
+                # await reset_reactions(message)
+
+                # try:
+                #     reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=inv_check)
+                # except asyncio.TimeoutError:
+                #     await message.edit(embed=timeout_embed)
+                #     await reset_reactions(message)
+                # else:
+                #     pass
             elif reaction.emoji == "🗓":
-                if self._users.check_active(user) is False:
-                    raise NotImplementedError
+                if self._users.check_active(self._user_id) is False:
+                    self._users.load_user(self._user_id)
 
-                main_embed=discord.Embed(title="\u200b", color=0xcb410b)
-                main_embed.set_author(name="ORB ECONOMY", icon_url="https://cdn.discordapp.com/avatars/569758271930368010/3b243502ea9079f6a4f33fb0e270105c.webp?size=1024")
-                main_embed.add_field(name="🗓 Daily", value=collected_str, inline=False)
+                for g in self._users._active_users:
+                    await print(g)
+
+                # main_embed=discord.Embed(title="\u200b", color=0xcb410b)
+                # main_embed.set_author(name="ORB ECONOMY", icon_url="https://cdn.discordapp.com/avatars/569758271930368010/3b243502ea9079f6a4f33fb0e270105c.webp?size=1024")
+                # main_embed.add_field(name="🗓 Daily", value=collected_str, inline=False)
 
             elif reaction.emoji == "✉":
-                await reset_reactions(message)
+                raise NotImplementedError
+                # await reset_reactions(message)
 
-                try:
-                    reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=send_check)
-                except asyncio.TimeoutError:
-                    await message.edit(embed=timeout_embed)
-                    await reset_reactions(message)
-                else:
-                    pass
+                # try:
+                #     reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=send_check)
+                # except asyncio.TimeoutError:
+                #     await message.edit(embed=timeout_embed)
+                #     await reset_reactions(message)
+                # else:
+                #     pass
             elif reaction.emoji == "⚙":
-                await reset_reactions(message)
+                raise NotImplementedError
+                # await reset_reactions(message)
 
-                try:
-                    reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=use_check)
-                except asyncio.TimeoutError:
-                    await message.edit(embed=timeout_embed)
-                    await reset_reactions(message)
-                else:
-                    pass
+                # try:
+                #     reaction, user = await self.bot.wait_for('reaction_add', timeout=45.0, check=use_check)
+                # except asyncio.TimeoutError:
+                #     await message.edit(embed=timeout_embed)
+                #     await reset_reactions(message)
+                # else:
+                #     pass
             else:
                 pass
 

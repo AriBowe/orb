@@ -40,7 +40,7 @@ ONLINE_STATUS = "Online"
 INITIAL_EXTENSIONS = [
     "cogs.orb_commands",
     "cogs.orb_control",
-    "cogs.orb_economy"
+    # "cogs.orb_economy"
 ]
 
 # Imports extensions
