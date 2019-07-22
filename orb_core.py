@@ -31,7 +31,7 @@ MESSAGE = discord.Game("with orbs. Try orb.help")
 VERSION_DATA = {
     "Colour": "Sinopia",
     "Version": 7,
-    "Build": 2,
+    "Build": 3,
     "ColourHex": 0xcb410b
 }
 ONLINE_STATUS = "Online"
