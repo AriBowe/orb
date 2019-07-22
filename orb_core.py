@@ -1,64 +1,67 @@
 """
 Use the following link to add the bot:
 https://discordapp.com/oauth2/authorize?client_id=569758271930368010&scope=bot&permissions=64
-
-or try orb.xiiitm.com
 """
 
-# Assigns prefix early because of some positional issues
-PREFIX = ['orb.']
+# Get prefixes
+def get_prefix(bot, message):
+    PREFIXES = ["orb.", "o."]
+    return bot_commands.when_mentioned_or(*PREFIXES)(bot, message)
 
 # Imports libraries needed
 import discord
 from discord.ext import commands as bot_commands
 import random
 import os
+import csv
+import re
+import sys
 print("Base libraries successfully loaded")
 
-# Assigns bot & client
-bot = bot_commands.Bot(command_prefix=PREFIX, help_command=None, case_insensitive=True)
-client = discord.Client()
+# Gets constants from files. Yay interlinking
+from cogs.orb_commands import COMMANDS_VERSION, COMMAND_DATA
+from cogs.orb_control import BANNED_CHANNELS, allowed_channel
 
-# Imports orb modules
-from orb_commands import *
-print("Module orb_commands loaded - Version " + COMMANDS_VERSION["version"] + ", containing " + COMMANDS_VERSION["count"] + " commands")
+# Assigns bot & client
+bot = bot_commands.Bot(command_prefix=get_prefix, help_command=None, case_insensitive=True)
+client = discord.Client()
 
 # Assigns constants
 MESSAGE = discord.Game("with orbs. Try orb.help")
 VERSION_DATA = {
-    "Chromatic": "Sinopia",
-    "Version": 6,
-    "Build": 1,
-    "ChromaticHex": 0xcb410b
+    "Colour": "Sinopia",
+    "Version": 7,
+    "Build": 3,
+    "ColourHex": 0xcb410b
 }
 ONLINE_STATUS = "Online"
-allowed_channelS = [
-    "579281409403781131",
-    "370068687782150144",
-    "286411114969956352",
-    "510668832403095575",
-    "286460412415967233",
-    "287090586509377537",
-    "286485013904621568",
-    "510667650125398016",
-    "421260651038638096",
-    "286460629215215618",
-    "286460275496845312",
-    "286460275496845312",
-    "286695380530495489",
-    "286460358695190529",
-    "504537542797033472",
-    "559348553214853130",
-    "286460137168961537",
-    "553588340516192266",
-    "387159010861645824"
+
+# List of extensions
+INITIAL_EXTENSIONS = [
+    "cogs.orb_commands",\
+    "cogs.orb_control",
+    # "cogs.orb_economy"
 ]
+
+# Imports extensions
+if __name__ == '__main__':
+    for extension in INITIAL_EXTENSIONS:
+        bot.load_extension(extension)
+
+
 
 # Displays boot complete message
 @bot.event
 async def on_ready():
+    with open("data/banned_channels.csv", mode="r") as file:
+        reader = csv.reader(file, delimiter=",")
+        for line in reader:
+            try:
+                BANNED_CHANNELS.append(int(line[0]))
+            except:
+                pass
     await bot.change_presence(status=discord.Status.online, activity=MESSAGE)
-    print("\nORB Core", VERSION_DATA["Chromatic"], VERSION_DATA["Version"], "Build", VERSION_DATA["Build"])
+    print("\nORB Core", VERSION_DATA["Colour"], VERSION_DATA["Version"], "Build", VERSION_DATA["Build"])
     print('Bot startup successful. Logged in as {0.user}'.format(bot))
 
 # Ping
@@ -74,22 +77,22 @@ async def ping(ctx):
 async def help(ctx):
     if allowed_channel(ctx):
         print("Help request received from", ctx.author.display_name)
-        await ctx.send("Orb bot is a bot that does things.Features include:\n   - Reactions\n   - Posting Illya\n   - Ranking\nFor a list of commands see" + PREFIX + "commands. To check the bot status, see " + PREFIX + "status.\nDeveloped by xiii™#0013.")
+        await ctx.send("Orb bot is a bot that does things. Features include:\n   - Reactions\n   - Posting Illya\n   - Ranking\nFor a list of commands see orb.commands, or check them out online at https://aribowe.github.io/orb/commands. To check the bot status, see orb.status.\nDeveloped by xiii™#0013.")
 
 # Status
 @bot.command()
 async def status(ctx):
     if allowed_channel(ctx):
         print("Status requested from", ctx.author.display_name)
-        embed=discord.Embed(title="", color=VERSION_DATA["ChromaticHex"])
+        embed=discord.Embed(title="", color=VERSION_DATA["ColourHex"])
         embed.set_author(name="ORB STATUS")
-        embed.add_field(name="Colour", value=VERSION_DATA["Chromatic"], inline=True)
-        embed.add_field(name="Version", value=VERSION_DATA["Version"], inline=True)
-        embed.add_field(name="Build", value=VERSION_DATA["Build"], inline=True)
+        embed.add_field(name="Core Version", value=VERSION_DATA["Version"], inline=True)
+        embed.add_field(name="Core Build", value=VERSION_DATA["Build"], inline=True)
+        embed.add_field(name="Commands Version", value=COMMANDS_VERSION["Version"], inline=True)
         embed.add_field(name="Online Status", value=ONLINE_STATUS, inline=False)
         await ctx.send(embed=embed)
 
-# Lists all commands from the COMMANDS list
+# Lists commands
 @bot.command()
 async def commands(ctx, target=None):
     if allowed_channel(ctx):
@@ -98,30 +101,30 @@ async def commands(ctx, target=None):
             print("Command overview requested from", ctx.author.display_name)
             output += "**Accepted commands:**\n```"
             for command in COMMAND_DATA:
-                output += PREFIX + command[0] + "\n"
+                output += "orb." + command + "\n"
             output += "```\n```Call a specific command for more info, or all for a full command dump```"
         elif target.upper() == "ALL":
             print("Full commands list requested from", ctx.author.display_name)
             for command in COMMAND_DATA:
-                output += "```Command: " + PREFIX + command[0] + "\n"
-                output += "Function: " + command[1] + "\n"
-                output += "Arguments: " + command[2] + "```"
+                output += "```Command: " + "orb." + command + "\n"
+                output += "Function: " + COMMAND_DATA[command][0] + "\n"
+                output += "Arguments: " + COMMAND_DATA[command][1] + "```"
         else:
             print("Info on " + target + " requested by " + ctx.author.display_name)
-            try:
-                command = COMMAND_DATA[COMMAND_LIST[target]]
-                output += "```Command: " + PREFIX + command[0] + "\n"
-                output += "Function: " + command[1] + "\n"
-                output += "Arguments: " + command[2] + "```"
-            except:
-                print("Command not found")
-                output = "Error: Command not found"
+
+            info, args = COMMAND_DATA[target]
+            output += "```Command: orb." + target + "\n"
+            output += "Function: " + str(info) + "\n"
+            output += "Arguments: " + str(args) + "```"
+            # except:
+            #     print("Command not found")
+            #     output = "Error: Command not found"
         await ctx.send(output)
 
 @bot.event
 async def on_message(message):
     # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
-    if "VERY COOL" in message.content.upper() or random.randint(1, 2000) == 1:
+    if re.match(r"(^|\s|.)very cool($| $| .)", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
         await message.add_reaction("🇻")
         await message.add_reaction("🇪")
         await message.add_reaction("🇷")
@@ -133,8 +136,9 @@ async def on_message(message):
         print("Reacted 'very cool' to message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Girls aren't real
-    elif "GIRLS AREN'T REAL" in message.content.upper() or "GIRLS ARENT REAL" in message.content.upper():
+    elif re.match(r"(^|\s|.)girl[']s? aren[']?t real($| $| .)", message.content, re.IGNORECASE):
         rand_int = random.randint(1, 10)
+        print("Not real")
         if rand_int <= 3:
             await message.add_reaction("🇹")
             await message.add_reaction("🇷")
@@ -152,8 +156,8 @@ async def on_message(message):
             print("Reacted 'fact' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Epic reaction time
-    elif "EPIC" in message.content.upper():
-        if random.randint(1, 20) == 2:
+    elif re.match(r"(^|\s|.)epic($| $| .)", message.content, re.IGNORECASE):
+        if random.randint(1, 15) == 1:
             await message.add_reaction("🇪")
             await message.add_reaction("🅱")
             await message.add_reaction("🇮")
@@ -166,16 +170,18 @@ async def on_message(message):
             await message.add_reaction("🇨")
             print("Reacted 'epic' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
-    # # Boomer time
-    # elif "BOOMER" in message.content.upper():
-    #     if random.randint(1, 10):
-    #         await message.channel.send(random.choice(["What, like pepper?"]))
+    # Big guy react
+    elif re.match(r"(^)big guy($| $| .)", message.content, re.IGNORECASE):
+        await message.channel.send("For you")
 
-    # elif message.author.id == 138198892968804352:
-    #     print("Reacting")
-    #     emoji = bot.get_emoji(579537455397470229)
-    #     await message.add_reaction(emoji)
+    # Awoo react
+    elif re.match(r"(^|\s|.)awoo($| $| .)", message.content, re.IGNORECASE):
+        await message.add_reaction("🇦")
+        await message.add_reaction("🇼")
+        await message.add_reaction("🇴")
+        await message.add_reaction("🅾")
+        
     else:
         await bot.process_commands(message)
 
-bot.run(os.environ['DISCORD_TOKEN'])
+bot.run(os.environ['DISCORD_TOKEN'], bot=True, reconnect=True)
