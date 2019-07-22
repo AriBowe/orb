@@ -124,7 +124,7 @@ async def commands(ctx, target=None):
 @bot.event
 async def on_message(message):
     # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
-    if re.match(r"(^|\s)very cool($|\s)", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
+    if re.match(r"(^|\s|.)very cool($| $| .)", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
         await message.add_reaction("🇻")
         await message.add_reaction("🇪")
         await message.add_reaction("🇷")
@@ -136,7 +136,7 @@ async def on_message(message):
         print("Reacted 'very cool' to message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Girls aren't real
-    elif re.match(r"(^|\s)girl[']? aren[']?t real($|\s)", message.content, re.IGNORECASE):
+    elif re.match(r"(^|\s|.)girl[']s? aren[']?t real($| $| .)", message.content, re.IGNORECASE):
         rand_int = random.randint(1, 10)
         print("Not real")
         if rand_int <= 3:
@@ -156,7 +156,7 @@ async def on_message(message):
             print("Reacted 'fact' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Epic reaction time
-    elif re.match(r"(^|\s)epic($|\s)", message.content, re.IGNORECASE):
+    elif re.match(r"(^|\s|.)epic($| $| .)", message.content, re.IGNORECASE):
         if random.randint(1, 15) == 1:
             await message.add_reaction("🇪")
             await message.add_reaction("🅱")
@@ -171,12 +171,11 @@ async def on_message(message):
             print("Reacted 'epic' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Big guy react
-    elif re.match(r"(^|\s)big guy($|\s)", message.content, re.IGNORECASE):
-        if allowed_channel(message):
-            await message.channel.send("For you")
+    elif re.match(r"(^)big guy($| $| .)", message.content, re.IGNORECASE):
+        await message.channel.send("For you")
 
     # Awoo react
-    elif re.match(r"(^|\s)awoo($|\s)", message.content, re.IGNORECASE):
+    elif re.match(r"(^|\s|.)awoo($| $| .)", message.content, re.IGNORECASE):
         await message.add_reaction("🇦")
         await message.add_reaction("🇼")
         await message.add_reaction("🇴")

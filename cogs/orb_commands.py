@@ -47,24 +47,24 @@ class CommandsCog(bot_commands.Cog):
                 if target is None:
                     await ctx.send("I can't rank nothing")
                     return    
-                elif re.match(r"(^|\s)@everyone($|\s)", target, re.IGNORECASE):
+                elif re.match(r"(^|\s|.)@everyone($| $| .)", target, re.IGNORECASE):
                     return
-                elif re.match(r"(^|\s)me($|\s)", target, re.IGNORECASE):
+                elif re.match(r"(^|\s|.)me($| $| .)", target, re.IGNORECASE):
                     search_target = "<@" + str(ctx.author.id) + ">"
                     target = "you"
-                elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(^|\s)" + str(ctx.author.id) + r"($|\s)", target, re.IGNORECASE):
+                elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(^|\s|.)" + str(ctx.author.id) + r"($| $| .)", target, re.IGNORECASE):
                     search_target = "<@" + str(ctx.author.id) + ">"
                     target = "you"
                 elif target.isnumeric():
                     await ctx.send("I'd give " + target + " a " + target + " out of " + target)
-                elif re.match(r"(^|\s)orb($|\s)", target, re.IGNORECASE) or re.match(r"(^|\s)<@569758271930368010>($|\s)", target, re.IGNORECASE):
+                elif re.match(r"(^|\s|.)orb($| $| .)", target, re.IGNORECASE) or re.match(r"(^|\s|.)<@569758271930368010>($| $| .)", target, re.IGNORECASE):
                     await ctx.send("I'd give me a 10 out of 10")
                     return
                 else:
                     search_target = target
                 for line in reader:
                     try:       
-                        if re.match(r"(^|\s)" + str(search_target) + r"($|\s|.)", line[0], re.IGNORECASE):
+                        if re.match(r"(^|\s|.)" + str(search_target) + r"($)", line[0], re.IGNORECASE):
                             await ctx.send("I'd give " + str(target) + " a " + str(line[1]) + " out of 10")
                             return
                     except:
@@ -85,22 +85,22 @@ class CommandsCog(bot_commands.Cog):
                 if target is None:
                     target = "the universe"
                     search_target = "the universe"
-                elif re.match(r"(^|\s)@everyone($|\s)", target, re.IGNORECASE):
+                elif re.match(r"(^|\s|.)@everyone($| $| .)", target, re.IGNORECASE):
                     return
-                elif re.match(r"(^|\s)me($|\s)", target, re.IGNORECASE):
+                elif re.match(r"(^|\s|.)me($| $| .)", target, re.IGNORECASE):
                     search_target = "<@" + str(ctx.author.id) + ">"
                     target = ctx.author.display_name
-                elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(^|\s)" + str(ctx.author.id) + r"($|\s)", target, re.IGNORECASE):
+                elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(^|\s|.)" + str(ctx.author.id) + r"($| $| .)", target, re.IGNORECASE):
                     search_target = "<@" + str(ctx.author.id) + ">"
                     target = ctx.author.display_name
-                elif re.match(r"(^|\s)orb($|\s)", target, re.IGNORECASE) or re.match(r"(^|\s)<@569758271930368010>($|\s)", target, re.IGNORECASE):
+                elif re.match(r"(^|\s|.)orb($| $| .)", target, re.IGNORECASE) or re.match(r"(^|\s|.)<@569758271930368010>($| $| .)", target, re.IGNORECASE):
                     await ctx.send("I have 101% bde")
                     return
                 else:
                     search_target = target
                 for line in reader:
                     try:       
-                        if re.match(r"(^|\s)" + str(search_target) + r"($|\s|.)", line[0], re.IGNORECASE):
+                        if re.match(r"(^|\s|.)" + str(search_target) + r"($| $| .|.)", line[0], re.IGNORECASE):
                             await ctx.send(str(target) + " has " + str(line[1]) + "% big dick energy")
                             return
                     except:
@@ -141,11 +141,11 @@ class CommandsCog(bot_commands.Cog):
             else:
                 if target is None:
                     await ctx.send(random.choice(["I can't ban nothing", "Specifiy a person please", "This command doesn't work like that"]))
-                elif re.match(r"(^|\s)@everyone($|\s)", target, re.IGNORECASE):
+                elif re.match(r"(^|\s|.)@everyone($| $| .)", target, re.IGNORECASE):
                     return
                 elif "ORB" in target.upper() or "<@569758271930368010>" in target or "ｏｒｂ" in target:
                     await ctx.send("Pls no ban am good bot")
-                elif re.match(r"(^|\s)me($|\s)", target, re.IGNORECASE):
+                elif re.match(r"(^|\s|.)me($| $| .)", target, re.IGNORECASE):
                     await ctx.send("Banning you")
                     await ctx.send("...")
                     await ctx.send("Shit it didn't work")
@@ -161,11 +161,11 @@ class CommandsCog(bot_commands.Cog):
             print("Bullying", target, "for", ctx.author.display_name)
             if target is None:
                 await ctx.send("I can't bully nothing")
-            elif re.match(r"(^|\s)nothing($|\s)", target, re.IGNORECASE):
+            elif re.match(r"(^|\s|.)nothing($| $| .)", target, re.IGNORECASE):
                 await ctx.send("I can't bully nothing")
-            elif re.match(r"(^|\s)orb($|\s)", target, re.IGNORECASE) or re.match(r"(^|\s)<@569758271930368010>($|\s)", target, re.IGNORECASE):
+            elif re.match(r"(^|\s|.)orb($| $| .)", target, re.IGNORECASE) or re.match(r"(^|\s|.)<@569758271930368010>($| $| .)", target, re.IGNORECASE):
                 await ctx.send("No bulli :sadkot:")
-            elif re.match(r"(^|\s)me($|\s)", target, re.IGNORECASE):
+            elif re.match(r"(^|\s|.)me($| $| .)", target, re.IGNORECASE):
                 await ctx.send(random.choice([("You're asking to be bullied? Isn't that kind of pathetic?"), ("You're a meanie!"), ("You're a dumb dumb")]), )
             else:
                 await ctx.send(random.choice([("Bullying " + target), (target + " is a meanie!"), (target + " please stop speaking")]), )
