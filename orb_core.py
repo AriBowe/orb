@@ -20,7 +20,7 @@ print("Base libraries successfully loaded")
 
 # Gets constants from files. Yay interlinking
 from cogs.orb_commands import COMMANDS_VERSION, COMMAND_DATA
-from cogs.orb_control import BANNED_CHANNELS, allowed_channel
+from cogs.orb_control import allowed_channel
 
 # Assigns bot & client
 bot = bot_commands.Bot(command_prefix=get_prefix, help_command=None, case_insensitive=True)
@@ -38,8 +38,9 @@ ONLINE_STATUS = "Online"
 
 # List of extensions
 INITIAL_EXTENSIONS = [
-    "cogs.orb_commands",\
+    "cogs.orb_commands",
     "cogs.orb_control",
+    "cogs.orb_pins",
     # "cogs.orb_economy"
 ]
 
@@ -124,7 +125,7 @@ async def commands(ctx, target=None):
 @bot.event
 async def on_message(message):
     # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
-    if re.search(r"(^|\s|.)very cool($| $| .)", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
+    if re.search(r"(epic)", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
         await message.add_reaction("🇻")
         await message.add_reaction("🇪")
         await message.add_reaction("🇷")
@@ -136,7 +137,7 @@ async def on_message(message):
         print("Reacted 'very cool' to message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Girls aren't real
-    elif re.search(r"(^|\s|.)girl[']s? aren[']?t real($| $| .)", message.content, re.IGNORECASE):
+    elif re.search(r"(epic)", message.content, re.IGNORECASE):
         rand_int = random.randint(1, 10)
         print("Not real")
         if rand_int <= 3:
@@ -156,7 +157,7 @@ async def on_message(message):
             print("Reacted 'fact' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Epic reaction time
-    elif re.search(r"(^|\s|.)epic($| $| .)", message.content, re.IGNORECASE):
+    elif re.search(r"(epic)", message.content, re.IGNORECASE):
         if random.randint(1, 15) == 1:
             await message.add_reaction("🇪")
             await message.add_reaction("🅱")
@@ -171,15 +172,22 @@ async def on_message(message):
             print("Reacted 'epic' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Big guy react
-    elif re.search(r"(^)big guy($| $| .)", message.content, re.IGNORECASE):
+    elif re.search(r"(big guy)", message.content, re.IGNORECASE):
         await message.channel.send("For you")
+        print("Responded with 'For you' to message '" + message.content + "' from user " + message.author.display_name)
 
     # Awoo react
-    elif re.search(r"(^|\s|.)awoo($| $| .)", message.content, re.IGNORECASE):
+    elif re.search(r"(awoo)", message.content, re.IGNORECASE):
         await message.add_reaction("🇦")
         await message.add_reaction("🇼")
         await message.add_reaction("🇴")
         await message.add_reaction("🅾")
+        print("Reacted with 'awoo' to message '" + message.content + "' from user " + message.author.display_name)
+    
+    # 3/10
+    elif re.search(r"(asuna)", message.content, re.IGNORECASE) or re.search(r"(sword art online)", message.content, re.IGNORECASE) or re.search(r"(SAO)", message.content, re.IGNORECASE):
+        await message.channel.send("3/10")
+        print("Responded with '3/10' to message '" + message.content + "' from user " + message.author.display_name)
         
     else:
         await bot.process_commands(message)
