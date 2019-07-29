@@ -21,3 +21,6 @@ Soon™
 
 ## [COMING SOON:](comingsoon.md)
 New features are always in development. There's a list [here](comingsoon.md)
+
+## [PAST UPDATES:](past.md)
+See a log of previous updates [here](past.md)

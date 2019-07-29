@@ -6,20 +6,24 @@ layout: default
 
 Orb gets semi-regular feature updates and bug fixes. Here's a preview what's coming in the next one:
 
-# The Big Memory Update
+# Pin That
 
 ## orb_core Version 8
 
-- Nothing planned yet
+- Massive regex optimistations (catch more reactions, and faster)
+- More reactions
+- More responses
 
 ## orb_commands Version 4
 
 - orb.rin
 - orb.gembutt
 - Possible pixiv lookups
+- "Translate" to Japanese based on a meme
 
 ## orb_pins Version 1
 - Automatic pinning system using a dedicated channel
+
 
 ---
 
