@@ -1,6 +1,21 @@
 import discord
 from discord.ext import commands
-PREFIX = 'orb.'
+
+# Get prefixes
+def get_prefix(bot, message):
+    PREFIXES = ["orb.", "o."]
+    return bot_commands.when_mentioned_or(*PREFIXES)(bot, message)
+
+# Imports libraries needed
+import discord
+from discord.ext import commands as bot_commands
+print("Base libraries successfully loaded")
+
+# Assigns bot & client
+bot = bot_commands.Bot(command_prefix=get_prefix, help_command=None, case_insensitive=True)
+client = discord.Client()
+
+# Assigns constants
 VERSION_DATA = {
     "Chromatic": "Achromatic",
     "Version": 0,
