@@ -22,7 +22,11 @@ COMMAND_DATA = {
     "bully": ("Bullies the user named", "Any input"),
     "rank": ("Ranks something", "Any input"),
     "illya": ("Posts Illya (weeb shit be warned)", "None"),
-    "bde": ("Ranks your BDE", "Any input")
+    "bde": ("Ranks your BDE", "Any input"),
+    "translate": ("Translates your sentence into totally valid japanese", "Any input"),
+    "gembutt": ("Posts gembutts (Houseki No Kuni characters)", "None"),
+    "fatepost": ("Posts Fate series characters", "None"),
+    "touhou": ("Posts Touhou characters", "None")
 }
 
 class CommandsCog(bot_commands.Cog):
@@ -186,6 +190,14 @@ class CommandsCog(bot_commands.Cog):
             else:
                 await ctx.trigger_typing()
                 await ctx.send(file=discord.File(fp="images/illya/illya (" + str(random.randint(1, 47)) + ").jpg"))
+
+    # Gembutt
+    @bot_commands.command()
+    async def gembutt(self, ctx):
+        if allowed_channel(ctx):
+            print("Gembutt called by", ctx.author.display_name)
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/gembutt/gembutt (" + str(random.randint(1, 4)) + ").jpg"))
 
     # Slots
     @bot_commands.command()
