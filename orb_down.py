@@ -24,7 +24,7 @@ VERSION_DATA = {
 }
 MESSAGE = discord.Game("Down for maintenance")
 ONLINE_STATUS = "Down"
-bot = commands.Bot(command_prefix=PREFIX, help_command=None)
+bot = commands.Bot(command_prefix=get_prefix, help_command=None)
 
 @bot.event
 async def on_ready():
@@ -41,7 +41,7 @@ async def ping(ctx):
 @bot.command()
 async def help(ctx):
     # print("Help request received from", message.author.display_name)
-    await ctx.send("Orb bot is a bot that does things.\nOrb is currently down for maintinence, however he should be back soon\nFor a list of commands see" + PREFIX + "commands. To check the bot status, see " + PREFIX + "status.\nDeveloped by xiii™#0013.")
+    await ctx.send("Orb bot is a bot that does things.\nOrb is currently down for maintinence, however he should be back soon\nFor a list of commands see orb.commands. To check the bot status, see orb.status.\nDeveloped by xiii™#0013.")
 
 # Status
 @bot.command()
