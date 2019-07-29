@@ -1,3 +1,8 @@
+"""
+Pin code adapted from qbot, by Quantum Cucumber
+Check the bot out at https://github.com/Quantum-Cucumber/quantum-bot
+"""
+
 import discord
 import datetime
 from discord.ext import commands as bot_commands
