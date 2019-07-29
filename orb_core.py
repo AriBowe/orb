@@ -41,6 +41,7 @@ INITIAL_EXTENSIONS = [
     "cogs.orb_commands",
     "cogs.orb_control",
     "cogs.orb_pins",
+    "cogs.orb_fight",
     # "cogs.orb_economy"
 ]
 
@@ -205,6 +206,12 @@ async def on_message(message):
     elif re.search(r"(leveled up!)", message.content, re.IGNORECASE) and message.author.id == 172002275412279296:
         await message.add_reaction("🇬")
         await message.add_reaction("🇿")
+
+    # OwO
+    elif re.search(r"(owo)", message.content, re.IGNORECASE):
+        await message.add_reaction("🇴")
+        await message.add_reaction("🇼")
+        await message.add_reaction("🅾")
         
     else:
         await bot.process_commands(message)

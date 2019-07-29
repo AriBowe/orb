@@ -26,7 +26,8 @@ COMMAND_DATA = {
     "translate": ("Translates your sentence into totally valid japanese", "Any input"),
     "gembutt": ("Posts gembutts (Houseki No Kuni characters)", "None"),
     "fatepost": ("Posts Fate series characters", "None"),
-    "touhou": ("Posts Touhou characters", "None")
+    "touhou": ("Posts Touhou characters", "None"),
+    "vore": ("Says whether you vore people or get vored", "Any input")
 }
 
 class CommandsCog(bot_commands.Cog):
@@ -241,6 +242,30 @@ class CommandsCog(bot_commands.Cog):
             print("Gembutt called by", ctx.author.display_name)
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/gembutt/gembutt (" + str(random.randint(1, 4)) + ").jpg"))
+
+    # Fatepost
+    @bot_commands.command()
+    async def fatepost(self, ctx):
+        if allowed_channel(ctx):
+            print("Fatepost called by", ctx.author.display_name)
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/fate/fatepost (" + str(random.randint(1, 56)) + ").jpg"))
+
+    # Rinpost
+    @bot_commands.command()
+    async def rinpost(self, ctx):
+        if allowed_channel(ctx):
+            print("Rinpost called by", ctx.author.display_name)
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/rinpost/rin (" + str(random.randint(1, 46)) + ").jpg"))
+
+    # Touhou
+    @bot_commands.command()
+    async def touhou(self, ctx):
+        if allowed_channel(ctx):
+            print("Touhou called by", ctx.author.display_name)
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/touhou/touhou (" + str(random.randint(1, 83)) + ").jpg"))
 
     # Slots
     @bot_commands.command()
