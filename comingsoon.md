@@ -11,13 +11,15 @@ Orb gets semi-regular feature updates and bug fixes. Here's a preview what's com
 ## orb_core Version 8
 
 - Massive regex optimistations (catch more reactions, and faster)
-- More reactions
+- Imagine reaction (and related!)
+- Level up reaction
 - More responses
 
 ## orb_commands Version 4
 
 - orb.rin
 - orb.gembutt
+- orb.touhou
 - Possible pixiv lookups
 - "Translate" to Japanese based on a meme
 
