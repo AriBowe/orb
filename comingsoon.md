@@ -20,8 +20,9 @@ Orb gets semi-regular feature updates and bug fixes. Here's a preview what's com
 - orb.rin
 - orb.gembutt
 - orb.touhou
-- Possible pixiv lookups
+- You can vore people
 - "Translate" to Japanese based on a meme
+- User fights
 
 ## orb_pins Version 1
 - Automatic pinning system using a dedicated channel
