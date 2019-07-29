@@ -157,7 +157,7 @@ async def on_message(message):
             print("Reacted 'fact' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Epic reaction time
-    elif re.search(r"(epic)", message.content, re.IGNORECASE):
+    elif re.search(r"(girl[']?s aren[']?t real)", message.content, re.IGNORECASE):
         if random.randint(1, 15) == 1:
             await message.add_reaction("🇪")
             await message.add_reaction("🅱")
@@ -188,6 +188,18 @@ async def on_message(message):
     elif re.search(r"(asuna)", message.content, re.IGNORECASE) or re.search(r"(sword art online)", message.content, re.IGNORECASE) or re.search(r"(SAO)", message.content, re.IGNORECASE):
         await message.channel.send("3/10")
         print("Responded with '3/10' to message '" + message.content + "' from user " + message.author.display_name)
+
+    # Imagine
+    elif re.search(r"(imagine)", message.content, re.IGNORECASE):
+        await message.channel.send(random.choice(["Imagine", "> I m a g i n e", "Roughly 40kg"]))
+
+    # 40 kg
+    elif re.search(r"(40[ ]?kg)", message.content, re.IGNORECASE):
+        await message.channel.send(random.choice(["145 cm", "I M A G I N E", "https://i.kym-cdn.com/photos/images/newsfeed/001/455/798/54e.jpg"]))
+
+    # Roughly 145 cm
+    elif re.search(r"(145[ ]?cm)", message.content, re.IGNORECASE):
+        await message.channel.send(random.choice(["40 kg", "I M A G I N E", "Imagine how fun it would be to manhandle her tiny body", "https://i.kym-cdn.com/photos/images/newsfeed/001/455/798/54e.jpg"]))
         
     else:
         await bot.process_commands(message)
