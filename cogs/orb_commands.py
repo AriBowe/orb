@@ -216,5 +216,54 @@ class CommandsCog(bot_commands.Cog):
 
         **""" + ctx.author.display_name + "** used **1** credit(s) and got the big gay")
 
+    # Translate - https://cdn.discordapp.com/attachments/286485013904621568/602745849650610177/FB_IMG_1563697773992.jpg
+    @bot_commands.command()
+    async def translate(self, ctx, *, target=None):
+        TRANSLATE_DICT = {
+        "a": "ka",
+        "b": "tu",
+        "c": "mi",
+        "d": "te",
+        "e": "ku",
+        "f": "ru",
+        "g": "ji",
+        "h": "ri",
+        "i": "ki",
+        "j": "zu",
+        "k": "me",
+        "l": "ta",
+        "m": "rin",
+        "n": "to",
+        "o": "mo",
+        "p": "no",
+        "q": "ke",
+        "r": "shi",
+        "s": "ari",
+        "t": "chi",
+        "u": "do",
+        "v": "ru",
+        "w": "mei",
+        "x": "na",
+        "y": "fu",
+        "z": "zi"
+        }
+        
+        if allowed_channel(ctx):
+            output = ""
+            print("Translating", target, "for", ctx.author.display_name)
+            if target is None:
+                await ctx.send(":thinking:")
+            else:
+                for char in target.lower():
+                    try:
+                        output += TRANSLATE_DICT[char]
+                    except:
+                        output += char
+
+                translation = discord.Embed(description=str(output), colour=0xcb410b)
+                translation.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+
+                await ctx.send(embed=translation)
+
 def setup(bot):
     bot.add_cog(CommandsCog(bot))
