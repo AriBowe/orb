@@ -200,6 +200,11 @@ async def on_message(message):
     # Roughly 145 cm
     elif re.search(r"(145[ ]?cm)", message.content, re.IGNORECASE):
         await message.channel.send(random.choice(["40 kg", "I M A G I N E", "Imagine how fun it would be to manhandle her tiny body", "https://i.kym-cdn.com/photos/images/newsfeed/001/455/798/54e.jpg"]))
+
+    # Level up
+    elif re.search(r"(leveled up!)", message.content, re.IGNORECASE) and message.author.id == 172002275412279296:
+        await message.add_reaction("🇬")
+        await message.add_reaction("🇿")
         
     else:
         await bot.process_commands(message)
