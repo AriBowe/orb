@@ -79,6 +79,49 @@ class CommandsCog(bot_commands.Cog):
                 writer.writerow([str(search_target), random_value])
                 await ctx.send("I'd give " + str(target) + " a " + str(random_value) + " out of 10")
 
+    # Vore
+    @bot_commands.command()
+    async def vore(self, ctx, *, target=None):
+        if allowed_channel(ctx):
+            print("Voring", target, "for user", ctx.author.display_name, "id", ctx.author.id)
+            with open("data/vore.csv", mode="r", newline="") as file:
+                reader = csv.reader(file, delimiter=",")
+                if target is None:
+                    await ctx.send("I can't vore nothing")
+                    return    
+                elif re.match(r"(@everyone)", target, re.IGNORECASE):
+                    return
+                elif re.match(r"(me)", target, re.IGNORECASE):
+                    search_target = "<@" + str(ctx.author.id) + ">"
+                    target = ctx.author.display_name
+                elif re.match(r"(^|\s|.)orb($| $| .)", target, re.IGNORECASE) or re.match(r"(^|\s|.)<@569758271930368010>($| $| .)", target, re.IGNORECASE):
+                    search_target = "orb"
+                    target = "orb"
+                elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(^|\s|.)" + str(ctx.author.id) + r"($| $| .)", target, re.IGNORECASE):
+                    search_target = "<@" + str(ctx.author.id) + ">"
+                    target = ctx.author.display_name
+                else:
+                    search_target = target
+                for line in reader:
+                    try:       
+                        if re.match(r"(^|\s|.)" + str(search_target) + r"($)", line[0], re.IGNORECASE):
+                            if line[1] == "0":
+                                await ctx.send(target + " vores")
+                                return
+                            else:
+                                await ctx.send(target + " gets vored")
+                                return
+                    except:
+                        pass
+            with open("data/vore.csv", mode="a", newline="") as file:
+                writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)    
+                random_value = str(random.randint(0,1))
+                writer.writerow([str(search_target), random_value])
+                if random_value == "0":
+                    await ctx.send(target + " vores")
+                else:
+                    await ctx.send(target + " gets vored")
+
     # New BDE
     @bot_commands.command()
     async def bde(self, ctx, *, target=None):
