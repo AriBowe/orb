@@ -10,7 +10,7 @@ BANNED_CHANNELS = []
 #                   b). This is a priority to execute
 #                   c). Nothing would be awaited in here so an async function would work the same as a regular
 def allowed_channel(ctx):
-    if ctx.message.channel.id in BANNED_CHANNELS:
+    if ctx in BANNED_CHANNELS:
         return False
     else:
         return True

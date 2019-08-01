@@ -13,22 +13,35 @@ class FightCog(bot_commands.Cog):
         print("orb_fight loaded")
 
     # Fight someone
+    # TODO: Split this up, it's massive
     @bot_commands.command()
     async def fight(self, ctx, target=None):
+        async def generate_new_user(self, user_id):
+            numbers = sorted(random.sample(range(15), 2))
+            _str = numbers[0]
+            _def = numbers[1] - numbers[0]
+            _spd = 15 - numbers[1]
+
+            with open("data/fight.csv", mode="a", newline="") as file:
+                writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)    
+                writer.writerow([user_id, _str, _def, _spd])
+
         if allowed_channel(ctx):
             if target is None:
                 await ctx.send("You can't fight nothing")
                 return None
-            elif str(target)[0:2] != "<@":
+            elif len(ctx.message.mentions) != 1:
                 await ctx.send("Please tag a user to fight them")
                 return None
             else:
                 print(ctx.author.display_name + " is fighting " + target)
 
-            if str("<@" + str(ctx.author.id) + ">") == target:
+            target = ctx.message.mentions[0]
+            caller = ctx.author
+
+            if caller == target:
                 await ctx.send(random.choice([str(str(ctx.author.display_name) + " hurt themselves in their confusion!"), "You punch youself in the face", "You high-five a brick wall with your head", "You try to drop-kick yourself and fall over"]))
             else:
-                caller = str("<@" + str(ctx.author.id) + ">")
                 caller_found = False
                 caller_str = 0
                 caller_def = 0
@@ -43,7 +56,7 @@ class FightCog(bot_commands.Cog):
                     reader = csv.reader(file, delimiter=",")
                     for line in reader:
                         try:       
-                            if line[0] == caller:
+                            if line[0] == str(caller.id):
                                 caller_found = True
                                 caller_str = int(line[1])
                                 caller_def = int(line[2])
@@ -53,7 +66,7 @@ class FightCog(bot_commands.Cog):
                             caller_found = False
                     for line in reader:
                         try:       
-                            if line[0] == target:
+                            if line[0] == str(target.id):
                                 target_found = True
                                 target_str = int(line[1])
                                 target_def = int(line[2])
@@ -63,22 +76,10 @@ class FightCog(bot_commands.Cog):
                             target_found = False
                 
                 if caller_found is False:
-                    with open("data/fight.csv", mode="a", newline="") as file:
-                        caller_str = random.randint(1,10)
-                        caller_def = random.randint(1,10)
-                        caller_spd = random.randint(1,10)
-
-                        writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)    
-                        writer.writerow([caller, caller_str, caller_def, caller_spd])
+                    await generate_new_user(self, caller.id)
 
                 if target_found is False:
-                    with open("data/fight.csv", mode="a", newline="") as file:
-                        target_str = random.randint(1,10)
-                        target_def = random.randint(1,10)
-                        target_spd = random.randint(1,10)
-
-                        writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)    
-                        writer.writerow([target, target_str, target_def, target_spd])
+                    await generate_new_user(self, target.id)
 
                 caller_luck = random.randint(-1, 1)
                 target_luck = random.randint(-1, 1)
@@ -88,9 +89,8 @@ class FightCog(bot_commands.Cog):
                 caller_grappled = False
                 target_grappled = False
 
-                caller_name = ctx.author.display_name
-                target_name = self.bot.get_user(int(target[2:-1]))
-                target_name = target_name.display_name
+                caller_name = caller.display_name
+                target_name = target.display_name
 
                 # print("---")
                 # print("Caller")
@@ -114,9 +114,9 @@ class FightCog(bot_commands.Cog):
                 # print("health: " + str(target_health))
                 # print("---")
 
-                if caller_spd + caller_luck + 3 >= target_spd + target_luck:
+                if caller_spd + caller_luck + 3 >= target_spd + target_luck or random.random() < 0.8:
                     await ctx.send("**" + random.choice([str(caller_name + " started a fight with " + target_name), str(caller_name + " is fighting " + target_name), str(caller_name + " and " + target_name + " are fighting!")]) + "**")
-                elif caller_spd + caller_luck + 5 >= target_spd + target_luck:
+                elif caller_spd + caller_luck + 5 >= target_spd + target_luck or random.random() < 0.6:
                     await ctx.send(random.choice([str(caller_name + " tried to start a fight with " + target_name + ", but they barely escaped"), str(caller_name + " tried to start a fight with " + target_name + ", but managed to slip away"),]))
                     return
                 else:
@@ -157,7 +157,7 @@ class FightCog(bot_commands.Cog):
                             # Minor attack
                             await ctx.send(random.choice([
                                 (caller_name + " lands a blow on the grappled " + target_name),
-                                (caller_name + " gets some hits in while " + target_name + "is down"),
+                                (caller_name + " gets some hits in while " + target_name + "  is down"),
                             ]))
 
 
@@ -451,8 +451,49 @@ class FightCog(bot_commands.Cog):
                                 (loser + " is knocked out"),
                                 (winner + " floors " + loser)
                             ]))
-                    
-             
+
+    # Fighter stats
+    @bot_commands.command(aliases=["fight_stats"])      
+    async def stats(self, ctx, target=None):
+        if allowed_channel(ctx):
+            if target is None:
+                await ctx.send("Please tag something")
+                return None
+            elif len(ctx.message.mentions) != 1:
+                await ctx.send("Please tag one user")
+                return None
+
+            target = ctx.message.mentions[0]
+            found = False
+
+            with open("data/fight.csv", mode="r", newline="") as file:
+                reader = csv.reader(file, delimiter=",")
+                for line in reader:
+                    try:       
+                        if line[0] == str(target.id):
+                            found = True
+                            _str = int(line[1])
+                            _def = int(line[2])
+                            _spd = int(line[3])
+                            break
+                    except:
+                       found = False
+            
+            if found:
+                embed = discord.Embed(title="Fighter Stats", colour=0xcb410b)
+                embed.set_author(name=target.display_name, icon_url=target.avatar_url)
+                embed.add_field(name="STR", value=_str, inline=True)
+                embed.add_field(name="DEF", value=_def, inline=True)
+                embed.add_field(name="SPD", value=_spd, inline=True)
+
+                await ctx.send(embed=embed)
+
+            else:
+                embed = discord.Embed(title="Fighter Stats", description="This user has not generated any stats. Fight them to make some!", colour=0xcb410b)
+                embed.set_author(name=target.display_name, icon_url=target.avatar_url)
+
+                await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(FightCog(bot))
