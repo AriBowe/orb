@@ -22,7 +22,12 @@ COMMAND_DATA = {
     "bully": ("Bullies the user named", "Any input"),
     "rank": ("Ranks something", "Any input"),
     "illya": ("Posts Illya (weeb shit be warned)", "None"),
-    "bde": ("Ranks your BDE", "Any input")
+    "bde": ("Ranks your BDE", "Any input"),
+    "translate": ("Translates your sentence into totally valid japanese", "Any input"),
+    "gembutt": ("Posts gembutts (Houseki No Kuni characters)", "None"),
+    "fatepost": ("Posts Fate series characters", "None"),
+    "touhou": ("Posts Touhou characters", "None"),
+    "vore": ("Says whether you vore people or get vored", "Any input")
 }
 
 class CommandsCog(bot_commands.Cog):
@@ -74,6 +79,49 @@ class CommandsCog(bot_commands.Cog):
                 random_value = str(random.randint(1,10))
                 writer.writerow([str(search_target), random_value])
                 await ctx.send("I'd give " + str(target) + " a " + str(random_value) + " out of 10")
+
+    # Vore
+    @bot_commands.command()
+    async def vore(self, ctx, *, target=None):
+        if allowed_channel(ctx):
+            print("Voring", target, "for user", ctx.author.display_name, "id", ctx.author.id)
+            with open("data/vore.csv", mode="r", newline="") as file:
+                reader = csv.reader(file, delimiter=",")
+                if target is None:
+                    await ctx.send("I can't vore nothing")
+                    return    
+                elif re.match(r"(@everyone)", target, re.IGNORECASE):
+                    return
+                elif re.match(r"(me)", target, re.IGNORECASE):
+                    search_target = "<@" + str(ctx.author.id) + ">"
+                    target = ctx.author.display_name
+                elif re.match(r"(^|\s|.)orb($| $| .)", target, re.IGNORECASE) or re.match(r"(^|\s|.)<@569758271930368010>($| $| .)", target, re.IGNORECASE):
+                    search_target = "orb"
+                    target = "orb"
+                elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(^|\s|.)" + str(ctx.author.id) + r"($| $| .)", target, re.IGNORECASE):
+                    search_target = "<@" + str(ctx.author.id) + ">"
+                    target = ctx.author.display_name
+                else:
+                    search_target = target
+                for line in reader:
+                    try:       
+                        if re.match(r"(^|\s|.)" + str(search_target) + r"($)", line[0], re.IGNORECASE):
+                            if line[1] == "0":
+                                await ctx.send(target + " vores")
+                                return
+                            else:
+                                await ctx.send(target + " gets vored")
+                                return
+                    except:
+                        pass
+            with open("data/vore.csv", mode="a", newline="") as file:
+                writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)    
+                random_value = str(random.randint(0,1))
+                writer.writerow([str(search_target), random_value])
+                if random_value == "0":
+                    await ctx.send(target + " vores")
+                else:
+                    await ctx.send(target + " gets vored")
 
     # New BDE
     @bot_commands.command()
@@ -187,6 +235,38 @@ class CommandsCog(bot_commands.Cog):
                 await ctx.trigger_typing()
                 await ctx.send(file=discord.File(fp="images/illya/illya (" + str(random.randint(1, 47)) + ").jpg"))
 
+    # Gembutt
+    @bot_commands.command()
+    async def gembutt(self, ctx):
+        if allowed_channel(ctx):
+            print("Gembutt called by", ctx.author.display_name)
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/gembutt/gembutt (" + str(random.randint(1, 4)) + ").jpg"))
+
+    # Fatepost
+    @bot_commands.command()
+    async def fatepost(self, ctx):
+        if allowed_channel(ctx):
+            print("Fatepost called by", ctx.author.display_name)
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/fate/fatepost (" + str(random.randint(1, 56)) + ").jpg"))
+
+    # Rinpost
+    @bot_commands.command()
+    async def rinpost(self, ctx):
+        if allowed_channel(ctx):
+            print("Rinpost called by", ctx.author.display_name)
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/rinpost/rin (" + str(random.randint(1, 46)) + ").jpg"))
+
+    # Touhou
+    @bot_commands.command()
+    async def touhou(self, ctx):
+        if allowed_channel(ctx):
+            print("Touhou called by", ctx.author.display_name)
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/touhou/touhou (" + str(random.randint(1, 83)) + ").jpg"))
+
     # Slots
     @bot_commands.command()
     async def slots(self, ctx, *, target=None):
@@ -215,6 +295,55 @@ class CommandsCog(bot_commands.Cog):
         | : : :  LOST  : : : |
 
         **""" + ctx.author.display_name + "** used **1** credit(s) and got the big gay")
+
+    # Translate - https://cdn.discordapp.com/attachments/286485013904621568/602745849650610177/FB_IMG_1563697773992.jpg
+    @bot_commands.command()
+    async def translate(self, ctx, *, target=None):
+        TRANSLATE_DICT = {
+        "a": "ka",
+        "b": "tu",
+        "c": "mi",
+        "d": "te",
+        "e": "ku",
+        "f": "ru",
+        "g": "ji",
+        "h": "ri",
+        "i": "ki",
+        "j": "zu",
+        "k": "me",
+        "l": "ta",
+        "m": "rin",
+        "n": "to",
+        "o": "mo",
+        "p": "no",
+        "q": "ke",
+        "r": "shi",
+        "s": "ari",
+        "t": "chi",
+        "u": "do",
+        "v": "ru",
+        "w": "mei",
+        "x": "na",
+        "y": "fu",
+        "z": "zi"
+        }
+        
+        if allowed_channel(ctx):
+            output = ""
+            print("Translating", target, "for", ctx.author.display_name)
+            if target is None:
+                await ctx.send(":thinking:")
+            else:
+                for char in target.lower():
+                    try:
+                        output += TRANSLATE_DICT[char]
+                    except:
+                        output += char
+
+                translation = discord.Embed(description=str(output), colour=0xcb410b)
+                translation.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+
+                await ctx.send(embed=translation)
 
 def setup(bot):
     bot.add_cog(CommandsCog(bot))

@@ -20,7 +20,7 @@ print("Base libraries successfully loaded")
 
 # Gets constants from files. Yay interlinking
 from cogs.orb_commands import COMMANDS_VERSION, COMMAND_DATA
-from cogs.orb_control import BANNED_CHANNELS, allowed_channel
+from cogs.orb_control import allowed_channel
 
 # Assigns bot & client
 bot = bot_commands.Bot(command_prefix=get_prefix, help_command=None, case_insensitive=True)
@@ -38,8 +38,10 @@ ONLINE_STATUS = "Online"
 
 # List of extensions
 INITIAL_EXTENSIONS = [
-    "cogs.orb_commands",\
+    "cogs.orb_commands",
     "cogs.orb_control",
+    "cogs.orb_pins",
+    "cogs.orb_fight",
     # "cogs.orb_economy"
 ]
 
@@ -124,7 +126,7 @@ async def commands(ctx, target=None):
 @bot.event
 async def on_message(message):
     # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
-    if re.match(r"(^|\s|.)very cool($| $| .)", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
+    if re.search(r"(very cool)", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
         await message.add_reaction("🇻")
         await message.add_reaction("🇪")
         await message.add_reaction("🇷")
@@ -136,7 +138,7 @@ async def on_message(message):
         print("Reacted 'very cool' to message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Girls aren't real
-    elif re.match(r"(^|\s|.)girl[']s? aren[']?t real($| $| .)", message.content, re.IGNORECASE):
+    elif re.search(r"(girl[']?s aren[']?t real)", message.content, re.IGNORECASE):
         rand_int = random.randint(1, 10)
         print("Not real")
         if rand_int <= 3:
@@ -156,7 +158,7 @@ async def on_message(message):
             print("Reacted 'fact' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Epic reaction time
-    elif re.match(r"(^|\s|.)epic($| $| .)", message.content, re.IGNORECASE):
+    elif re.search(r"(epic)", message.content, re.IGNORECASE):
         if random.randint(1, 15) == 1:
             await message.add_reaction("🇪")
             await message.add_reaction("🅱")
@@ -171,14 +173,48 @@ async def on_message(message):
             print("Reacted 'epic' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Big guy react
-    elif re.match(r"(^)big guy($| $| .)", message.content, re.IGNORECASE):
+    elif re.search(r"(big guy)", message.content, re.IGNORECASE) and random.random > 0.75:
         await message.channel.send("For you")
+        print("Responded with 'For you' to message '" + message.content + "' from user " + message.author.display_name)
 
     # Awoo react
-    elif re.match(r"(^|\s|.)awoo($| $| .)", message.content, re.IGNORECASE):
+    elif re.search(r"(awoo)", message.content, re.IGNORECASE):
         await message.add_reaction("🇦")
         await message.add_reaction("🇼")
         await message.add_reaction("🇴")
+        await message.add_reaction("🅾")
+        print("Reacted with 'awoo' to message '" + message.content + "' from user " + message.author.display_name)
+    
+    # 3/10
+    elif re.search(r"(asuna)", message.content, re.IGNORECASE) or re.search(r"(sword art online)", message.content, re.IGNORECASE) or re.search(r"(SAO)", message.content, re.IGNORECASE):
+        if random.random() > 0.2:
+            await message.channel.send("3/10")
+            print("Responded with '3/10' to message '" + message.content + "' from user " + message.author.display_name)
+
+    # Imagine
+    elif re.search(r"(imagine)", message.content, re.IGNORECASE) and random.random() > 0.9:
+        await message.channel.send(random.choice(["Imagine", "> i m a g i n e", "Roughly 40kg"]))
+
+    # 40 kg
+    elif re.search(r"(40[ ]?kg)", message.content, re.IGNORECASE) and random.random() > 0.95:
+        await message.channel.send(random.choice(["145 cm", "I M A G I N E"]))
+
+    # Roughly 145 cm
+    elif re.search(r"(145[ ]?cm)", message.content, re.IGNORECASE) and random.random() > 0.99:
+        await message.channel.send(random.choice(["40 kg", "I M A G I N E", "Imagine how fun it would be to manhandle her tiny body"]))
+
+    elif re.search(r"(imagine)", message.content, re.IGNORECASE) and random.randint(1,1000) == 420:
+        await message.channel.send("https://i.kym-cdn.com/photos/images/newsfeed/001/455/798/54e.jpg")
+
+    # Level up
+    elif re.search(r"(leveled up!)", message.content, re.IGNORECASE) and message.author.id == 172002275412279296:
+        await message.add_reaction("🇬")
+        await message.add_reaction("🇿")
+
+    # OwO
+    elif re.search(r"(owo)", message.content, re.IGNORECASE):
+        await message.add_reaction("🇴")
+        await message.add_reaction("🇼")
         await message.add_reaction("🅾")
         
     else:
