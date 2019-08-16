@@ -17,7 +17,7 @@ class FightCog(bot_commands.Cog):
     @bot_commands.command()
     async def fight(self, ctx, target=None):
         async def generate_new_user(self, user_id):
-            numbers = sorted(random.sample(range(15), 2))
+            numbers = sorted(random.sample(range(1, 10), 2))
             _str = numbers[0]
             _def = numbers[1] - numbers[0]
             _spd = 15 - numbers[1]
