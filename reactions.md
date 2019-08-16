@@ -18,6 +18,9 @@ causes orb to react with 'true' or 'fact', spelt in Discord emoji
 causes orb to respond 'for you'
 
 **'awoo'**
-causes orb to awoo react
+causes orb to react with 'awoo', spelt in Discord emoji
+
+**'owo'**
+causes orb to reaction 'owo', spelt in Discord emoji
 
 ## New reactions are always in development. See a list [here](comingsoon.md)

@@ -64,4 +64,40 @@ Commands list:
 
 `Arguments: None`
 
+#### orb.**fatepost***Requested by orb users*
+
+`Function: Posts images of characters from the Fate franchise`
+
+`Arguments: None`
+
+#### orb.**touhou***Requested by orb users*
+
+`Function: Posts images of characters from the Touhou franchise`
+
+`Arguments: None`
+
+#### orb.**rinpost***Requested by orb users*
+
+`Function: Posts images of Rin Tohsaka from the Fate franchise`
+
+`Arguments: None`
+
+#### orb.**fight***Requested by orb users*
+
+`Function: Fight people! Uses a stat system with various attacks and even status effects`
+
+`Arguments: Tag a discord user`
+
+#### orb.**stats***Requested by orb users*
+
+`Function: See your combat stats from orb.fight. Mock others for their weakness and flex your amazing speed`
+
+`Arguments: Tag a discord user`
+
+#### orb.**translate***Requested by orb users*
+
+`Function: Translates any input into "Japanese" (Note: May not be completely valid Japanese)`
+
+`Arguments: Any text`
+
 ## New commands are always in development. See a list [here](comingsoon.md)
