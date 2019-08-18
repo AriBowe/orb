@@ -63,6 +63,16 @@ class PinCog(bot_commands.Cog):
 
     #         print("Done!")
         
-       
+    @bot_commands.command()
+    async def delete(self, context, channel, message_id):
+        if context.author.id == 138198892968804352:
+            ctx = await self.bot.get_channel(int(channel)).fetch_message(int(message_id))
+            try:
+                await ctx.delete()
+                await context.send("Done")
+            except:
+                await context.send("Error")
+
+
 def setup(bot):
     bot.add_cog(PinCog(bot))

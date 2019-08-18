@@ -220,4 +220,4 @@ async def on_message(message):
     else:
         await bot.process_commands(message)
 
-bot.run("NTY5NzU4MjcxOTMwMzY4MDEw.XOeQpA.RwhJ9604mQqV7XG7eUNcdRSHDLA", bot=True, reconnect=True)
+bot.run(os.environ['DISCORD_TOKEN'], bot=True, reconnect=True)
