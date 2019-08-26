@@ -73,6 +73,19 @@ class PinCog(bot_commands.Cog):
             except:
                 await context.send("Error")
 
+    @bot_commands.command()
+    async def pin(self, context, channel_id, pin_id, server_id=606104185875857419):
+        ctx = await self.bot.get_channel(int(channel_id)).fetch_message(int(pin_id))
+
+        posted_message = discord.Embed(description=str(ctx.content), colour=0xcb410b)
+        posted_message.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+        if ctx.attachments != []:
+            posted_message.set_image(url=ctx.attachments[0].url)
+        posted_message.set_footer(text=ctx.created_at.strftime("%d %b %Y at %H:%M%p"))
+        
+        await self.bot.get_channel(606104185875857419).send("Message pinned from " + ctx.channel.mention, embed=posted_message)
+        await asyncio.sleep(2)
+
 
 def setup(bot):
     bot.add_cog(PinCog(bot))

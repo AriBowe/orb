@@ -126,7 +126,7 @@ async def commands(ctx, target=None):
 @bot.event
 async def on_message(message):
     # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
-    if re.search(r"(very cool)", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
+    if re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
         await message.add_reaction("🇻")
         await message.add_reaction("🇪")
         await message.add_reaction("🇷")
@@ -138,7 +138,7 @@ async def on_message(message):
         print("Reacted 'very cool' to message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Girls aren't real
-    elif re.search(r"(girl[']?s aren[']?t real)", message.content, re.IGNORECASE):
+    elif re.search(r"\b(girl[']?s aren[']?t real)\b", message.content, re.IGNORECASE):
         rand_int = random.randint(1, 10)
         print("Not real")
         if rand_int <= 3:
@@ -158,7 +158,7 @@ async def on_message(message):
             print("Reacted 'fact' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Epic reaction time
-    elif re.search(r"(epic)", message.content, re.IGNORECASE):
+    elif re.search(r"\b(epic)\b", message.content, re.IGNORECASE):
         if random.randint(1, 15) == 1:
             await message.add_reaction("🇪")
             await message.add_reaction("🅱")
@@ -173,12 +173,12 @@ async def on_message(message):
             print("Reacted 'epic' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Big guy react
-    elif re.search(r"(big guy)", message.content, re.IGNORECASE) and random.random > 0.75:
+    elif re.search(r"\b(big guy)\b", message.content, re.IGNORECASE) and random.random > 0.75:
         await message.channel.send("For you")
         print("Responded with 'For you' to message '" + message.content + "' from user " + message.author.display_name)
 
     # Awoo react
-    elif re.search(r"(awoo)", message.content, re.IGNORECASE):
+    elif re.search(r"\b(awoo)\b", message.content, re.IGNORECASE):
         await message.add_reaction("🇦")
         await message.add_reaction("🇼")
         await message.add_reaction("🇴")
@@ -186,24 +186,24 @@ async def on_message(message):
         print("Reacted with 'awoo' to message '" + message.content + "' from user " + message.author.display_name)
     
     # 3/10
-    elif re.search(r"(asuna)", message.content, re.IGNORECASE) or re.search(r"(sword art online)", message.content, re.IGNORECASE) or re.search(r"(SAO)", message.content, re.IGNORECASE):
-        if random.random() > 0.2:
+    elif re.search(r"\b(asuna)\b", message.content, re.IGNORECASE) or re.search(r"\b(sword art online)\b", message.content, re.IGNORECASE) or re.search(r"\b(SAO)\b", message.content, re.IGNORECASE):
+        if random.random() > 0.9:
             await message.channel.send("3/10")
             print("Responded with '3/10' to message '" + message.content + "' from user " + message.author.display_name)
 
     # Imagine
-    elif re.search(r"(imagine)", message.content, re.IGNORECASE) and random.random() > 0.9:
+    elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.random() > 0.9:
         await message.channel.send(random.choice(["Imagine", "> i m a g i n e", "Roughly 40kg"]))
 
     # 40 kg
-    elif re.search(r"(40[ ]?kg)", message.content, re.IGNORECASE) and random.random() > 0.95:
+    elif re.search(r"\b(40[ ]?kg)\b", message.content, re.IGNORECASE) and random.random() > 0.95:
         await message.channel.send(random.choice(["145 cm", "I M A G I N E"]))
 
     # Roughly 145 cm
-    elif re.search(r"(145[ ]?cm)", message.content, re.IGNORECASE) and random.random() > 0.99:
+    elif re.search(r"\b(145[ ]?cm)\b", message.content, re.IGNORECASE) and random.random() > 0.99:
         await message.channel.send(random.choice(["40 kg", "I M A G I N E", "Imagine how fun it would be to manhandle her tiny body"]))
 
-    elif re.search(r"(imagine)", message.content, re.IGNORECASE) and random.randint(1,1000) == 420:
+    elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.randint(1,1000) == 420:
         await message.channel.send("https://i.kym-cdn.com/photos/images/newsfeed/001/455/798/54e.jpg")
 
     # Level up
@@ -212,7 +212,7 @@ async def on_message(message):
         await message.add_reaction("🇿")
 
     # OwO
-    elif re.search(r"(owo)", message.content, re.IGNORECASE):
+    elif re.search(r"\b(owo)\b", message.content, re.IGNORECASE):
         await message.add_reaction("🇴")
         await message.add_reaction("🇼")
         await message.add_reaction("🅾")
