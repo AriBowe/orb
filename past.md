@@ -18,7 +18,12 @@
 - orb.touhou
 - You can vore people
 - "Translate" to Japanese based on a meme
-- User fights
+
+### orb_fight Version 1
+- Fight other users
+- Randomly generated stats
+- Various outcomes
+- Battles are narrated by the bot
 
 ### orb_pins Version 1
 - Automatic pinning system using a dedicated channel
