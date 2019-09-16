@@ -12,4 +12,4 @@ however it should run on any local machine. To host
 your own instance, replace the string in the last
 line of code with your own bot token. If you
 have any requests or comments, send me a message at
-xiii#0013 on discord.
+xiii™#0013 on discord.
