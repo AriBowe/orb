@@ -5,7 +5,7 @@ Orb is a discord bot I made for the SMACK UQ
 discord server (and for fun).
 Feel free to add it to any server you want.
 
-Feature docs can be found at aribowe.gitub.io/orb
+Feature docs can be found at https://aribowe.github.io/orb
 
 I host my bot on a free tier AWS server,
 however it should run on any local machine. To host
