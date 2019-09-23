@@ -178,7 +178,7 @@ async def on_message(message):
         print("Responded with 'For you' to message '" + message.content + "' from user " + message.author.display_name)
 
     # Awoo react
-    elif re.search(r"\b(awoo)\b", message.content, re.IGNORECASE):
+    elif re.search(r"\b(awoo+)\b", message.content, re.IGNORECASE):
         await message.add_reaction("🇦")
         await message.add_reaction("🇼")
         await message.add_reaction("🇴")
