@@ -7,8 +7,8 @@ import re
 from cogs.orb_control import allowed_channel
 
 COMMANDS_VERSION = {
-    "Version": "3",
-    "Count": "9"
+    "Version": "5",
+    "Count": "11"
 }
 
 # PUBLIC list of commands, not all of them
