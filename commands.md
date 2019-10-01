@@ -82,6 +82,12 @@ Commands list:
 
 `Arguments: None`
 
+#### orb.**yorimoi**  *Requested by orb users*
+
+`Function: Posts images from the anime series A Place Further Than The Universe (yorimoi)`
+
+`Arguments: None`
+
 #### orb.**fight**  *Requested by orb users*
 
 `Function: Fight people! Uses a stat system with various attacks and even status effects`
