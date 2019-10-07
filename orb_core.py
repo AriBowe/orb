@@ -217,8 +217,7 @@ async def on_message(message):
         await message.add_reaction("🇼")
         await message.add_reaction("🅾")
         
-    else:
-        await bot.process_commands(message)
+    await bot.process_commands(message)
 
 
 bot.run(os.environ['DISCORD_TOKEN'], bot=True, reconnect=True)
