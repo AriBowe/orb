@@ -27,6 +27,7 @@ class FightCog(bot_commands.Cog):
                 writer.writerow([user_id, _str, _def, _spd])
 
         if allowed_channel(ctx):
+            print("")
             if target is None:
                 await ctx.send("You can't fight nothing")
                 return None

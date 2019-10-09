@@ -222,7 +222,7 @@ async def on_message(message):
         await message.add_reaction(bot.get_emoji(415384489733128195))
 
     # Orb
-    elif re.search(r"\b(orb)\b", message.content, re.IGNORECASE):
+    elif re.search(r"(\b|:)(orb)(\b|:|^.)", message.content, re.IGNORECASE):
         await message.add_reaction(bot.get_emoji(587198415348170773))
         
     await bot.process_commands(message)
