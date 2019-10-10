@@ -21,6 +21,12 @@ causes orb to respond 'for you'
 causes orb to react with 'awoo', spelt in Discord emoji
 
 **'owo'**
-causes orb to reaction 'owo', spelt in Discord emoji
+causes orb to react with 'owo', spelt in Discord emoji
+
+**'orb'**
+causes orb to react with it's profile picture as an emoji
+
+**'data are'**
+causes orb to react with :nomorethinkin:, because the correct term is 'data is'
 
 ## New reactions are always in development. See a list [here](comingsoon.md)
