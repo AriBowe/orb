@@ -126,7 +126,7 @@ async def commands(ctx, target=None):
 @bot.event
 async def on_message(message):
     # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
-    if re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) or random.randint(1, 2000) == 1:
+    if (re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) and random.random > 0.5) or random.randint(1, 2000) == 1:
         await message.add_reaction("🇻")
         await message.add_reaction("🇪")
         await message.add_reaction("🇷")
@@ -158,7 +158,7 @@ async def on_message(message):
             print("Reacted 'fact' to the message", "'" + message.content + "'", "from user", message.author.display_name)
 
     # Epic reaction time
-    elif re.search(r"\b(epic)\b", message.content, re.IGNORECASE):
+    elif re.search(r"\b(epic)\b", message.content, re.IGNORECASE) and random.random > 0.5:
         if random.randint(1, 15) == 1:
             await message.add_reaction("🇪")
             await message.add_reaction("🅱")
@@ -193,18 +193,18 @@ async def on_message(message):
 
     # Imagine
     elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.random() > 0.9:
-        await message.channel.send(random.choice(["Imagine", "> i m a g i n e", "Roughly 40kg"]))
+        await message.channel.send(random.choice(["Imagine", "> i m a g i n e"]))
 
-    # 40 kg
-    elif re.search(r"\b(40[ ]?kg)\b", message.content, re.IGNORECASE) and random.random() > 0.95:
-        await message.channel.send(random.choice(["145 cm", "I M A G I N E"]))
+    # # 40 kg
+    # elif re.search(r"\b(40[ ]?kg)\b", message.content, re.IGNORECASE) and random.random() > 0.95:
+    #     await message.channel.send(random.choice(["145 cm", "I M A G I N E"]))
 
-    # Roughly 145 cm
-    elif re.search(r"\b(145[ ]?cm)\b", message.content, re.IGNORECASE) and random.random() > 0.99:
-        await message.channel.send(random.choice(["40 kg", "I M A G I N E", "Imagine how fun it would be to manhandle her tiny body"]))
+    # # Roughly 145 cm
+    # elif re.search(r"\b(145[ ]?cm)\b", message.content, re.IGNORECASE) and random.random() > 0.99:
+    #     await message.channel.send(random.choice(["40 kg", "I M A G I N E", "Imagine how fun it would be to manhandle her tiny body"]))
 
-    elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.randint(1,1000) == 420:
-        await message.channel.send("https://i.kym-cdn.com/photos/images/newsfeed/001/455/798/54e.jpg")
+    # elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.randint(1,1000) == 420:
+    #     await message.channel.send("https://i.kym-cdn.com/photos/images/newsfeed/001/455/798/54e.jpg")
 
     # Level up
     elif re.search(r"(leveled up!)", message.content, re.IGNORECASE) and message.author.id == 172002275412279296:
@@ -225,11 +225,11 @@ async def on_message(message):
     elif re.search(r"(\b|:)(orb)(\b|:|^.)", message.content, re.IGNORECASE) and random.random > 0.99:
         await message.add_reaction(bot.get_emoji(587198415348170773))
 
-    # Gay
-    elif re.search(r"\b(gays)\b", message.content, re.IGNORECASE) and random.random > 0.99:
-        await message.add_reaction("🇬")
-        await message.add_reaction("🇦")
-        await message.add_reaction("🇾")
+    # # Gay
+    # elif re.search(r"\b(gays)\b", message.content, re.IGNORECASE) and random.random > 0.99:
+    #     await message.add_reaction("🇬")
+    #     await message.add_reaction("🇦")
+    #     await message.add_reaction("🇾")
         
     await bot.process_commands(message)
 
