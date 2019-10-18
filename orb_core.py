@@ -224,6 +224,12 @@ async def on_message(message):
     # Orb
     elif re.search(r"(\b|:)(orb)(\b|:|^.)", message.content, re.IGNORECASE):
         await message.add_reaction(bot.get_emoji(587198415348170773))
+
+    # Gay
+    elif re.search(r"\b(owo)\b", message.content, re.IGNORECASE):
+        await message.add_reaction("🇬")
+        await message.add_reaction("🇦")
+        await message.add_reaction("🇾")
         
     await bot.process_commands(message)
 
