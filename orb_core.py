@@ -222,11 +222,11 @@ async def on_message(message):
         await message.add_reaction(bot.get_emoji(415384489733128195))
 
     # Orb
-    elif re.search(r"(\b|:)(orb)(\b|:|^.)", message.content, re.IGNORECASE):
+    elif re.search(r"(\b|:)(orb)(\b|:|^.)", message.content, re.IGNORECASE) and random.random > 0.99:
         await message.add_reaction(bot.get_emoji(587198415348170773))
 
     # Gay
-    elif re.search(r"\b(owo)\b", message.content, re.IGNORECASE):
+    elif re.search(r"\b(gays)\b", message.content, re.IGNORECASE) and random.random > 0.99:
         await message.add_reaction("🇬")
         await message.add_reaction("🇦")
         await message.add_reaction("🇾")
