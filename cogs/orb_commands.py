@@ -7,8 +7,8 @@ import re
 from cogs.orb_control import allowed_channel
 
 COMMANDS_VERSION = {
-    "Version": "3",
-    "Count": "9"
+    "Version": "5",
+    "Count": "11"
 }
 
 # PUBLIC list of commands, not all of them
@@ -27,6 +27,7 @@ COMMAND_DATA = {
     "gembutt": ("Posts gembutts (Houseki No Kuni characters)", "None"),
     "fatepost": ("Posts Fate series characters", "None"),
     "touhou": ("Posts Touhou characters", "None"),
+    "yorimoi": ("Posts Yorimoi pictures", "None"),
     "vore": ("Says whether you vore people or get vored", "Any input")
 }
 
@@ -242,6 +243,14 @@ class CommandsCog(bot_commands.Cog):
             print("Gembutt called by", ctx.author.display_name)
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/gembutt/gembutt (" + str(random.randint(1, 4)) + ").jpg"))
+
+    # Yorimoi
+    @bot_commands.command()
+    async def yorimoi(self, ctx):
+        if allowed_channel(ctx):
+            print("Yorimoi called by", ctx.author.display_name)
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/yorimoi/yorimoi (" + str(random.randint(1, 48)) + ").jpg"))
 
     # Fatepost
     @bot_commands.command()
