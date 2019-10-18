@@ -28,7 +28,8 @@ COMMAND_DATA = {
     "fatepost": ("Posts Fate series characters", "None"),
     "touhou": ("Posts Touhou characters", "None"),
     "yorimoi": ("Posts Yorimoi pictures", "None"),
-    "vore": ("Says whether you vore people or get vored", "Any input")
+    "vore": ("Says whether you vore people or get vored", "Any input"),
+    "fight": ("Duel another user", "A valid user tag")
 }
 
 class CommandsCog(bot_commands.Cog):
