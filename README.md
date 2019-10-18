@@ -13,3 +13,7 @@ your own instance, replace the string in the last
 line of code with your own bot token. If you
 have any requests or comments, send me a message at
 xiii™#0013 on discord.
+
+## ACKNOWLEDGEMENTS:
+- Quantum Cucumber and their bot Quantum Bot (https://github.com/Quantum-Cucumber/quantum-bot) for help with pins, bugs, and discord in general
+- EvieePy's music.py (https://gist.github.com/EvieePy/ab667b74e9758433b3eb806c53a19f34) for the basic framework and design behind a music bot
