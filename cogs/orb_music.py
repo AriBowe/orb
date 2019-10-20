@@ -12,6 +12,8 @@ from async_timeout import timeout
 from functools import partial
 from youtube_dl import YoutubeDL
 
+from cogs.orb_control import allowed_channel
+
 # Settings for ytdl, the module which actually aquires the music
 ytdlopts = {
     'format': 'bestaudio/best',
@@ -241,6 +243,9 @@ class Music(bot_commands.Cog):
             will be made.
         This command also handles moving the bot to different channels.
         """
+        if not allowed_channel(ctx):
+            return
+
         if not channel:
             try:
                 channel = ctx.author.voice.channel
@@ -274,6 +279,10 @@ class Music(bot_commands.Cog):
         search: str [Required]
             The song to search and retrieve using YTDL. This could be a simple search, an ID or URL.
         """
+
+        if not allowed_channel(ctx):
+            return
+
         await ctx.trigger_typing()
 
         vc = ctx.voice_client
@@ -304,6 +313,10 @@ class Music(bot_commands.Cog):
     @bot_commands.command(name='pause')
     async def pause_(self, ctx):
         """Pause the currently playing song."""
+
+        if not allowed_channel(ctx):
+            return
+
         vc = ctx.voice_client
 
         if not vc or not vc.is_playing():
@@ -317,6 +330,10 @@ class Music(bot_commands.Cog):
     @bot_commands.command(name="loop", aliases=["repeat"])
     async def loop_(self, ctx):
         """Toggle song looping."""
+
+        if not allowed_channel(ctx):
+            return
+
         player = self.get_player(ctx)
         print(player.loop_song)
     
@@ -330,6 +347,10 @@ class Music(bot_commands.Cog):
     @bot_commands.command(name='resume')
     async def resume_(self, ctx):
         """Resume the currently paused song."""
+
+        if not allowed_channel(ctx):
+            return
+
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
@@ -343,6 +364,9 @@ class Music(bot_commands.Cog):
     @bot_commands.command(name='skip')
     async def skip_(self, ctx):
         """Skip the song."""
+
+        if not allowed_channel(ctx):
+            return
 
         def skip_check(reaction, user):
             is_skip = "➡" == str(reaction.emoji)
@@ -387,6 +411,10 @@ class Music(bot_commands.Cog):
     @bot_commands.command(name='queue', aliases=['q', 'playlist'])
     async def queue_info(self, ctx):
         """Retrieve a basic queue of upcoming songs."""
+
+        if not allowed_channel(ctx):
+            return
+
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
@@ -411,6 +439,10 @@ class Music(bot_commands.Cog):
     @bot_commands.command(name='now_playing', aliases=['np', 'current', 'currentsong', 'playing'])
     async def now_playing_(self, ctx):
         """Display information about the currently playing song."""
+
+        if not allowed_channel(ctx):
+            return
+
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
@@ -434,6 +466,10 @@ class Music(bot_commands.Cog):
         volume: float or int [Required]
             The volume to set the player to in percentage. This must be between 1 and 100.
         """
+
+        if not allowed_channel(ctx):
+            return
+
         vc = ctx.voice_client
 
         if vol == "display":
@@ -464,6 +500,10 @@ class Music(bot_commands.Cog):
         !Warning!
             This will destroy the player assigned to your guild, also deleting any queued songs and settings.
         """
+
+        if not allowed_channel(ctx):
+            return
+
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():

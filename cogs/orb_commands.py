@@ -28,6 +28,7 @@ COMMAND_DATA = {
     "fatepost": ("Posts Fate series characters", "None"),
     "touhou": ("Posts Touhou characters", "None"),
     "yorimoi": ("Posts Yorimoi pictures", "None"),
+    "kagepro": ("Posts images from the Kagerou Project", "None"),
     "vore": ("Says whether you vore people or get vored", "Any input"),
     "fight": ("Duel another user", "A valid user tag")
 }
@@ -244,6 +245,14 @@ class CommandsCog(bot_commands.Cog):
             print("Gembutt called by", ctx.author.display_name)
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/gembutt/gembutt (" + str(random.randint(1, 4)) + ").jpg"))
+
+    # Kagepro
+    @bot_commands.command()
+    async def kagepro(self, ctx):
+        if allowed_channel(ctx):
+            print("Kagepro called by", ctx.author.display_name)
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/kagepro/kagepro (" + str(random.randint(1, 55)) + ").jpg"))
 
     # Yorimoi
     @bot_commands.command()
