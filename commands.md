@@ -82,6 +82,12 @@ Commands list:
 
 `Arguments: None`
 
+#### orb.**kagepro**  *Requested by orb users*
+
+`Function: Posts images from the Kagerou Project`
+
+`Arguments: None`
+
 #### orb.**yorimoi**  *Requested by orb users*
 
 `Function: Posts images from the anime series A Place Further Than The Universe (yorimoi)`
