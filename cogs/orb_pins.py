@@ -4,7 +4,7 @@ Check the bot out at https://github.com/Quantum-Cucumber/quantum-bot
 """
 
 import discord
-import datetime
+from datetime import datetime, timedelta
 import asyncio
 import csv
 from discord.ext import commands as bot_commands
@@ -32,7 +32,7 @@ class PinCog(bot_commands.Cog):
             posted_message.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
             if ctx.attachments != []:
                 posted_message.set_image(url=ctx.attachments[0].url)
-            posted_message.set_footer(text=ctx.created_at.strftime("%d %b %Y at %H:%M%p"))
+            posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
            
             await self.bot.get_channel(pin_channel).send("Message pinned from " + ctx.channel.mention, embed=posted_message)
             pins_store.append(str(message_id))
