@@ -227,7 +227,7 @@ async def on_message(message):
         await message.add_reaction(bot.get_emoji(587198415348170773))
 
     # Owl
-    elif re.search(r"(🦉)", message.content, re.IGNORECASE) and random.random() >= 0.99:
+    elif re.search(r"(🦉)", message.content, re.IGNORECASE) and message.author.id == 243656780222038017:
         await message.add_reaction("🦉")
 
     # # Gay
