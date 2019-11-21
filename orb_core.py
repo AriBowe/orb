@@ -226,6 +226,10 @@ async def on_message(message):
     elif re.search(r"(\b|:)(orb)(\b|:|^.)", message.content, re.IGNORECASE) and random.random() >= 0.99:
         await message.add_reaction(bot.get_emoji(587198415348170773))
 
+    # Owl
+    elif re.search(r"(🦉)", message.content, re.IGNORECASE) and random.random() >= 0.99:
+        await message.add_reaction("🦉")
+
     # # Gay
     # elif re.search(r"\b(gays)\b", message.content, re.IGNORECASE) and random.random() > 0.99:
     #     await message.add_reaction("🇬")
