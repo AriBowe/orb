@@ -164,7 +164,7 @@ class CommandsCog(bot_commands.Cog):
         else:
             await ctx.send(str(target) + " gets vored")
 
-    # New BDE
+    # BDE
     @bot_commands.command()
     async def bde(self, ctx, *, target=None):
         """

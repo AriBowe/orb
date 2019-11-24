@@ -196,17 +196,6 @@ async def on_message(message):
     elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.random() > 0.9:
         await message.channel.send(random.choice(["Imagine", "> i m a g i n e"]))
 
-    # # 40 kg
-    # elif re.search(r"\b(40[ ]?kg)\b", message.content, re.IGNORECASE) and random.random() > 0.95:
-    #     await message.channel.send(random.choice(["145 cm", "I M A G I N E"]))
-
-    # # Roughly 145 cm
-    # elif re.search(r"\b(145[ ]?cm)\b", message.content, re.IGNORECASE) and random.random() > 0.99:
-    #     await message.channel.send(random.choice(["40 kg", "I M A G I N E", "Imagine how fun it would be to manhandle her tiny body"]))
-
-    # elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.randint(1,1000) == 420:
-    #     await message.channel.send("https://i.kym-cdn.com/photos/images/newsfeed/001/455/798/54e.jpg")
-
     # Level up
     elif re.search(r"(leveled up!)", message.content, re.IGNORECASE) and message.author.id == 172002275412279296:
         await message.add_reaction("🇬")
