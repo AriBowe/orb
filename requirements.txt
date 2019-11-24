@@ -1,2 +1,3 @@
 # Discord (Of course)
-discord.py==1.1.1
+discord.py==1.2.4
+google-cloud-firestore==1.6.0
