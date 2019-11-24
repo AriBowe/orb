@@ -3,12 +3,14 @@ from discord.ext import commands as bot_commands
 import random
 import csv
 import re
+import os
+from google.cloud import firestore
 
 from cogs.orb_control import allowed_channel
 
 COMMANDS_VERSION = {
-    "Version": "5",
-    "Count": "11"
+    "Version": "6",
+    "Count": "13"
 }
 
 # PUBLIC list of commands, not all of them
@@ -35,8 +37,13 @@ COMMAND_DATA = {
 
 class CommandsCog(bot_commands.Cog):
     def __init__(self, bot):
+        print("Verifiying with server")
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:\\Users\\Ari Bowe\\Documents\\ORB\\Orb - Discord Bot-04bc1d34a857.json"
+        db = firestore.Client()
+        print("Connected to Google Cloud Firestore")
         self.bot = bot
         print("orb_commands loaded")
+        
 
     # Secreto
     @bot_commands.command()
@@ -64,7 +71,7 @@ class CommandsCog(bot_commands.Cog):
                     search_target = "<@" + str(ctx.author.id) + ">"
                     target = "you"
                 elif target.isnumeric():
-                    await ctx.send("I'd give " + target + " a " + target + " out of " + target)
+                    await ctx.send("I'd give " + target + " a(n) " + target + " out of " + target)
                 elif re.match(r"(^|\s|.)orb($| $| .)", target, re.IGNORECASE) or re.match(r"(^|\s|.)<@569758271930368010>($| $| .)", target, re.IGNORECASE):
                     await ctx.send("I'd give me a 10 out of 10")
                     return
@@ -73,7 +80,7 @@ class CommandsCog(bot_commands.Cog):
                 for line in reader:
                     try:       
                         if re.match(r"(^|\s|.)" + str(search_target) + r"($)", line[0], re.IGNORECASE):
-                            await ctx.send("I'd give " + str(target) + " a " + str(line[1]) + " out of 10")
+                            await ctx.send("I'd give " + str(target) + " a(n) " + str(line[1]) + " out of 10")
                             return
                     except:
                         pass
