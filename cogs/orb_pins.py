@@ -1,4 +1,6 @@
 """
+Pin cog
+
 Pin code adapted from qbot, by Quantum Cucumber
 Check the bot out at https://github.com/Quantum-Cucumber/quantum-bot
 """

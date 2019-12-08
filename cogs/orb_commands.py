@@ -1,3 +1,7 @@
+"""
+Command expansion cog, handles all general commands
+"""
+
 import discord
 from discord.ext import commands as bot_commands
 import random
@@ -7,6 +11,7 @@ import os
 from google.cloud import firestore
 
 from cogs.orb_control import allowed_channel
+from orb_core import db
 
 COMMANDS_VERSION = {
     "Version": "6",
@@ -37,10 +42,6 @@ COMMAND_DATA = {
 
 class CommandsCog(bot_commands.Cog):
     def __init__(self, bot):
-        print("Verifiying with server")
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:\\Users\\Ari Bowe\\Documents\\ORB\\Orb - Discord Bot-04bc1d34a857.json"
-        self.db = firestore.Client()
-        print("Connected to Google Cloud Firestore")
         self.bot = bot
         print("orb_commands loaded")
 
@@ -61,7 +62,7 @@ class CommandsCog(bot_commands.Cog):
         }
 
         # Store generated values
-        self.db.collection('rankings').document(name).set(data)
+        db.collection('rankings').document(name).set(data)
 
         # Returns the generated values
         return data
@@ -110,7 +111,7 @@ class CommandsCog(bot_commands.Cog):
             search_target = target
 
         # Load results
-        doc_ref = self.db.collection(u'rankings').document(search_target)
+        doc_ref = db.collection(u'rankings').document(search_target)
         results = doc_ref.get().to_dict()
 
         if not results:
@@ -153,7 +154,7 @@ class CommandsCog(bot_commands.Cog):
             search_target = target
 
         # Load results
-        doc_ref = self.db.collection(u'rankings').document(search_target)
+        doc_ref = db.collection(u'rankings').document(search_target)
         results = doc_ref.get().to_dict()
 
         if not results:
@@ -195,7 +196,7 @@ class CommandsCog(bot_commands.Cog):
             search_target = target
 
         # Load results
-        doc_ref = self.db.collection(u'rankings').document(search_target)
+        doc_ref = db.collection(u'rankings').document(search_target)
         results = doc_ref.get().to_dict()
 
         if not results:

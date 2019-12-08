@@ -1,3 +1,7 @@
+"""
+Handles general control tasks and acts as a function generaliser for other commands. Also contains some admin-only commands
+"""
+
 import discord
 from discord.ext import commands as bot_commands
 import csv

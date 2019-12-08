@@ -1,4 +1,6 @@
 """
+Main controller for Orb, also handles some basic commands & functions
+
 Use the following link to add the bot:
 https://discordapp.com/oauth2/authorize?client_id=569758271930368010&scope=bot&permissions=64
 """
@@ -16,6 +18,7 @@ import os
 import csv
 import re
 import sys
+from google.cloud import firestore
 print("Base libraries successfully loaded")
 
 # Gets constants from files. Yay interlinking
@@ -25,6 +28,12 @@ from cogs.orb_control import allowed_channel
 # Assigns bot & client
 bot = bot_commands.Bot(command_prefix=get_prefix, help_command=None, case_insensitive=True)
 client = discord.Client()
+
+# Connects to Cloud Firestore
+print("Verifiying with server")
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:\\Users\\Ari Bowe\\Documents\\ORB\\Orb - Discord Bot-04bc1d34a857.json"
+db = firestore.Client()
+print("Connected to Google Cloud Firestore")
 
 # Assigns constants
 MESSAGE = discord.Game("with orbs. Try orb.help")
