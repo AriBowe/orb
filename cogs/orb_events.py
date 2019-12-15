@@ -87,7 +87,7 @@ class Events(bot_commands.Cog):
             (discord.ext.commands.errors): errors
         """
         if isinstance(error, errors.CommandNotFound):
-            await ctx.send(f'Invalid command. Please type `{repo.get_prefix}help` to see a list of commands.')
+            await ctx.send(f'Invalid command. Please type `random.choice(repo.PREFIXES)help` to see a list of commands.')
 
         elif isinstance(error, errors.MissingRequiredArgument) or isinstance(error, errors.BadArgument):
             await send_command_help(ctx)
