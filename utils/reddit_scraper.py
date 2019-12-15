@@ -148,65 +148,37 @@ async def reddit_imgscrape(ctx, url):
         (commands.Context): context
         (str): json url
     """
-    current_channel = ctx.message.channel
+   current_channel = ctx.message.channel
     author = ctx.message.author
 
     rand_post = _get_rand_post(url) # RedditPost object
 
-    embed, rand_url = await create_embed(ctx, rand_post)
+    embed, rand_url = await _create_embed(ctx, rand_post)
 
-    lewd_channels = []
+    # lewd_channels = []
+    #
+    # for channel in ctx.message.guild.channels:
+    #     if isinstance(channel, discord.VoiceChannel):
+    #         pass
+    #     else:
+    #         if channel.is_nsfw():
+    #             lewd_channels.append(channel)
 
     if not permissions.can_attach(ctx):
-        await ctx.send('I cannot upload images/GIFs here ;w;')
+        await current_channel.send('I cannot upload images/GIFs here ;w;')
 
-    for channel in ctx.message.guild.channels:
-        if isinstance(channel, discord.VoiceChannel):
-            pass
-        else:
-            if channel.is_nsfw():
-                lewd_channels.append(channel)
+    elif not permissions.is_nsfw(ctx) and rand_post.get_nsfw():
+        await current_channel.send(f'L-lewd {author.name}! NSFW commands go in NSFW channels!! >///<')
 
-    if permissions.is_nsfw(ctx):
+    else:
         try:
             if _is_image(rand_url):
                 bio = BytesIO(await http.get(rand_url, res_method='read'))
                 extension = rand_url.split('.')[-1]
                 await current_channel.send(embed=embed)
-                await current_channel.send(file=discord.File(bio, filename='lewd' + '.' + extension))
+                await current_channel.send(file=discord.File(bio, filename=f'image.{extension}'))
             else:
                 await current_channel.send(embed=embed)
                 await current_channel.send(rand_url)
         except KeyError:
-            ctx.send('That didn\'t work ;o; please try the command again.')
-    else:
-        try:
-            if not rand_post.get_nsfw():
-                if _is_image(rand_url):
-                    bio = BytesIO(await http.get(rand_url, res_method='read'))
-                    extension = rand_url.split('.')[-1]
-                    await current_channel.send(embed=embed)
-                    await current_channel.send(file=discord.File(bio, filename='lewd' + '.' + extension))
-                else:
-                    await current_channel.send(embed=embed)
-                    await current_channel.send(rand_url)
-
-            else:
-                if lewd_channels:
-                    message_str = ''
-                    for lewd_channel in lewd_channels:
-                        message_str += str(lewd_channel) + '\n'
-                    if len(lewd_channels) == 1:
-                        await current_channel.send(f'L-lewd {author.name}! NSFW commands go in NSFW-enabled channels!!'
-                                           f' This channel is currently NSFW-enabled: \n\n `{message_str}`'
-                                           )
-                    else:
-                        await current_channel.send(f'L-lewd {author.name}! NSFW commands go in NSFW-enabled channels!!'
-                                                   f' These channels are currently NSFW-enabled: \n\n `{message_str}`'
-                                                   )
-                elif not lewd_channels:
-                    await current_channel.send(f'L-lewd {author.name}! NSFW commands go in NSFW-enabled channels!!'
-                                       ' Unfortunately, though, there are no NSFW-enabled channels in this server ;O;'
-                                       )
-        except errors.CommandInvokeError:
-            ctx.send('Please try the command again. Sometimes the command doesn\'t work for particular posts ;o;')
+            await current_channel.send('That didn\'t work ;o; please try the command again.')
