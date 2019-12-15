@@ -155,15 +155,6 @@ async def reddit_imgscrape(ctx, url):
 
     embed, rand_url = await _create_embed(ctx, rand_post)
 
-    # lewd_channels = []
-    #
-    # for channel in ctx.message.guild.channels:
-    #     if isinstance(channel, discord.VoiceChannel):
-    #         pass
-    #     else:
-    #         if channel.is_nsfw():
-    #             lewd_channels.append(channel)
-
     if not permissions.can_attach(ctx):
         await current_channel.send('I cannot upload images/GIFs here ;w;')
 
@@ -172,13 +163,9 @@ async def reddit_imgscrape(ctx, url):
 
     else:
         try:
-            if _is_image(rand_url):
-                bio = BytesIO(await http.get(rand_url, res_method='read'))
-                extension = rand_url.split('.')[-1]
-                await current_channel.send(embed=embed)
-                await current_channel.send(file=discord.File(bio, filename=f'image.{extension}'))
-            else:
-                await current_channel.send(embed=embed)
-                await current_channel.send(rand_url)
+            bio = BytesIO(await http.get(rand_url, res_method='read'))
+            extension = rand_url.split('.')[-1]
+            await current_channel.send(embed=embed)
+            await current_channel.send(file=discord.File(bio, filename=f'image.{extension}'))
         except KeyError:
             await current_channel.send('That didn\'t work ;o; please try the command again.')
