@@ -18,6 +18,7 @@ import re
 import sys
 
 from discord.ext import commands as bot_commands
+from utils import repo 
 
 print("Base libraries successfully loaded")
 
@@ -27,7 +28,7 @@ from cogs.orb_control import allowed_channel
 from utils import repo 
 
 # Assigns bot & client
-bot = bot_commands.Bot(command_prefix=get_prefix, help_command=None, case_insensitive=True)
+bot = bot_commands.Bot(command_prefix=repo.get_prefix, help_command=None, case_insensitive=True)
 client = discord.Client()
 
 # Assigns constants (Moved to utils/repo.py) 
@@ -107,7 +108,7 @@ async def status(ctx):
         embed.add_field(name="Core Version", value=repo.VERSION_DATA["Version"], inline=True)
         embed.add_field(name="Core Build", value=repo.VERSION_DATA["Build"], inline=True)
         embed.add_field(name="Commands Version", value=COMMANDS_VERSION["Version"], inline=True)
-        embed.add_field(name="Online Status", value=ONLINE_STATUS, inline=False)
+        embed.add_field(name="Online Status", value=repo.ONLINE_STATUS, inline=False)
         await ctx.send(embed=embed)
 
 # Lists commands
