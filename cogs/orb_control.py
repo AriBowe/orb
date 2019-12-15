@@ -1,10 +1,13 @@
 """
-Handles general control tasks and acts as a function generaliser for other commands. Also contains some admin-only commands
+Handles general control tasks and acts as a function generaliser for other commands. Also contains some admin-only commands and runs the database
 """
 
 import discord
 from discord.ext import commands as bot_commands
 import csv
+import os
+from google.cloud import firestore
+
 
 BANNED_CHANNELS = []
 
@@ -18,6 +21,12 @@ def allowed_channel(ctx):
         return False
     else:
         return True
+
+# Connects to Cloud Firestore
+print("Verifiying with server")
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:\\Users\\Ari Bowe\\Documents\\ORB\\Orb - Discord Bot-04bc1d34a857.json"
+db = firestore.Client()
+print("Connected to Google Cloud Firestore")
 
 
 class ControlCog(bot_commands.Cog):

@@ -22,18 +22,12 @@ from google.cloud import firestore
 print("Base libraries successfully loaded")
 
 # Gets constants from files. Yay interlinking
-from cogs.orb_commands import COMMANDS_VERSION, COMMAND_DATA
-from cogs.orb_control import allowed_channel
+from cogs.orb_commands import COMMAND_DATA, COMMANDS_VERSION
+from cogs.orb_control import allowed_channel, db
 
 # Assigns bot & client
 bot = bot_commands.Bot(command_prefix=get_prefix, help_command=None, case_insensitive=True)
 client = discord.Client()
-
-# Connects to Cloud Firestore
-print("Verifiying with server")
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:\\Users\\Ari Bowe\\Documents\\ORB\\Orb - Discord Bot-04bc1d34a857.json"
-db = firestore.Client()
-print("Connected to Google Cloud Firestore")
 
 # Assigns constants
 MESSAGE = discord.Game("with orbs. Try orb.help")
@@ -59,8 +53,6 @@ INITIAL_EXTENSIONS = [
 if __name__ == '__main__':
     for extension in INITIAL_EXTENSIONS:
         bot.load_extension(extension)
-
-
 
 # Displays boot complete message
 @bot.event

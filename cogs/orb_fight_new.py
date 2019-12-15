@@ -6,8 +6,7 @@ import re
 import asyncio
 from google.cloud import firestore
 
-from cogs.orb_control import allowed_channel
-from orb_core import db
+from cogs.orb_control import allowed_channel, db
 
 class FightCog(bot_commands.Cog):
     """

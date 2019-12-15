@@ -10,8 +10,7 @@ import re
 import os
 from google.cloud import firestore
 
-from cogs.orb_control import allowed_channel
-from orb_core import db
+from cogs.orb_control import allowed_channel, db
 
 COMMANDS_VERSION = {
     "Version": "6",
