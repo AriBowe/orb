@@ -35,7 +35,7 @@ COMMAND_DATA = {
 class CommandsCog(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        print("orb_commands loaded")
+#         print("orb_commands loaded")
 
     # Secreto
     @bot_commands.command()
