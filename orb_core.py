@@ -63,7 +63,8 @@ for file in files:
     if file.endswith('.py'):
         file_name = file[:-3]
         bot.load_extension(f'cogs.{file_name}')
-        print('file_name' + '.py has been loaded.')
+        print(str(file_name) + '.py loaded!')
+print('Just a little bit more...')
         
 # STUFF WITH @bot.event DECORATOR HAS BEEN MOVED TO cogs/orb_events.py 
 
