@@ -225,11 +225,11 @@ class Events(bot_commands.Cog):
 
             # Data are is the wrong way to say it
         elif re.search(r"\b(data are)\b", message.content, re.IGNORECASE):
-            await message.add_reaction(bot.get_emoji(415384489733128195))
+            await message.add_reaction(self.bot.get_emoji(415384489733128195))
 
             # Orb
         elif re.search(r"(\b|:)(orb)(\b|:|^.)", message.content, re.IGNORECASE) and random.random > 0.99:
-            await message.add_reaction(bot.get_emoji(587198415348170773))
+            await message.add_reaction(self.bot.get_emoji(587198415348170773))
 
             # # Gay
             # elif re.search(r"\b(gays)\b", message.content, re.IGNORECASE) and random.random > 0.99:
