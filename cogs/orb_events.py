@@ -74,7 +74,7 @@ class Events(bot_commands.Cog):
         print('Discord.py Version: ' + discord.__version__)
         print('Python Version: ' + sys.version[:5])
         print('')
-        print('orb.py Version: ' + repo.VERSION_DATA["Version"])
+        print('orb.py Version: ' + str(repo.VERSION_DATA["Version"]))
         print('------------------------------------------')
 
     @bot_commands.Cog.listener()
