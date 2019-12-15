@@ -39,6 +39,8 @@ class Events(bot_commands.Cog):
         }
 
     # Displays boot complete message
+    
+    @bot_commands.Cog.listener()
     async def on_ready(self):
         if not hasattr(self.bot, 'uptime'):
             self.bot.uptime = datetime.datetime.now()
@@ -72,10 +74,10 @@ class Events(bot_commands.Cog):
         print('Discord.py Version: ' + discord.__version__)
         print('Python Version: ' + sys.version[:5])
         print('')
-        print('orb.py Version: ' + VERSION_DATA["Version"])
+        print('orb.py Version: ' + repo.VERSION_DATA["Version"])
         print('------------------------------------------')
 
-
+    @bot_commands.Cog.listener()
     async def on_command_error(self, ctx, error: errors):
         """
         Bot posts message when command errors occur
@@ -119,7 +121,7 @@ class Events(bot_commands.Cog):
         except AttributeError:
             print(f'Private Message > {ctx.message.channel} > {ctx.message.author.name} > {ctx.message.clean_content}')
 
-
+    @bot_commands.Cog.listener()
     async def on_message(self, message):
         # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
         if (re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) and random.random > 0.5) or random.randint(1,
