@@ -103,7 +103,7 @@ def _is_image(url):
     return (mimetype and mimetype.startswith('image'))
 
 
-def is_gif(url):
+def _is_gif(url):
     """Checks if the url contains a gif (not implemented yet)"""
     content_type = requests.head(url).headers['Content-Type']
     pass
@@ -121,18 +121,18 @@ def most_upvoted(all_post_data):
     pass
 
 
-async def create_embed(ctx, post: RedditPost):
+async def _create_embed(ctx, post: RedditPost):
     """Creates a tuple with the embed and the chosen random image url"""
     try:
         author = ctx.message.author
         rand_url = post.get_url()
         embed = discord.Embed(
-            title=post.get_title(),
-            description='**OP**: ' + '/u/' + post.get_author() + '\n **Updoots**: ' + str(post.get_upvotes()) + '\n',
-            colour=ctx.me.top_role.colour
+            title=post.get_title() if len(post.get_title()) < 256 else 'Title too long to display ;A;',
+            description='**OP**: ' + '/u/' + post.get_author() + f'\n **Updoots**: {str(post.get_upvotes())} \n',
+            url=post.get_url(),
+            colour=ctx.me.top_role.colour,
         )
-        embed.set_footer(text=f'Requested by {author.name}, and retrieved from /r/' + post.get_subreddit() + '.')
-
+        embed.set_footer(text=f'Requested by {author.name}, and retrieved from /r/ {post.get_subreddit()}.')
         return embed, rand_url
 
     except AttributeError:
@@ -148,7 +148,7 @@ async def reddit_imgscrape(ctx, url):
         (commands.Context): context
         (str): json url
     """
-   current_channel = ctx.message.channel
+    current_channel = ctx.message.channel
     author = ctx.message.author
 
     rand_post = _get_rand_post(url) # RedditPost object
@@ -163,9 +163,14 @@ async def reddit_imgscrape(ctx, url):
 
     else:
         try:
-            bio = BytesIO(await http.get(rand_url, res_method='read'))
-            extension = rand_url.split('.')[-1]
-            await current_channel.send(embed=embed)
-            await current_channel.send(file=discord.File(bio, filename=f'image.{extension}'))
+            if _is_image(rand_url):
+                bio = BytesIO(await http.get(rand_url, res_method='read'))
+                extension = rand_url.split('.')[-1]
+                await current_channel.send(embed=embed)
+                await current_channel.send(file=discord.File(bio, filename=f'image.{extension}'))
+            else:
+                await current_channel.send(embed=embed)
+                await current_channel.send(rand_url)
+
         except KeyError:
             await current_channel.send('That didn\'t work ;o; please try the command again.')
