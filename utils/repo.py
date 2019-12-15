@@ -11,6 +11,8 @@ VERSION_DATA = {
 
 ONLINE_STATUS = "Online"
 
+MESSAGE = "with orbs. Try orb.help"
+
 # Get prefixes
 def get_prefix(bot, message):
     PREFIXES = ["orb.", "o."]
