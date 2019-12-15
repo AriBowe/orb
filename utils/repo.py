@@ -13,7 +13,8 @@ ONLINE_STATUS = "Online"
 
 MESSAGE = "with orbs. Try orb.help"
 
+PREFIXES = ["orb.", "o."]
+
 # Get prefixes
 def get_prefix(bot, message):
-    PREFIXES = ["orb.", "o."]
     return bot_commands.when_mentioned_or(*PREFIXES)(bot, message)
