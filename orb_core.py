@@ -28,7 +28,7 @@ client = discord.Client()
 # Loads all the extensions 
 files = os.listdir('cogs')
 files.remove('__init__.py')
-files.remove('orb_economy.py')
+files.remove('orb_economy.py') # economy has - according to you - been broken for a while so I removed this from the extension list (Paige)
 for file in files:
     if file.endswith('.py'):
         file_name = file[:-3]
