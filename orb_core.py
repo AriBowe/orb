@@ -28,6 +28,7 @@ client = discord.Client()
 # Loads all the extensions 
 files = os.listdir('cogs')
 files.remove('__init__.py')
+files.remove('orb_economy.py')
 for file in files:
     if file.endswith('.py'):
         file_name = file[:-3]
