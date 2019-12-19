@@ -10,6 +10,7 @@ from discord.ext import commands as bot_commands
 from discord.ext.commands import errors
 from http.client import HTTPException, HTTPResponse
 from utils import repo
+from utils.repo import PREFIXES
 
 
 async def send_command_help(ctx):
@@ -87,7 +88,7 @@ class Events(bot_commands.Cog):
             (discord.ext.commands.errors): errors
         """
         if isinstance(error, errors.CommandNotFound):
-            await ctx.send(f'Invalid command. Please type `random.choice(repo.PREFIXES)help` to see a list of commands.')
+            await ctx.send(f'Invalid command. Please type {random.choice(PREFIXES)}commands to see a list of commands, or visit https://aribowe.github.io/orb/.')
 
         elif isinstance(error, errors.MissingRequiredArgument) or isinstance(error, errors.BadArgument):
             await send_command_help(ctx)
@@ -124,7 +125,7 @@ class Events(bot_commands.Cog):
     @bot_commands.Cog.listener()
     async def on_message(self, message):
         # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
-        if (re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) and random.random > 0.5) or random.randint(1,
+        if (re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) and random.random() > 0.5) or random.randint(1,
                                                                                                                      2000) == 1:
             await message.add_reaction("🇻")
             await message.add_reaction("🇪")
@@ -159,7 +160,7 @@ class Events(bot_commands.Cog):
                       message.author.display_name)
 
         # Epic reaction time
-        elif re.search(r"\b(epic)\b", message.content, re.IGNORECASE) and random.random > 0.5:
+        elif re.search(r"\b(epic)\b", message.content, re.IGNORECASE) and random.random() > 0.5:
             if random.randint(1, 15) == 1:
                 await message.add_reaction("🇪")
                 await message.add_reaction("🅱")
@@ -176,7 +177,7 @@ class Events(bot_commands.Cog):
                       message.author.display_name)
 
         # Big guy react
-        elif re.search(r"\b(big guy)\b", message.content, re.IGNORECASE) and random.random > 0.75:
+        elif re.search(r"\b(big guy)\b", message.content, re.IGNORECASE) and random.random() > 0.75:
             await message.channel.send("For you")
             print("Responded with 'For you' to message '" + message.content + "' from user " + message.author.display_name)
 
@@ -228,11 +229,11 @@ class Events(bot_commands.Cog):
             await message.add_reaction(self.bot.get_emoji(415384489733128195))
 
             # Orb
-        elif re.search(r"(\b|:)(orb)(\b|:|^.)", message.content, re.IGNORECASE) and random.random > 0.99:
+        elif re.search(r"(\b|:)(orb)(\b|:|^.)", message.content, re.IGNORECASE) and random.random() > 0.99:
             await message.add_reaction(self.bot.get_emoji(587198415348170773))
 
             # # Gay
-            # elif re.search(r"\b(gays)\b", message.content, re.IGNORECASE) and random.random > 0.99:
+            # elif re.search(r"\b(gays)\b", message.content, re.IGNORECASE) and random.random() > 0.99:
             #     await message.add_reaction("🇬")
             #     await message.add_reaction("🇦")
             #     await message.add_reaction("🇾")
