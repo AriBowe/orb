@@ -12,8 +12,6 @@ import re
 import sys
 
 from discord.ext import commands as bot_commands
-from utils import repo 
-
 print("Base libraries successfully loaded")
 
 # Gets constants from files. Yay interlinking
