@@ -1,14 +1,20 @@
+"""
+Command expansion cog, handles all general commands
+"""
+
 import discord
 from discord.ext import commands as bot_commands
 import random
 import csv
 import re
+import os
+from google.cloud import firestore
 
-from cogs.orb_control import allowed_channel
+from cogs.orb_control import allowed_channel, db
 
 COMMANDS_VERSION = {
-    "Version": "5",
-    "Count": "11"
+    "Version": "6",
+    "Count": "13"
 }
 
 # PUBLIC list of commands, not all of them
@@ -28,6 +34,7 @@ COMMAND_DATA = {
     "fatepost": ("Posts Fate series characters", "None"),
     "touhou": ("Posts Touhou characters", "None"),
     "yorimoi": ("Posts Yorimoi pictures", "None"),
+    "kagepro": ("Posts images from the Kagerou Project", "None"),
     "vore": ("Says whether you vore people or get vored", "Any input"),
     "fight": ("Duel another user", "A valid user tag")
 }
@@ -37,129 +44,164 @@ class CommandsCog(bot_commands.Cog):
         self.bot = bot
 #         print("orb_commands loaded")
 
+    # Allows generation and storage of user values (BDE, rank, and vore)
+    def _generate_user_values(self, name: str):
+        """
+        Internal function. Generates random user values, stores them in the Firebase server, and then returns the new values. Does not check if the values already exist, use with caution.
+
+        Arguments:
+            name (str): The name to store the generated values under. Should be indentical to it's search_target designation
+
+        Returns (dict): The generated values as a dictionary. Generated values are: BDE (int), ranking (int), and vore (bool)
+        """
+        data = {
+            "bde": random.randint(1,100),
+            "ranking": random.randint(1,10),
+            "vore": bool(random.randint(0,1)),
+        }
+
+        # Store generated values
+        db.collection('rankings').document(name).set(data)
+
+        # Returns the generated values
+        return data
+
     # Secreto
     @bot_commands.command()
     async def secret(self, ctx):
+        """
+        Easter egg command
+        """
         if allowed_channel(ctx):
             print("Secret called. " + ctx.author.display_name + " is curious")
             await ctx.send(random.choice([":wink:", "Shhhh", ":thinking:"]))
 
-    # New rank
+    # Rank command
     @bot_commands.command(aliases=["rate"])
     async def rank(self, ctx, *, target=None):
-        if allowed_channel(ctx):
-            print("Ranking", target, "for user", ctx.author.display_name, "id", ctx.author.id)
-            with open("data/rank.csv", mode="r", newline="") as file:
-                reader = csv.reader(file, delimiter=",")
-                if target is None:
-                    await ctx.send("I can't rank nothing")
-                    return    
-                elif re.match(r"(^|\s|.)@everyone($| $| .)", target, re.IGNORECASE):
-                    return
-                elif re.match(r"(^|\s|.)me($| $| .)", target, re.IGNORECASE):
-                    search_target = "<@" + str(ctx.author.id) + ">"
-                    target = "you"
-                elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(^|\s|.)" + str(ctx.author.id) + r"($| $| .)", target, re.IGNORECASE):
-                    search_target = "<@" + str(ctx.author.id) + ">"
-                    target = "you"
-                elif target.isnumeric():
-                    await ctx.send("I'd give " + target + " a " + target + " out of " + target)
-                elif re.match(r"(^|\s|.)orb($| $| .)", target, re.IGNORECASE) or re.match(r"(^|\s|.)<@569758271930368010>($| $| .)", target, re.IGNORECASE):
-                    await ctx.send("I'd give me a 10 out of 10")
-                    return
-                else:
-                    search_target = target
-                for line in reader:
-                    try:       
-                        if re.match(r"(^|\s|.)" + str(search_target) + r"($)", line[0], re.IGNORECASE):
-                            await ctx.send("I'd give " + str(target) + " a " + str(line[1]) + " out of 10")
-                            return
-                    except:
-                        pass
-            with open("data/rank.csv", mode="a", newline="") as file:
-                writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)    
-                random_value = str(random.randint(1,10))
-                writer.writerow([str(search_target), random_value])
-                await ctx.send("I'd give " + str(target) + " a " + str(random_value) + " out of 10")
+        """
+        Ranks a user on a scale of one to ten.
+        """
+        # Check if allowed channel
+        if not allowed_channel(ctx):
+            return
+
+        print("Ranking", target, "for user", ctx.author.display_name, "(id", ctx.author.id, ")")        
+
+        # Exceptions
+        if target is None:
+            await ctx.send("I can't rank nothing")
+            return    
+        elif re.match(r"(^|\s|.)@everyone($| $| .)", target, re.IGNORECASE):
+            await ctx.send("I'm onto your schemes")
+            return
+        elif target.isnumeric():
+            await ctx.send("I'd give " + target + " a(n) " + target + " out of " + target)
+            return
+
+        # Assign search target and displayed target
+        if re.match(r"(^|\s|.)me($| $| .)", target, re.IGNORECASE):
+            search_target = str(ctx.author.id)
+            target = "you"
+        elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(<@|<@!)[0-9]+(>)", target, re.IGNORECASE):
+            search_target = str(ctx.author.id)
+            target = "you"
+        else:
+            search_target = target
+
+        # Load results
+        doc_ref = db.collection(u'rankings').document(search_target)
+        results = doc_ref.get().to_dict()
+
+        if not results:
+            results = self._generate_user_values(search_target)
+
+        if target == 8 or target == 11:
+            await ctx.send("I'd give " + str(target) + " an " + str(results["ranking"]) + " out of 10")
+        else:
+            await ctx.send("I'd give " + str(target) + " an " + str(results["ranking"]) + " out of 10")
+            
 
     # Vore
     @bot_commands.command()
     async def vore(self, ctx, *, target=None):
-        if allowed_channel(ctx):
-            print("Voring", target, "for user", ctx.author.display_name, "id", ctx.author.id)
-            with open("data/vore.csv", mode="r", newline="") as file:
-                reader = csv.reader(file, delimiter=",")
-                if target is None:
-                    await ctx.send("I can't vore nothing")
-                    return    
-                elif re.match(r"(@everyone)", target, re.IGNORECASE):
-                    return
-                elif re.match(r"(me)", target, re.IGNORECASE):
-                    search_target = "<@" + str(ctx.author.id) + ">"
-                    target = ctx.author.display_name
-                elif re.match(r"(^|\s|.)orb($| $| .)", target, re.IGNORECASE) or re.match(r"(^|\s|.)<@569758271930368010>($| $| .)", target, re.IGNORECASE):
-                    search_target = "orb"
-                    target = "orb"
-                elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(^|\s|.)" + str(ctx.author.id) + r"($| $| .)", target, re.IGNORECASE):
-                    search_target = "<@" + str(ctx.author.id) + ">"
-                    target = ctx.author.display_name
-                else:
-                    search_target = target
-                for line in reader:
-                    try:       
-                        if re.match(r"(^|\s|.)" + str(search_target) + r"($)", line[0], re.IGNORECASE):
-                            if line[1] == "0":
-                                await ctx.send(target + " vores")
-                                return
-                            else:
-                                await ctx.send(target + " gets vored")
-                                return
-                    except:
-                        pass
-            with open("data/vore.csv", mode="a", newline="") as file:
-                writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)    
-                random_value = str(random.randint(0,1))
-                writer.writerow([str(search_target), random_value])
-                if random_value == "0":
-                    await ctx.send(target + " vores")
-                else:
-                    await ctx.send(target + " gets vored")
+        """
+        Says if the user vores or gets vored
+        """
+        # Check if allowed channel
+        if not allowed_channel(ctx):
+            return
 
-    # New BDE
+        print("Checking if", target, " is vored, for user", ctx.author.display_name, "(id", ctx.author.id, ")")        
+
+        # Exceptions
+        if target is None:
+            await ctx.send("I can't vore nothing")
+            return    
+        elif re.match(r"(^|\s|.)@everyone($| $| .)", target, re.IGNORECASE):
+            await ctx.send("I'm onto your schemes")
+            return
+
+        # Assign search target and displayed target
+        if re.match(r"(^|\s|.)me($| $| .)", target, re.IGNORECASE):
+            search_target = str(ctx.author.id)
+            target = str(ctx.author.display_name)
+        elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(<@|<@!)[0-9]+(>)", target, re.IGNORECASE):
+            search_target = str(ctx.author.id)
+            target = str(ctx.author.display_name)
+        else:
+            search_target = target
+
+        # Load results
+        doc_ref = db.collection(u'rankings').document(search_target)
+        results = doc_ref.get().to_dict()
+
+        if not results:
+            results = self._generate_user_values(search_target)
+
+        if results["vore"] == "1":
+            await ctx.send(str(target) + " vores")
+        else:
+            await ctx.send(str(target) + " gets vored")
+
+    # BDE
     @bot_commands.command()
     async def bde(self, ctx, *, target=None):
-        if allowed_channel(ctx):
-            print("BDEing " + target + " for " + ctx.author.display_name)
-            with open("data/bde.csv", mode="r", newline="") as file:
-                reader = csv.reader(file, delimiter=",")
-                if target is None:
-                    target = "the universe"
-                    search_target = "the universe"
-                elif re.match(r"(^|\s|.)@everyone($| $| .)", target, re.IGNORECASE):
-                    return
-                elif re.match(r"(^|\s|.)me($| $| .)", target, re.IGNORECASE):
-                    search_target = "<@" + str(ctx.author.id) + ">"
-                    target = ctx.author.display_name
-                elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(^|\s|.)" + str(ctx.author.id) + r"($| $| .)", target, re.IGNORECASE):
-                    search_target = "<@" + str(ctx.author.id) + ">"
-                    target = ctx.author.display_name
-                elif re.match(r"(^|\s|.)orb($| $| .)", target, re.IGNORECASE) or re.match(r"(^|\s|.)<@569758271930368010>($| $| .)", target, re.IGNORECASE):
-                    await ctx.send("I have 101% bde")
-                    return
-                else:
-                    search_target = target
-                for line in reader:
-                    try:       
-                        if re.match(r"(^|\s|.)" + str(search_target) + r"($| $| .|.)", line[0], re.IGNORECASE):
-                            await ctx.send(str(target) + " has " + str(line[1]) + "% big dick energy")
-                            return
-                    except:
-                        pass
-            with open("data/bde.csv", mode="a", newline="") as file:
-                writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)    
-                random_value = str(random.randint(0,100))
-                writer.writerow([str(search_target), random_value])
-                await ctx.send(str(target) + " has " + str(random_value) + "% big dick energy")
+        """
+        Ranks the users BDE.
+        """
+        # Check if allowed channel
+        if not allowed_channel(ctx):
+            return
+
+        print("BDE ranking", target, "for user", ctx.author.display_name, "(id", ctx.author.id, ")")        
+
+        # Exceptions
+        if target is None:
+            await ctx.send("I can't rank the BDE of nothing")
+            return    
+        elif re.match(r"(^|\s|.)@everyone($| $| .)", target, re.IGNORECASE):
+            await ctx.send("I'm onto your schemes")
+            return
+
+        # Assign search target and displayed target
+        if re.match(r"(^|\s|.)me($| $| .)", target, re.IGNORECASE):
+            search_target = str(ctx.author.id)
+            target = str(ctx.author.display_name)
+        elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(<@|<@!)[0-9]+(>)", target, re.IGNORECASE):
+            search_target = str(ctx.author.id)
+            target = str(ctx.author.display_name)
+        else:
+            search_target = target
+
+        # Load results
+        doc_ref = db.collection(u'rankings').document(search_target)
+        results = doc_ref.get().to_dict()
+
+        if not results:
+            results = self._generate_user_values(search_target)
+
+        await ctx.send(str(target) + "'s BDE is " + str(results["bde"]) + "%")
 
     # Fishy
     @bot_commands.command()
@@ -244,6 +286,14 @@ class CommandsCog(bot_commands.Cog):
             print("Gembutt called by", ctx.author.display_name)
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/gembutt/gembutt (" + str(random.randint(1, 4)) + ").jpg"))
+
+    # Kagepro
+    @bot_commands.command()
+    async def kagepro(self, ctx):
+        if allowed_channel(ctx):
+            print("Kagepro called by", ctx.author.display_name)
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/kagepro/kagepro (" + str(random.randint(1, 55)) + ").jpg"))
 
     # Yorimoi
     @bot_commands.command()

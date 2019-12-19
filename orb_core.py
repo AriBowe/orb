@@ -1,4 +1,6 @@
 """
+Main controller for Orb, also handles some basic commands & functions
+
 Use the following link to add the bot:
 https://discordapp.com/oauth2/authorize?client_id=569758271930368010&scope=bot&permissions=64
 """
@@ -10,13 +12,15 @@ import os
 import csv
 import re
 import sys
+from google.cloud import firestore
 
 from discord.ext import commands as bot_commands
 print("Base libraries successfully loaded")
 
+
 # Gets constants from files. Yay interlinking
 from cogs.orb_commands import COMMANDS_VERSION, COMMAND_DATA
-from cogs.orb_control import allowed_channel
+from cogs.orb_control import allowed_channel, db #TODO: Move Firestore into a util module (db.py?)
 from utils import repo 
 
 # Assigns bot & client
