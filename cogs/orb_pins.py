@@ -15,7 +15,7 @@ class PinCog(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.pins_store = []
-        print("orb_pins loaded")
+#         print("orb_pins loaded")
 
     @bot_commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):

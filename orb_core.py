@@ -5,78 +5,40 @@ Use the following link to add the bot:
 https://discordapp.com/oauth2/authorize?client_id=569758271930368010&scope=bot&permissions=64
 """
 
-# Get prefixes
-def get_prefix(bot, message):
-    PREFIXES = ["orb.", "o."]
-    return bot_commands.when_mentioned_or(*PREFIXES)(bot, message)
-
 # Imports libraries needed
 import discord
-from discord.ext import commands as bot_commands
 import random
 import os
 import csv
 import re
 import sys
 from google.cloud import firestore
+
+from discord.ext import commands as bot_commands
 print("Base libraries successfully loaded")
 
+
 # Gets constants from files. Yay interlinking
-from cogs.orb_commands import COMMAND_DATA, COMMANDS_VERSION
-from cogs.orb_control import allowed_channel, db
+from cogs.orb_commands import COMMANDS_VERSION, COMMAND_DATA
+from cogs.orb_control import allowed_channel, db #TODO: Move Firestore into a util module (db.py?)
+from utils import repo 
 
 # Assigns bot & client
-bot = bot_commands.Bot(command_prefix=get_prefix, help_command=None, case_insensitive=True)
+bot = bot_commands.Bot(command_prefix=repo.get_prefix, help_command=None, case_insensitive=True)
 client = discord.Client()
 
-# Assigns constants
-MESSAGE = discord.Game("with orbs. Try orb.help")
-VERSION_DATA = {
-    "Colour": "Sinopia",
-    "Version": 8,
-    "Build": 2,
-    "ColourHex": 0xcb410b
-}
-ONLINE_STATUS = "Online"
+# Loads all the extensions 
+files = os.listdir('cogs')
+files.remove('__init__.py')
+files.remove('orb_economy.py') # economy has - according to you - been broken for a while so I removed this from the extension list (Paige)
+for file in files:
+    if file.endswith('.py'):
+        file_name = file[:-3]
+        bot.load_extension(f'cogs.{file_name}')
+        print(str(file_name) + '.py loaded!')
+print('Just a little bit more...')
 
-# List of extensions
-INITIAL_EXTENSIONS = [
-    "cogs.orb_commands",
-    "cogs.orb_control",
-    "cogs.orb_pins",
-    "cogs.orb_fight",
-    "cogs.orb_music"
-    # "cogs.orb_economy"
-]
-
-# Imports extensions
-if __name__ == '__main__':
-    for extension in INITIAL_EXTENSIONS:
-        bot.load_extension(extension)
-
-# Displays boot complete message
-@bot.event
-async def on_ready():
-    with open("data/banned_channels.csv", mode="r") as file:
-        reader = csv.reader(file, delimiter=",")
-        for line in reader:
-            try:
-                BANNED_CHANNELS.append(int(line[0]))
-            except:
-                pass
-    await bot.change_presence(status=discord.Status.online, activity=MESSAGE)
-    print("\nORB Core", VERSION_DATA["Colour"], VERSION_DATA["Version"], "Build", VERSION_DATA["Build"])
-    print('Bot startup successful. Logged in as {0.user}'.format(bot))
-
-# Ping
-@bot.command()
-async def ping(ctx):
-    if allowed_channel(ctx):
-        print("Ping received from", ctx.author.display_name)
-        await ctx.send(random.choice(["Hello!", "Ping!", "Ping received", "Pong!"]))
-
-
-# Orb bot help text
+# Orb bot help text (TODO: fix this so that it displays the built-in help command in Discord.py instead) 
 @bot.command()
 async def help(ctx):
     if allowed_channel(ctx):
@@ -88,12 +50,12 @@ async def help(ctx):
 async def status(ctx):
     if allowed_channel(ctx):
         print("Status requested from", ctx.author.display_name)
-        embed=discord.Embed(title="", color=VERSION_DATA["ColourHex"])
+        embed=discord.Embed(title="", color=repo.VERSION_DATA["ColourHex"])
         embed.set_author(name="ORB STATUS")
-        embed.add_field(name="Core Version", value=VERSION_DATA["Version"], inline=True)
-        embed.add_field(name="Core Build", value=VERSION_DATA["Build"], inline=True)
+        embed.add_field(name="Core Version", value=repo.VERSION_DATA["Version"], inline=True)
+        embed.add_field(name="Core Build", value=repo.VERSION_DATA["Build"], inline=True)
         embed.add_field(name="Commands Version", value=COMMANDS_VERSION["Version"], inline=True)
-        embed.add_field(name="Online Status", value=ONLINE_STATUS, inline=False)
+        embed.add_field(name="Online Status", value=repo.ONLINE_STATUS, inline=False)
         await ctx.send(embed=embed)
 
 # Lists commands
@@ -124,108 +86,5 @@ async def commands(ctx, target=None):
             #     print("Command not found")
             #     output = "Error: Command not found"
         await ctx.send(output)
-
-@bot.event
-async def on_message(message):
-    # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
-    if (re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) and random.random() > 0.5) or random.randint(1, 2000) == 1:
-        await message.add_reaction("🇻")
-        await message.add_reaction("🇪")
-        await message.add_reaction("🇷")
-        await message.add_reaction("🇾")
-        await message.add_reaction("🇨")
-        await message.add_reaction("🇴")
-        await message.add_reaction("🅾")
-        await message.add_reaction("🇱")
-        print("Reacted 'very cool' to message", "'" + message.content + "'", "from user", message.author.display_name)
-
-    # Girls aren't real
-    elif re.search(r"\b(girl[']?s aren[']?t real)\b", message.content, re.IGNORECASE):
-        rand_int = random.randint(1, 10)
-        print("Not real")
-        if rand_int <= 3:
-            await message.add_reaction("🇹")
-            await message.add_reaction("🇷")
-            await message.add_reaction("🇺")
-            await message.add_reaction("🇪")
-            print("Reacted 'true' to the message", "'" + message.content + "'", "from user", message.author.display_name)
-        elif rand_int > 3 and rand_int <= 5:
-            print("Ignored", "'" + message.content + "'", "from user", message.author.display_name)
-            pass
-        else:
-            await message.add_reaction("🇫")
-            await message.add_reaction("🇦")
-            await message.add_reaction("🇨")
-            await message.add_reaction("🇹")
-            print("Reacted 'fact' to the message", "'" + message.content + "'", "from user", message.author.display_name)
-
-    # Epic reaction time
-    elif re.search(r"\b(epic)\b", message.content, re.IGNORECASE) and random.random() >= 0.5:
-        if random.randint(1, 15) == 1:
-            await message.add_reaction("🇪")
-            await message.add_reaction("🅱")
-            await message.add_reaction("🇮")
-            await message.add_reaction("🇨")
-            print("Reacted 'ebic' to the message", "'" + message.content + "'", "from user", message.author.display_name)
-        else:
-            await message.add_reaction("🇪")
-            await message.add_reaction("🇵")
-            await message.add_reaction("🇮")
-            await message.add_reaction("🇨")
-            print("Reacted 'epic' to the message", "'" + message.content + "'", "from user", message.author.display_name)
-
-    # Big guy react
-    elif re.search(r"\b(big guy)\b", message.content, re.IGNORECASE) and random.random() >= 0.75:
-        await message.channel.send("For you")
-        print("Responded with 'For you' to message '" + message.content + "' from user " + message.author.display_name)
-
-    # Awoo react
-    elif re.search(r"\b(awoo+)\b", message.content, re.IGNORECASE):
-        await message.add_reaction("🇦")
-        await message.add_reaction("🇼")
-        await message.add_reaction("🇴")
-        await message.add_reaction("🅾")
-        print("Reacted with 'awoo' to message '" + message.content + "' from user " + message.author.display_name)
-    
-    # 3/10
-    elif re.search(r"\b(asuna)\b", message.content, re.IGNORECASE) or re.search(r"\b(sword art online)\b", message.content, re.IGNORECASE) or re.search(r"\b(SAO)\b", message.content, re.IGNORECASE):
-        if random.random() > 0.9:
-            await message.channel.send("3/10")
-            print("Responded with '3/10' to message '" + message.content + "' from user " + message.author.display_name)
-
-    # Imagine
-    elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.random() > 0.9:
-        await message.channel.send(random.choice(["Imagine", "> i m a g i n e"]))
-
-    # Level up
-    elif re.search(r"(leveled up!)", message.content, re.IGNORECASE) and message.author.id == 172002275412279296:
-        await message.add_reaction("🇬")
-        await message.add_reaction("🇿")
-
-    # OwO
-    elif re.search(r"\b(owo)\b", message.content, re.IGNORECASE):
-        await message.add_reaction("🇴")
-        await message.add_reaction("🇼")
-        await message.add_reaction("🅾")
-
-    # Data are is the wrong way to say it
-    elif re.search(r"\b(data are)\b", message.content, re.IGNORECASE):
-        await message.add_reaction(bot.get_emoji(415384489733128195))
-
-    # Orb
-    elif re.search(r"(\b|:)(orb)(\b|:|^.)", message.content, re.IGNORECASE) and random.random() >= 0.99:
-        await message.add_reaction(bot.get_emoji(587198415348170773))
-
-    # Owl
-    elif re.search(r"(🦉)", message.content, re.IGNORECASE) and message.author.id == 243656780222038017:
-        await message.add_reaction("🦉")
-
-    # # Gay
-    # elif re.search(r"\b(gays)\b", message.content, re.IGNORECASE) and random.random() > 0.99:
-    #     await message.add_reaction("🇬")
-    #     await message.add_reaction("🇦")
-    #     await message.add_reaction("🇾")
-        
-    await bot.process_commands(message)
 
 bot.run(os.environ['DISCORD_TOKEN'], bot=True, reconnect=True)

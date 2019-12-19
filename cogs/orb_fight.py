@@ -10,7 +10,7 @@ from cogs.orb_control import allowed_channel
 class FightCog(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        print("orb_fight loaded")
+#         print("orb_fight loaded")
 
     # Fight someone
     # TODO: Split this up, it's massive

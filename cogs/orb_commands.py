@@ -42,7 +42,7 @@ COMMAND_DATA = {
 class CommandsCog(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        print("orb_commands loaded")
+#         print("orb_commands loaded")
 
     # Allows generation and storage of user values (BDE, rank, and vore)
     def _generate_user_values(self, name: str):

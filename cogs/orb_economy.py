@@ -272,7 +272,7 @@ class EconomyCog(bot_commands.Cog):
         self.bot = bot
         self._users = UserManagement()
 
-        print("orb_economy loaded")
+#         print("orb_economy loaded")
 
     @bot_commands.command()
     async def economy(self, ctx):
