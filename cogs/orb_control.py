@@ -24,7 +24,7 @@ def allowed_channel(ctx):
 
 # Connects to Cloud Firestore
 print("Verifiying with server")
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:\\Users\\Ari Bowe\\Documents\\ORB\\Orb - Discord Bot-04bc1d34a857.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="firestore_key.json"
 db = firestore.Client()
 print("Connected to Google Cloud Firestore")
 
