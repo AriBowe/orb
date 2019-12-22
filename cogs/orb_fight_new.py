@@ -132,12 +132,25 @@ class Fight():
         self.player_1 = Player(player_1)
         self.player_2 = Player(player_2)
 
+        self._run_game_loop()
 
-    async def _game_loop(self, active_player):
+    async def _run_game_loop(self):
         """
-        The main game loop, in which a Player selects and uses Cards against their opponent.
+        The main game loop, in which Players take turns using Cards against their opponent.
 
         Returns: None
+        """
+        while True:
+            if not await self._take_turn(self.player_1, self.player_2):
+                break
+            if not await self._take_turn(self.player_2, self.player_1):
+                break
+
+    async def _take_turn(self, active_player, enemy_player):
+        """
+        The active player taking their turn.
+
+        Returns (bool): If the player has died or otherwise lost the game
         """
         raise NotImplementedError
 
