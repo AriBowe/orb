@@ -125,8 +125,7 @@ class Events(bot_commands.Cog):
     @bot_commands.Cog.listener()
     async def on_message(self, message):
         # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
-        if (re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) and random.random() > 0.5) or random.randint(1,
-                                                                                                                     2000) == 1:
+        if (re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) and random.random() > 0.5) or random.randint(1, 2000) == 1:
             await message.add_reaction("🇻")
             await message.add_reaction("🇪")
             await message.add_reaction("🇷")
@@ -135,6 +134,8 @@ class Events(bot_commands.Cog):
             await message.add_reaction("🇴")
             await message.add_reaction("🅾")
             await message.add_reaction("🇱")
+            if random.random() > 0.99:  #1/100 chance
+                await message.add_reaction("😎")
             print("Reacted 'very cool' to message", "'" + message.content + "'", "from user", message.author.display_name)
 
         # Girls aren't real

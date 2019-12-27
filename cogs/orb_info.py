@@ -34,7 +34,7 @@ class Information(bot_commands.Cog):
         embed.add_field(name="Last boot", value=default.timeago(datetime.datetime.now() - self.bot.uptime), inline=True)
         embed.add_field(
             name=f"Developers:",
-            value="Ari Bowe, Paige Kai",
+            value="Ari Bowe, Julianne Kai",
             # value=', '.join([str(self.bot.get_user(x)) for x in self.config.owners]),
             inline=True)
         embed.add_field(name="Library", value="discord.py", inline=True)
