@@ -4,3 +4,4 @@ ffmpeg==1.4
 youtube_dl==2019.10.16
 google-cloud-firestore==1.6.0
 timeago==1.0.10
+psutil==5.6.7

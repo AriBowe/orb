@@ -30,6 +30,7 @@ client = discord.Client()
 # Loads all the extensions 
 files = os.listdir('cogs')
 files.remove('__init__.py')
+files.remove('orb_fight_new.py')
 files.remove('orb_economy.py') # economy has - according to you - been broken for a while so I removed this from the extension list (Paige)
 for file in files:
     if file.endswith('.py'):
@@ -45,18 +46,7 @@ async def help(ctx):
         print("Help request received from", ctx.author.display_name)
         await ctx.send("Orb bot is a bot that does things. Features include:\n   - Reactions\n   - Posting Illya\n   - Ranking\nFor a list of commands see orb.commands, or check them out online at https://aribowe.github.io/orb/commands. To check the bot status, see orb.status.\nDeveloped by xiii™#0013.")
 
-# Status
-@bot.command()
-async def status(ctx):
-    if allowed_channel(ctx):
-        print("Status requested from", ctx.author.display_name)
-        embed=discord.Embed(title="", color=repo.VERSION_DATA["ColourHex"])
-        embed.set_author(name="ORB STATUS")
-        embed.add_field(name="Core Version", value=repo.VERSION_DATA["Version"], inline=True)
-        embed.add_field(name="Core Build", value=repo.VERSION_DATA["Build"], inline=True)
-        embed.add_field(name="Commands Version", value=COMMANDS_VERSION["Version"], inline=True)
-        embed.add_field(name="Online Status", value=repo.ONLINE_STATUS, inline=False)
-        await ctx.send(embed=embed)
+
 
 # Lists commands
 @bot.command()
