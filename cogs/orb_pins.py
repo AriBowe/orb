@@ -36,7 +36,7 @@ class PinCog(bot_commands.Cog):
                 posted_message.set_image(url=ctx.attachments[0].url)
             posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
            
-            await self.bot.get_channel(pin_channel).send("Message pinned from " + ctx.channel.mention + ". Context: https://www.discordapp.com/channels/" + guild_id + "/" + ctx.channel.id + "/" + message_id, embed=posted_message)
+            await self.bot.get_channel(pin_channel).send("Message pinned from " + ctx.channel.mention + ". Context: https://www.discordapp.com/channels/" + str(guild_id) + "/" + str(ctx.channel.id) + "/" + str(message_id), embed=posted_message)
             pins_store.append(str(message_id))
             print("Pinned a message")
 
