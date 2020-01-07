@@ -36,11 +36,11 @@ class PinCog(bot_commands.Cog):
                 posted_message.set_image(url=ctx.attachments[0].url)
             posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
            
-            await self.bot.get_channel(pin_channel).send("Message pinned from " + ctx.channel.mention, embed=posted_message)
+            await self.bot.get_channel(pin_channel).send("Message pinned from " + ctx.channel.mention + ". Context: https://www.discordapp.com/channels/" + guild_id + "/" + ctx.channel.id + "/" + message_id, embed=posted_message)
             pins_store.append(str(message_id))
             print("Pinned a message")
 
-        if is_pushpin and (guild_id == 286411114969956352) and ctx.channel.id != 606104185875857419 and reaction_count >= 5:
+        if is_pushpin and (guild_id == 286411114969956352) and ctx.channel.id != 606104185875857419 and reaction_count >= 6:
             await pin_message(self, ctx, guild_id, 606104185875857419, self.pins_store)
         elif is_pushpin and (guild_id == 604096342955917322) and ctx.channel.id != 625597425134075924 and reaction_count >= 5:
             await pin_message(self, ctx, guild_id, 625597425134075924, self.pins_store)
