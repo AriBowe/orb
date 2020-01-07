@@ -8,8 +8,7 @@ import csv
 import os
 from google.cloud import firestore
 
-
-BANNED_CHANNELS = []
+from utils.repo import ADMINS
 
 # Verifies if the command is allowed to be executed
 # This is a utility function and shouldn't be called on it's own (hence the lack of .command decorator)
@@ -37,7 +36,7 @@ class ControlCog(bot_commands.Cog):
     # Manual speaking
     @bot_commands.command()
     async def say(self, ctx, channel, *, target=None):
-        if ctx.author.id == 138198892968804352:
+        if ctx.author.id in ADMINS:
             if target == None:
                 await ctx.send("Need a message")
             else:
@@ -48,7 +47,7 @@ class ControlCog(bot_commands.Cog):
     # Update banned channels
     @bot_commands.command()
     async def update_banned(self, ctx):
-        if ctx.author.id == 138198892968804352:
+        if ctx.author.id in ADMINS:
             BANNED_CHANNELS = []
             with open("data/banned_channels.csv", mode="r", newline="") as file:
                 reader = csv.reader(file, delimiter=",")
@@ -60,7 +59,7 @@ class ControlCog(bot_commands.Cog):
     # Add a new banned channel
     @bot_commands.command()
     async def add_banned(self, ctx, target, *, comment=None):
-        if ctx.author.id == 138198892968804352:
+        if ctx.author.id in ADMINS:
             print("Adding", target, "to banned channels list with comment", comment)
             with open("data/banned_channels.csv", mode="a", newline="") as file:
                 writer = csv.writer(file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -70,7 +69,7 @@ class ControlCog(bot_commands.Cog):
     # Remove a banned channel
     @bot_commands.command()
     async def remove_banned(self, ctx, target):
-        if ctx.author.id == 138198892968804352:
+        if ctx.author.id in ADMINS:
             print("Removing", target, "from banned channels list")
             print(type(target))
             temp = []
@@ -96,7 +95,7 @@ class ControlCog(bot_commands.Cog):
     # Lists banned channels
     @bot_commands.command()
     async def list_banned(self, ctx):
-        if ctx.author.id == 138198892968804352:
+        if ctx.author.id in ADMINS:
             output = ""
             with open("data/banned_channels.csv", mode="r", newline="") as file:
                 for line in file:
