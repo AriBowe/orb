@@ -27,7 +27,16 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="firestore_key.json"
 db = firestore.Client()
 print("Connected to Google Cloud Firestore")
 
-BANNED_CHANNELS = db.collection("banned_channels").stream()     # This needs to be here just trust me -Ari
+BANNED_CHANNELS = []
+
+
+with open("data/banned_channels.csv", mode="r") as file:
+    reader = csv.reader(file, delimiter=",")
+    for line in reader:
+        try:
+            BANNED_CHANNELS.append(int(line[0]))
+        except:
+            pass
 
 
 class ControlCog(bot_commands.Cog):
@@ -103,6 +112,8 @@ class ControlCog(bot_commands.Cog):
                 for line in file:
                     output += "Channel: " + line + "\n"
                 await ctx.send(output)
+
+    
 
 def setup(bot):
     bot.add_cog(ControlCog(bot))
