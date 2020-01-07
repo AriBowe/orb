@@ -1,3 +1,7 @@
+"""
+Handles event triggers and reactions
+"""
+
 import discord
 import random
 import sys
@@ -11,6 +15,9 @@ from discord.ext.commands import errors
 from http.client import HTTPException, HTTPResponse
 from utils import repo
 from utils.repo import PREFIXES
+
+from utils.repo import VERSION_DATA, MESSAGE, PREFIXES
+from orb_commands import db
 
 
 async def send_command_help(ctx):
@@ -32,35 +39,14 @@ class Events(bot_commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        VERSION_DATA = {
-            "Colour": "Sinopia",
-            "Version": 7,
-            "Build": 4,
-            "ColourHex": 0xcb410b
-        }
-
     # Displays boot complete message
     
     @bot_commands.Cog.listener()
     async def on_ready(self):
         if not hasattr(self.bot, 'uptime'):
             self.bot.uptime = datetime.datetime.now()
-        # Assigns constants
-        MESSAGE = discord.Game("with orbs. Try orb.help")
-        VERSION_DATA = {
-            "Colour": "Sinopia",
-            "Version": 7,
-            "Build": 4,
-            "ColourHex": 0xcb410b
-        }
-
-        with open("data/banned_channels.csv", mode="r") as file:
-            reader = csv.reader(file, delimiter=",")
-            for line in reader:
-                try:
-                    BANNED_CHANNELS.append(int(line[0]))
-                except:
-                    pass
+        
+        BANNED_CHANNELS = db.collection("banned_channels").stream()
 
         await self.bot.change_presence(status=discord.Status.online, activity=MESSAGE)
         print("\nORB Core", VERSION_DATA["Colour"], VERSION_DATA["Version"], "Build", VERSION_DATA["Build"])

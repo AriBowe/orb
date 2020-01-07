@@ -33,6 +33,7 @@ class Information(bot_commands.Cog):
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
         embed.add_field(name="Last boot", value=default.timeago(datetime.datetime.now() - self.bot.uptime), inline=True)
         embed.add_field(
+
             name=f"Developers:",
             value="Ari Bowe, Julianne Kai",
             # value=', '.join([str(self.bot.get_user(x)) for x in self.config.owners]),
