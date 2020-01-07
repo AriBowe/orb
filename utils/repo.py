@@ -8,7 +8,7 @@ from discord.ext import commands as bot_commands
 
 VERSION_DATA = {
             "Colour": "Sinopia",
-            "Version": 8,
+            "Version": 9,
             "Build": 1,
             "ColourHex": 0xcb410b
         }
