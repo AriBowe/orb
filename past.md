@@ -2,6 +2,20 @@
 
 ---
 
+## EOS 2019 Update
+
+### orb_core Version 9
+
+- New server
+- Core system restructured
+- Julianne added as a dev
+
+### orb_commands version 5
+
+- Transitioned from CSV to Google Cloud Firestore data management
+- o.kagepro added
+- Animal commands added
+
 ## Pin That
 
 ### orb_core Version 8

@@ -6,21 +6,14 @@ layout: default
 
 Orb gets semi-regular feature updates and bug fixes. Here's a preview what's coming in the next one:
 
-## End Of Semester 2019 Update
-
-### orb_music Version 1
-- Play a song or playlist from a youtube link
-- Search youtube from within Discord
-- Majority-rules skip voting, with special overrides
-- Loop a song or playlist
+## Fighting Update
 
 ### orb_fight Version 2
 - Fully rewritten fight system
 - Levels
 - Classes
 
-### orb_core Version 9
-- Rewritten data storage and a new server for a faster bot experience
+### orb_core Version 10
 - React stats
 - More small features & QOL changes
 
@@ -28,7 +21,13 @@ Orb gets semi-regular feature updates and bug fixes. Here's a preview what's com
 
 # In the future, one day...
 
-## orb_economy Version 1
+### orb_music Version 1
+- Play a song or playlist from a youtube link
+- Search youtube from within Discord
+- Majority-rules skip voting, with special overrides
+- Loop a song or playlist
+
+### orb_economy Version 1
 
 - An economy system involving different types of 'orbs'
 - Orbs can be used to influence and modify commands, users, and other orbs

@@ -3,12 +3,13 @@ layout: default
 ---
 
 # Commands:
-Orb has a ton of commands, which can be accessed in discord via the `orb.commands` function. Or, you can find them here.
+Orb has a ton of commands, which can be seen here.
 
 Note: Some commands are secret. They're not listed here, you'll have to find them on your own
 
 ## All commands are prefixed with 'orb.' or 'o.'
-Commands list:
+
+## Bot-Related Commands
 
 #### orb.**help**
 
@@ -18,15 +19,29 @@ Commands list:
 
 #### orb.**commands**
 
-`Function: Lists all commands`
+`Function: Redirects you to this website`
 
-`Arguments: Any command name, or all`
+`Arguments: None`
 
 #### orb.**ping**
 
 `Function: Pings the bot, with various responses`
 
 `Arguments: None`
+
+#### orb.**status**
+
+`Function: Displays the current status of orb`
+
+`Arguments: None`
+
+#### orb.**about**
+
+`Function: Displays information about a user`
+
+`Arguments: None or a discord tag`
+
+## Fun/Joke Commands
 
 #### orb.**ban**
 
@@ -40,6 +55,26 @@ Commands list:
 
 `Arguments: Any input`
 
+#### orb.**fight**  *Requested by orb users*
+
+`Function: Fight people! Uses a stat system with various attacks and even status effects`
+
+`Arguments: Tag a discord user`
+
+#### orb.**stats**  *Requested by orb users*
+
+`Function: See your combat stats from orb.fight. Mock others for their weakness and flex your amazing speed`
+
+`Arguments: Tag a discord user`
+
+#### orb.**translate**  *Requested by orb users*
+
+`Function: Translates any input into Japanese using advance machine learning algorithms`
+
+`Arguments: Any text`
+
+## Ranking Commands
+
 #### orb.**rank**
 
 `Function: Ranks the target out of 10`
@@ -52,11 +87,13 @@ Commands list:
 
 `Arguments: Any input`
 
-#### orb.**status**
+#### orb.**vore**
 
-`Function: Displays the current status of orb`
+`Function: Checks if somoene vores or gets vored`
 
-`Arguments: None`
+`Arguments: Tag a discord user`
+
+## Image Commands
 
 #### orb.**illya**  *Requested by orb users*
 
@@ -94,22 +131,115 @@ Commands list:
 
 `Arguments: None`
 
-#### orb.**fight**  *Requested by orb users*
+## Animal Commands:
 
-`Function: Fight people! Uses a stat system with various attacks and even status effects`
+#### o.**kittens**
 
-`Arguments: Tag a discord user`
+`Function: Posts kittens`
 
-#### orb.**stats**  *Requested by orb users*
+`Arguments: None`
 
-`Function: See your combat stats from orb.fight. Mock others for their weakness and flex your amazing speed`
+#### o.**cat**
 
-`Arguments: Tag a discord user`
+`Function: Posts cat photos`
 
-#### orb.**translate**  *Requested by orb users*
+`Arguments: None`
 
-`Function: Translates any input into "Japanese" (Note: May not be completely valid Japanese)`
+#### o.**catbellies**
 
-`Arguments: Any text`
+`Function: Posts cat bellies`
+
+`Arguments: None`
+
+#### o.**catsonkeyboards**
+
+`Function: Posts cats sitting on keyboards`
+
+`Arguments: None`
+
+#### o.**kneadycats**
+
+`Function: Posts cats`
+
+`Arguments: None`
+
+#### o.**catloaf**
+
+`Function: Posts cats`
+
+`Arguments: None`
+
+#### o.**catgifs/**
+
+`Function: Posts cat gifs`
+
+`Arguments: None`
+
+#### o.**fox/**
+
+`Function: Posts foxes`
+
+`Arguments: None`
+
+#### o.**foxgifs**
+
+`Function: Posts fox gifs`
+
+`Arguments: None`
+
+#### o.**foxloaf**
+
+`Function: Posts foxes`
+
+`Arguments: None`
+
+#### o.**shiba/**
+
+`Function: Posts shiba dogs`
+
+`Arguments: None`
+
+#### o.**birb/**
+
+`Function: Posts birds`
+
+`Arguments: None`
+
+#### o.**awww/**
+
+`Function: Posts cute images`
+
+`Arguments: None`
+
+#### o.**animalsbeingjerks**
+
+`Function: Posts gifs/photos of animals being jerks`
+
+`Arguments: None`
+
+#### o.**eyebleach**
+
+`Function: Posts eyebleach, to clense your eyes of degeneracy`
+
+`Arguments: None`
+
+#### o.**awwgifs/**
+
+`Function: Posts cute gifs`
+
+`Arguments: None`
+
+#### o.**dogs**
+
+`Function: Posts dogs`
+
+`Arguments: None`
+
+#### o.**dogswithhats**
+
+`Function: Posts dogs wearing hats`
+
+`Arguments: None`
+
 
 ## New commands are always in development. See a list [here](comingsoon.md)
