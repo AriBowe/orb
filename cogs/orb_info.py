@@ -23,18 +23,18 @@ class Information(bot_commands.Cog):
         ping = (time.monotonic() - before)
         await message.edit(content=f'Pong! | `{int(ping) * 1000} ms`')
 
-    @bot_commands.command(aliases=['botinfo', 'botstats', 'botstatus'])
+    @bot_commands.command(aliases=['botinfo', 'botstats', 'botstatus', 'status'])
     async def aboutbot(self, ctx):
         """ About the bot """
         ram_usage = self.process.memory_full_info().rss / 1024**2
         avg_members = round(len(self.bot.users) / len(self.bot.guilds))
 
-        embed = discord.Embed(colour=ctx.me.top_role.colour)
+        embed = discord.Embed(colour=repo.VERSION_DATA["ColourHex"])
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
         embed.add_field(name="Last boot", value=default.timeago(datetime.datetime.now() - self.bot.uptime), inline=True)
         embed.add_field(
             name=f"Developers:",
-            value="Ari Bowe, Julianne Kai",
+            value="Ari Bowe, Julianne Cai",
             # value=', '.join([str(self.bot.get_user(x)) for x in self.config.owners]),
             inline=True)
         embed.add_field(name="Library", value="discord.py", inline=True)

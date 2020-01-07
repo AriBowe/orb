@@ -25,13 +25,14 @@ async def send_command_help(ctx):
     Params:
         (discord.ext.commands.Context) ctx: context
     """
-    if ctx.invoked_subcommand:
-        _help = await ctx.bot.formatter.format_help_for(ctx, ctx.invoked_subcommand)
-    else:
-        _help = await ctx.bot.formatter.format_help_for(ctx, ctx.command)
+    await ctx.send("That's not how you use this command! Try again, and check https://aribowe.github.io/orb/commands.html if you're not sure")
+    # if ctx.invoked_subcommand:                                                         THIS IS BROKE BUT I DON'T KNOW HOW
+    #     _help = await ctx.bot.formatter.format_help_for(ctx, ctx.invoked_subcommand)
+    # else:
+    #     _help = await ctx.bot.formatter.format_help_for(ctx, ctx.command)
 
-    for page in _help:
-        await ctx.send(page)
+    # for page in _help:
+    #     await ctx.send(page)
 
 class Events(bot_commands.Cog):
 

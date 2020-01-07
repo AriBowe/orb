@@ -148,29 +148,34 @@ async def reddit_imgscrape(ctx, url):
         (commands.Context): context
         (str): json url
     """
-    current_channel = ctx.message.channel
-    author = ctx.message.author
+    try:
+        current_channel = ctx.message.channel
+        author = ctx.message.author
 
-    rand_post = _get_rand_post(url) # RedditPost object
+        await ctx.trigger_typing()
 
-    embed, rand_url = await _create_embed(ctx, rand_post)
+        rand_post = _get_rand_post(url) # RedditPost object
 
-    if not permissions.can_attach(ctx):
-        await current_channel.send('I cannot upload images/GIFs here ;w;')
+        embed, rand_url = await _create_embed(ctx, rand_post)
 
-    elif not permissions.is_nsfw(ctx) and rand_post.get_nsfw():
-        await current_channel.send(f'L-lewd {author.name}! NSFW commands go in NSFW channels!! >///<')
+        if not permissions.can_attach(ctx):
+            await current_channel.send('I cannot upload images/GIFs here ;w;')
 
-    else:
-        try:
-            if _is_image(rand_url):
-                bio = BytesIO(await http.get(rand_url, res_method='read'))
-                extension = rand_url.split('.')[-1]
-                await current_channel.send(embed=embed)
-                await current_channel.send(file=discord.File(bio, filename=f'image.{extension}'))
-            else:
-                await current_channel.send(embed=embed)
-                await current_channel.send(rand_url)
+        elif not permissions.is_nsfw(ctx) and rand_post.get_nsfw():
+            await current_channel.send(f'L-lewd {author.name}! NSFW commands go in NSFW channels!! >///<')
 
-        except KeyError:
-            await current_channel.send('That didn\'t work ;o; please try the command again.')
+        else:
+            try:
+                if _is_image(rand_url):
+                    bio = BytesIO(await http.get(rand_url, res_method='read'))
+                    extension = rand_url.split('.')[-1]
+                    await current_channel.send(embed=embed)
+                    await current_channel.send(file=discord.File(bio, filename=f'image.{extension}'))
+                else:
+                    await current_channel.send(embed=embed)
+                    await current_channel.send(rand_url)
+
+            except KeyError:
+                await current_channel.send('That didn\'t work ;o; please try the command again.')
+    except:
+        await current_channel.send("Something went wrong, but I'm not sure what. Please slow down and try again")

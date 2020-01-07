@@ -44,7 +44,7 @@ print('Just a little bit more...')
 async def help(ctx):
     if allowed_channel(ctx):
         print("Help request received from", ctx.author.display_name)
-        await ctx.send("Orb bot is a bot that does things. Features include:\n   - Reactions\n   - Posting Illya\n   - Ranking\nFor a list of commands see orb.commands, or check them out online at https://aribowe.github.io/orb/commands. To check the bot status, see orb.status.\nDeveloped by xiii™#0013.")
+        await ctx.send(u"Orb bot is a bot that does things. Features include:\n   - Reactions\n   - Posting Illya\n   - Ranking\nFor a list of commands see orb.commands, or check them out online at https://aribowe.github.io/orb/commands. To check the bot status, see orb.status.\nDeveloped by xiii™#0013 and 🌸Julianne🌸#6939.")
 
 
 
@@ -52,29 +52,29 @@ async def help(ctx):
 @bot.command()
 async def commands(ctx, target=None):
     if allowed_channel(ctx):
-        output = ""
-        if target is None:
-            print("Command overview requested from", ctx.author.display_name)
-            output += "**Accepted commands:**\n```"
-            for command in COMMAND_DATA:
-                output += "orb." + command + "\n"
-            output += "```\n```Call a specific command for more info, or all for a full command dump```"
-        elif target.upper() == "ALL":
-            print("Full commands list requested from", ctx.author.display_name)
-            for command in COMMAND_DATA:
-                output += "```Command: " + "orb." + command + "\n"
-                output += "Function: " + COMMAND_DATA[command][0] + "\n"
-                output += "Arguments: " + COMMAND_DATA[command][1] + "```"
-        else:
-            print("Info on " + target + " requested by " + ctx.author.display_name)
+        # output = ""
+        # if target is None:
+        #     print("Command overview requested from", ctx.author.display_name)
+        #     output += "**Accepted commands:**\n```"
+        #     for command in COMMAND_DATA:
+        #         output += "orb." + command + "\n"
+        #     output += "```\n```Call a specific command for more info, or all for a full command dump```"
+        # elif target.upper() == "ALL":
+        #     print("Full commands list requested from", ctx.author.display_name)
+        #     for command in COMMAND_DATA:
+        #         output += "```Command: " + "orb." + command + "\n"
+        #         output += "Function: " + COMMAND_DATA[command][0] + "\n"
+        #         output += "Arguments: " + COMMAND_DATA[command][1] + "```"
+        # else:
+        #     print("Info on " + target + " requested by " + ctx.author.display_name)
 
-            info, args = COMMAND_DATA[target]
-            output += "```Command: orb." + target + "\n"
-            output += "Function: " + str(info) + "\n"
-            output += "Arguments: " + str(args) + "```"
-            # except:
-            #     print("Command not found")
-            #     output = "Error: Command not found"
-        await ctx.send(output)
+        #     info, args = COMMAND_DATA[target]
+        #     output += "```Command: orb." + target + "\n"
+        #     output += "Function: " + str(info) + "\n"
+        #     output += "Arguments: " + str(args) + "```"
+        #     # except:
+        #     #     print("Command not found")
+        #     #     output = "Error: Command not found"
+        await ctx.send("I have a lot of commands, visit https://aribowe.github.io/orb/commands to see them all")
 
 bot.run(os.environ['DISCORD_TOKEN'], bot=True, reconnect=True)

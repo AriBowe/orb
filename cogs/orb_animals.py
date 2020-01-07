@@ -135,6 +135,28 @@ class Animals(commands.Cog):
         gif_url = 'https://www.reddit.com/r/aww_gifs/.json'
         await reddit_imgscrape(ctx, gif_url)
 
+    @commands.command(alises=['dog', 'goodboy', 'goodboys'])
+    @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
+    async def dogs(self, ctx):
+        """Dog pictures retrieved from lots of different subreddits!"""
+        cats_url = [
+            'https://www.reddit.com/r/dogpictures/',
+            'https://www.reddit.com/r/shiba/',
+            'https://www.reddit.com/r/dogswearinghats/',
+            'https://www.reddit.com/r/dogloaf/',
+            'https://www.reddit.com/r/puppysmiles/',
+        ]
+
+        random.shuffle(cats_url)
+        await reddit_imgscrape(ctx, random.choice(cats_url) + '.json')
+
+    @commands.command(aliases=['doghat', 'dogwithahat', 'dogswithhats'])
+    @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
+    async def dogwithhat(self, ctx):
+        """Dog with hat, very good"""
+        gif_url = 'https://www.reddit.com/r/dogswearinghats/.json'
+        await reddit_imgscrape(ctx, gif_url)
+
 
 def setup(bot):
     bot.add_cog(Animals(bot))
