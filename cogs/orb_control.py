@@ -27,6 +27,8 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="firestore_key.json"
 db = firestore.Client()
 print("Connected to Google Cloud Firestore")
 
+BANNED_CHANNELS = db.collection("banned_channels").stream()     # This needs to be here just trust me -Ari
+
 
 class ControlCog(bot_commands.Cog):
     def __init__(self, bot):

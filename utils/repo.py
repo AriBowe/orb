@@ -15,7 +15,7 @@ VERSION_DATA = {
 
 ONLINE_STATUS = "Online"
 
-MESSAGE = "with orbs. Try orb.help"
+MESSAGE = discord.Game("with orbs. Try orb.help")
 
 PREFIXES = ["orb.", "o."]
 

@@ -14,10 +14,8 @@ from discord.ext import commands as bot_commands
 from discord.ext.commands import errors
 from http.client import HTTPException, HTTPResponse
 from utils import repo
-from utils.repo import PREFIXES
-
 from utils.repo import VERSION_DATA, MESSAGE, PREFIXES
-from orb_commands import db
+from cogs.orb_control import db
 
 
 async def send_command_help(ctx):
@@ -45,8 +43,6 @@ class Events(bot_commands.Cog):
     async def on_ready(self):
         if not hasattr(self.bot, 'uptime'):
             self.bot.uptime = datetime.datetime.now()
-        
-        BANNED_CHANNELS = db.collection("banned_channels").stream()
 
         await self.bot.change_presence(status=discord.Status.online, activity=MESSAGE)
         print("\nORB Core", VERSION_DATA["Colour"], VERSION_DATA["Version"], "Build", VERSION_DATA["Build"])
