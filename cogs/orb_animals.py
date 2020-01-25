@@ -20,7 +20,7 @@ class Animals(commands.Cog):
         kitten_url = 'https://www.reddit.com/r/kittens/.json'
         await reddit_imgscrape(ctx, kitten_url)
 
-    @commands.command(alises=['cat'])
+    @commands.command(aliases=['cat'])
     @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
     async def cats(self, ctx):
         """Cat pictures retrieved from lots of different subreddits!"""
@@ -135,7 +135,7 @@ class Animals(commands.Cog):
         gif_url = 'https://www.reddit.com/r/aww_gifs/.json'
         await reddit_imgscrape(ctx, gif_url)
 
-    @commands.command(alises=['dog', 'goodboy', 'goodboys'])
+    @commands.command(aliases=['dog', 'goodboy', 'goodboys'])
     @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
     async def dogs(self, ctx):
         """Dog pictures retrieved from lots of different subreddits!"""
