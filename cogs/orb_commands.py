@@ -192,7 +192,7 @@ class CommandsCog(bot_commands.Cog):
         if re.match(r"(^|\s|.)me($| $| .)", target, re.IGNORECASE):
             search_target = str(ctx.author.id)
             target = str(ctx.author.display_name)
-        elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE) or re.match(r"(<@|<@!)[0-9]+(>)", target, re.IGNORECASE):
+        elif re.match(r"/(?=^.*" + str(ctx.author.display_name) + r".*$).*/gim", target, re.IGNORECASE):
             search_target = str(ctx.author.id)
             target = str(ctx.author.display_name)
         elif re.match(r"(<@|<@!)[0-9]+(>)", target, re.IGNORECASE):
