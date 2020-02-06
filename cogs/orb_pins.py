@@ -40,7 +40,7 @@ class PinCog(bot_commands.Cog):
             pins_store.append(str(message_id))
             print("Pinned a message")
 
-        if is_pushpin and (guild_id == 286411114969956352) and ctx.channel.id != 606104185875857419 and reaction_count >= 6:
+        if is_pushpin and (guild_id == 286411114969956352) and (ctx.channel.id != 606104185875857419 or ctx.channel.id != 548116269858291712) and reaction_count >= 6:
             await pin_message(self, ctx, guild_id, 606104185875857419, self.pins_store)
         elif is_pushpin and (guild_id == 604096342955917322) and ctx.channel.id != 625597425134075924 and reaction_count >= 5:
             await pin_message(self, ctx, guild_id, 625597425134075924, self.pins_store)
