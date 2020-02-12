@@ -221,6 +221,9 @@ class Events(bot_commands.Cog):
             #     await message.add_reaction("🇾")
         #
         # await bot.process_commands(message)
+        
+        elif re.search(r"\b(🦊)\b", message.content, re.IGNORECASE):
+            message.add_reaction("🦊")
 
 def setup(bot):
     bot.add_cog(Events(bot))
