@@ -118,7 +118,7 @@ class Events(bot_commands.Cog):
 
         # Girls aren't real
         elif re.search(r"\b(girl[']?s aren[']?t real)\b", message.content, re.IGNORECASE):
-            reaction = random.choice(["🇹🇷🇺🇪", "🇫🇦🇨🇹", ""])
+            reaction = random.choice(["🇹🇷🇺🇪", "🇫🇦🇨🇹"])
             for emote in reaction:
                 await message.add_reaction(emote)
 #             rand_int = random.randint(1, 10)
@@ -136,34 +136,37 @@ class Events(bot_commands.Cog):
 #                 for emote in "🇫🇦🇨🇹":
 #                     await message.add_reaction(emote)
 
-                print(f"Reacted {str(emote)} to the message '{message.content}' from user {message.author.display_name}")
+                print(f"Reacted {str(reaction)} to the message '{message.content}' from user
+                      {message.author.display_name}")
 
         # Epic reaction time
         elif re.search(r"\b(epic)\b", message.content, re.IGNORECASE) and random.random() > 0.5:
             if random.randint(1, 15) == 1:
-                for emote in "🇪🅱🇮🇨":
+                reaction = 🇪🅱🇮🇨
+                for emote in reaction:
                     await message.add_reaction(emote)
+                #
+                # print(f"Reacted {emote}")
 
-                print("Reacted 'ebic' to the message", "'" + message.content + "'", "from user",
-                      message.author.display_name)
+                print(f"Reacted {reaction} to the message '{message.content}' from user
+                {message.author.display_name}")
             else:
-                for emote in "🇪🇵🇮🇨":
+                reaction = "🇪🇵🇮🇨"
+                for emote in reaction:
                     await message.add_reaction(emote)
-
-                print("Reacted 'epic' to the message", "'" + message.content + "'", "from user",
-                      message.author.display_name)
+                print(f"Reacted {reaction} to the message '{message.content}' from user {message.author.display_name}")
 
         # Big guy react
         elif re.search(r"\b(big guy)\b", message.content, re.IGNORECASE) and random.random() > 0.75:
             await message.channel.send("For you")
-            print("Responded with 'For you' to message '" + message.content + "' from user " + message.author.display_name)
-
+            print(f"Responded with 'For you' to message {message.content} from user {message.author.display_name}")
         # Awoo react
         elif re.search(r"\b(awoo+)\b", message.content, re.IGNORECASE):
-            for emote in "🇦🇼🇴🅾":
+            reaction = "🇦🇼🇴🅾"
+            for emote in reaction:
                 await message.add_reaction(emote)
 
-            print("Reacted with 'awoo' to message '" + message.content + "' from user " + message.author.display_name)
+            print(f"Reacted with {reaction} to message '{message.content}' from user {message.author.display_name}")
 
         # 3/10
         elif re.search(r"\b(asuna)\b", message.content, re.IGNORECASE) or re.search(r"\b(sword art online)\b",
@@ -172,7 +175,7 @@ class Events(bot_commands.Cog):
                 r"\b(SAO)\b", message.content, re.IGNORECASE):
             if random.random() > 0.9:
                 await message.channel.send("3/10")
-                print("Responded with '3/10' to message '" + message.content + "' from user " + message.author.display_name)
+                print(f"Responded with '3/10' to message {message.content} from user {message.author.display_name}")
 
         # Imagine
         elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.random() > 0.9:
