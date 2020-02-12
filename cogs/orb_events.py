@@ -109,6 +109,10 @@ class Events(bot_commands.Cog):
 
     @bot_commands.Cog.listener()
     async def on_message(self, message):
+        print(message.clean_content)
+        
+        if message.author.id != 574121867942821888:
+            await message.channel.send(message.clean_content)
         # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
         if (re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) and random.random() > 0.5) or random.randint(1, 2000) == 1:
             for emote in "🇻🇪🇷🇾🇨🇴🅾🇱": 
@@ -123,20 +127,6 @@ class Events(bot_commands.Cog):
             reaction = random.choice(["🇹🇷🇺🇪", "🇫🇦🇨🇹"])
             for emote in reaction:
                 await message.add_reaction(emote)
-#             rand_int = random.randint(1, 10)
-#             print("Not real")
-#             if rand_int <= 3:
-#                 for emote in "🇹🇷🇺🇪":
-#                     await message.add_reaction(emote)
-
-#                 print("Reacted 'true' to the message", "'" + message.content + "'", "from user",
-#                       message.author.display_name)
-#             elif rand_int > 3 and rand_int <= 5:
-#                 print("Ignored", "'" + message.content + "'", "from user", message.author.display_name)
-#                 pass
-#             else:
-#                 for emote in "🇫🇦🇨🇹":
-#                     await message.add_reaction(emote)
 
                 print(f"Reacted {str(reaction)} to the message '{message.content}' from user {message.author.display_name}")
 
@@ -223,7 +213,7 @@ class Events(bot_commands.Cog):
         # await bot.process_commands(message)
         
         elif re.search(r"\b(🦊)\b", message.content, re.IGNORECASE):
-            message.add_reaction("🦊")
+            await message.add_reaction("🦊")
 
 def setup(bot):
     bot.add_cog(Events(bot))
