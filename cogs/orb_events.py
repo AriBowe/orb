@@ -109,14 +109,16 @@ class Events(bot_commands.Cog):
     async def on_message(self, message):
         # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
         if (re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) and random.random() > 0.5) or random.randint(1, 2000) == 1:
-            await message.add_reaction("🇻")
-            await message.add_reaction("🇪")
-            await message.add_reaction("🇷")
-            await message.add_reaction("🇾")
-            await message.add_reaction("🇨")
-            await message.add_reaction("🇴")
-            await message.add_reaction("🅾")
-            await message.add_reaction("🇱")
+            for emote in "🇻🇪🇷🇾🇨🅾🇱": 
+                await message.add_reaction(emote)
+#             await message.add_reaction("🇻")
+#             await message.add_reaction("🇪")
+#             await message.add_reaction("🇷")
+#             await message.add_reaction("🇾")
+#             await message.add_reaction("🇨")
+#             await message.add_reaction("🇴")
+#             await message.add_reaction("🅾")
+#             await message.add_reaction("🇱")
             if random.random() > 0.99:  #1/100 chance
                 await message.add_reaction("😎")
             print("Reacted 'very cool' to message", "'" + message.content + "'", "from user", message.author.display_name)
@@ -126,37 +128,45 @@ class Events(bot_commands.Cog):
             rand_int = random.randint(1, 10)
             print("Not real")
             if rand_int <= 3:
-                await message.add_reaction("🇹")
-                await message.add_reaction("🇷")
-                await message.add_reaction("🇺")
-                await message.add_reaction("🇪")
+                for emote in "🇹🇷🇺🇪":
+                    await message.add_reaction(emote)
+#                 await message.add_reaction("🇹")
+#                 await message.add_reaction("🇷")
+#                 await message.add_reaction("🇺")
+#                 await message.add_reaction("🇪")
                 print("Reacted 'true' to the message", "'" + message.content + "'", "from user",
                       message.author.display_name)
             elif rand_int > 3 and rand_int <= 5:
                 print("Ignored", "'" + message.content + "'", "from user", message.author.display_name)
                 pass
             else:
-                await message.add_reaction("🇫")
-                await message.add_reaction("🇦")
-                await message.add_reaction("🇨")
-                await message.add_reaction("🇹")
+                for emote in "🇫🇦🇨🇹":
+                    await message.add_reaction(emote)
+#                 await message.add_reaction("🇫")
+#                 await message.add_reaction("🇦")
+#                 await message.add_reaction("🇨")
+#                 await message.add_reaction("🇹")
                 print("Reacted 'fact' to the message", "'" + message.content + "'", "from user",
                       message.author.display_name)
 
         # Epic reaction time
         elif re.search(r"\b(epic)\b", message.content, re.IGNORECASE) and random.random() > 0.5:
             if random.randint(1, 15) == 1:
-                await message.add_reaction("🇪")
-                await message.add_reaction("🅱")
-                await message.add_reaction("🇮")
-                await message.add_reaction("🇨")
+                for emote in "🇪🅱🇮🇨":
+                    await message.add_reaction(emote)
+#                 await message.add_reaction("🇪")
+#                 await message.add_reaction("🅱")
+#                 await message.add_reaction("🇮")
+#                 await message.add_reaction("🇨")
                 print("Reacted 'ebic' to the message", "'" + message.content + "'", "from user",
                       message.author.display_name)
             else:
-                await message.add_reaction("🇪")
-                await message.add_reaction("🇵")
-                await message.add_reaction("🇮")
-                await message.add_reaction("🇨")
+                for emote in "🇪🇵🇮🇨":
+                    await message.add_reaction(emote)
+#                 await message.add_reaction("🇪")
+#                 await message.add_reaction("🇵")
+#                 await message.add_reaction("🇮")
+#                 await message.add_reaction("🇨")
                 print("Reacted 'epic' to the message", "'" + message.content + "'", "from user",
                       message.author.display_name)
 
@@ -167,10 +177,12 @@ class Events(bot_commands.Cog):
 
         # Awoo react
         elif re.search(r"\b(awoo+)\b", message.content, re.IGNORECASE):
-            await message.add_reaction("🇦")
-            await message.add_reaction("🇼")
-            await message.add_reaction("🇴")
-            await message.add_reaction("🅾")
+            for emote in "🇦🇼🇴🅾":
+                await message.add_reaction(emote)
+#             await message.add_reaction("🇦")
+#             await message.add_reaction("🇼")
+#             await message.add_reaction("🇴")
+#             await message.add_reaction("🅾")
             print("Reacted with 'awoo' to message '" + message.content + "' from user " + message.author.display_name)
 
         # 3/10
@@ -199,14 +211,18 @@ class Events(bot_commands.Cog):
 
             # Level up
         elif re.search(r"(leveled up!)", message.content, re.IGNORECASE) and message.author.id == 172002275412279296:
-            await message.add_reaction("🇬")
-            await message.add_reaction("🇿")
+            for emote in "🇬🇿":
+                await message.add_reaction(emote)
+#             await message.add_reaction("🇬")
+#             await message.add_reaction("🇿")
 
             # OwO
         elif re.search(r"\b(owo)\b", message.content, re.IGNORECASE):
-            await message.add_reaction("🇴")
-            await message.add_reaction("🇼")
-            await message.add_reaction("🅾")
+            for emote in "🇴🇼🅾":
+                await message.add_reaction(emote)
+#             await message.add_reaction("🇴")
+#             await message.add_reaction("🇼")
+#             await message.add_reaction("🅾")
 
             # Data are is the wrong way to say it
         elif re.search(r"\b(data are)\b", message.content, re.IGNORECASE):
