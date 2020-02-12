@@ -118,23 +118,26 @@ class Events(bot_commands.Cog):
 
         # Girls aren't real
         elif re.search(r"\b(girl[']?s aren[']?t real)\b", message.content, re.IGNORECASE):
-            rand_int = random.randint(1, 10)
-            print("Not real")
-            if rand_int <= 3:
-                for emote in "🇹🇷🇺🇪":
-                    await message.add_reaction(emote)
+            reaction = random.choice(["🇹🇷🇺🇪", "🇫🇦🇨🇹"])
+            for emote in reaction:
+                await message.add_reaction(emote)
+#             rand_int = random.randint(1, 10)
+#             print("Not real")
+#             if rand_int <= 3:
+#                 for emote in "🇹🇷🇺🇪":
+#                     await message.add_reaction(emote)
 
-                print("Reacted 'true' to the message", "'" + message.content + "'", "from user",
-                      message.author.display_name)
-            elif rand_int > 3 and rand_int <= 5:
-                print("Ignored", "'" + message.content + "'", "from user", message.author.display_name)
-                pass
-            else:
-                for emote in "🇫🇦🇨🇹":
-                    await message.add_reaction(emote)
+#                 print("Reacted 'true' to the message", "'" + message.content + "'", "from user",
+#                       message.author.display_name)
+#             elif rand_int > 3 and rand_int <= 5:
+#                 print("Ignored", "'" + message.content + "'", "from user", message.author.display_name)
+#                 pass
+#             else:
+#                 for emote in "🇫🇦🇨🇹":
+#                     await message.add_reaction(emote)
 
-                print("Reacted 'fact' to the message", "'" + message.content + "'", "from user",
-                      message.author.display_name)
+                print(f"Reacted {str(emote)} to the message '{message.content}' from user
+                      {message.author.display_name}")
 
         # Epic reaction time
         elif re.search(r"\b(epic)\b", message.content, re.IGNORECASE) and random.random() > 0.5:
