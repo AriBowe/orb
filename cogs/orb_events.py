@@ -37,6 +37,7 @@ async def send_command_help(ctx):
 class Events(bot_commands.Cog):
 
     def __init__(self, bot):
+        self.log = open("../log.txt", mode="a")
         self.bot = bot
     # Displays boot complete message
     
@@ -50,7 +51,7 @@ class Events(bot_commands.Cog):
         print('------------------------------------------')
         print('Bot is online and connected to Discord.')
         print(f'Currently connected to {len(self.bot.guilds)} server.' if len(self.bot.guilds) == 1
-              else f'Currently Connected to {len(self.bot.guilds)} servers.')
+              else f'Currently connected to {len(self.bot.guilds)} servers.')
         print('------------------------------------------')
         print('Bot Name: ' + self.bot.user.name)
         print('Bot ID: ' + str(self.bot.user.id))
@@ -60,6 +61,7 @@ class Events(bot_commands.Cog):
         print('')
         print('orb.py Version: ' + str(repo.VERSION_DATA["Version"]))
         print('------------------------------------------')
+        self.log.write(f"------------------------------------------ \n Boot successful. \n BOT DATA: \n Core: {VERSION_DATA['Version']}, Build {VERSION_DATA['Build']} \n Connected to {len(self.bot.guilds)} servers \n Bot name: {self.bot.user.name} \n Bot ID: {self.bot.user.id} \n Discord.py version: {discord.__version__} \n Python version: {sys.version[:5]} \n ---------------------------")
 
     @bot_commands.Cog.listener()
     async def on_command_error(self, ctx, error: errors):
@@ -136,20 +138,18 @@ class Events(bot_commands.Cog):
 #                 for emote in "🇫🇦🇨🇹":
 #                     await message.add_reaction(emote)
 
-                print(f"Reacted {str(reaction)} to the message '{message.content}' from user
-                      {message.author.display_name}")
+                print(f"Reacted {str(reaction)} to the message '{message.content}' from user {message.author.display_name}")
 
         # Epic reaction time
         elif re.search(r"\b(epic)\b", message.content, re.IGNORECASE) and random.random() > 0.5:
             if random.randint(1, 15) == 1:
-                reaction = 🇪🅱🇮🇨
+                reaction = "🇪🅱🇮🇨"
                 for emote in reaction:
                     await message.add_reaction(emote)
                 #
                 # print(f"Reacted {emote}")
 
-                print(f"Reacted {reaction} to the message '{message.content}' from user
-                {message.author.display_name}")
+                print(f"Reacted {reaction} to the message '{message.content}' from user {message.author.display_name}")
             else:
                 reaction = "🇪🇵🇮🇨"
                 for emote in reaction:
@@ -205,6 +205,10 @@ class Events(bot_commands.Cog):
             # Data are is the wrong way to say it
         elif re.search(r"\b(data are)\b", message.content, re.IGNORECASE):
             await message.add_reaction(self.bot.get_emoji(415384489733128195))
+
+            # Owl
+        elif re.search(r"\b(🦉)\b", message.content, re.IGNORECASE) and message.author.id == 243656780222038017:
+            await message.add_reaction("🦉")
 
             # Orb
         elif re.search(r"(\b|:)(orb)(\b|:|^.)", message.content, re.IGNORECASE) and random.random() > 0.99:

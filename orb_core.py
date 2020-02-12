@@ -27,6 +27,9 @@ from utils import repo
 bot = bot_commands.Bot(command_prefix=repo.get_prefix, help_command=None, case_insensitive=True)
 client = discord.Client()
 
+# Builds or opens log file
+log = open("log.txt", mode="a")
+
 # Loads all the extensions 
 files = os.listdir('cogs')
 files.remove('__init__.py')
