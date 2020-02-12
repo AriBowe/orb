@@ -217,6 +217,9 @@ class Events(bot_commands.Cog):
             #     await message.add_reaction("🇾")
         #
         # await bot.process_commands(message)
+                      
+        elif "🦊" in message.content.split(" ") and author.id == int(163067536693395456):
+            message.add_reaction("🦊")
 
 def setup(bot):
     bot.add_cog(Events(bot))
