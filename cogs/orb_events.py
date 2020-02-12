@@ -109,7 +109,7 @@ class Events(bot_commands.Cog):
     async def on_message(self, message):
         # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
         if (re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) and random.random() > 0.5) or random.randint(1, 2000) == 1:
-            for emote in "🇻🇪🇷🇾🇨🅾🇱": 
+            for emote in "🇻🇪🇷🇾🇨🇴🅾🇱": 
                 await message.add_reaction(emote)
 #             await message.add_reaction("🇻")
 #             await message.add_reaction("🇪")
@@ -127,27 +127,9 @@ class Events(bot_commands.Cog):
         elif re.search(r"\b(girl[']?s aren[']?t real)\b", message.content, re.IGNORECASE):
             rand_int = random.randint(1, 10)
             print("Not real")
-            if rand_int <= 3:
-                for emote in "🇹🇷🇺🇪":
-                    await message.add_reaction(emote)
-#                 await message.add_reaction("🇹")
-#                 await message.add_reaction("🇷")
-#                 await message.add_reaction("🇺")
-#                 await message.add_reaction("🇪")
-                print("Reacted 'true' to the message", "'" + message.content + "'", "from user",
-                      message.author.display_name)
-            elif rand_int > 3 and rand_int <= 5:
-                print("Ignored", "'" + message.content + "'", "from user", message.author.display_name)
-                pass
-            else:
-                for emote in "🇫🇦🇨🇹":
-                    await message.add_reaction(emote)
-#                 await message.add_reaction("🇫")
-#                 await message.add_reaction("🇦")
-#                 await message.add_reaction("🇨")
-#                 await message.add_reaction("🇹")
-                print("Reacted 'fact' to the message", "'" + message.content + "'", "from user",
-                      message.author.display_name)
+            emote = random.choice(["🇹🇷🇺🇪", "🇫🇦🇨🇹", ""])
+            for i in emote:
+                await message.add_reaction(i)
 
         # Epic reaction time
         elif re.search(r"\b(epic)\b", message.content, re.IGNORECASE) and random.random() > 0.5:
