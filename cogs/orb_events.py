@@ -109,7 +109,7 @@ class Events(bot_commands.Cog):
     async def on_message(self, message):
         # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
         if (re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) and random.random() > 0.5) or random.randint(1, 2000) == 1:
-            for emote in "🇻🇪🇷🇾🇨🅾🇱": 
+            for emote in "🇻🇪🇷🇾🇨🇴🅾🇱": 
                 await message.add_reaction(emote)
                
             if random.random() > 0.99:  #1/100 chance
