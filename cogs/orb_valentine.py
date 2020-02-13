@@ -42,7 +42,7 @@ class Valentine(bot_commands.Cog):
             await ctx.send("Woah there! Please tag the person whose love you're questioning after the command, or don't put anything after the command to see your own love.")
             return
 
-        crush = self.bot.get_user(await self._get_crush(ctx, target)).mention
+        crush = self.bot.get_user(await self._get_crush(ctx, target)).display_name
         crushee = self.bot.get_user(target).display_name
 
         await ctx.send(random.choice([f"{crushee}, your valentine's crush is {crush}!", f"{crushee}, you're hopelessly in love with {crush}", f"Your eye has recently been caught by {crush}, hasn't it {crushee}?"]))
