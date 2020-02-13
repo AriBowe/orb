@@ -1,5 +1,5 @@
 """
-Love is in the air! Assigns user random valentines. REMEMBER TO REMOVE THIS AFTER 2 WEEKS!!!
+Love is in the air! Assigns users random valentines. REMEMBER TO REMOVE THIS AFTER 2 WEEKS!!!
 """
 
 # Standard module imports
