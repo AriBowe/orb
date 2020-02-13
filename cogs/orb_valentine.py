@@ -23,12 +23,13 @@ class Valentine(bot_commands.Cog):
         self.bot = bot
         self._active_users = []
         self._last_active_check = datetime(2001, 9, 13)
-        
-        self.SMACK_GUILD = bot.get_guild(286411114969956352)
-        self.SMACK_ID = 286411114969956352
 
     @bot_commands.command(aliases=["loves", "love", "valentine", "crush"])
     async def valentines(self, ctx, *, target=None):
+        self.SMACK_GUILD = self.bot.get_guild(286411114969956352)
+        self.SMACK_ID = 286411114969956352
+        print(self.SMACK_GUILD, self.SMACK_ID)
+
         if ctx.guild.id != self.SMACK_ID:
             await ctx.send("Sorry, but my cherub powers only extend to SMACK UQ!")
             return
@@ -79,12 +80,15 @@ class Valentine(bot_commands.Cog):
         """
 
         if self._last_active_check < datetime.utcnow() + timedelta(minutes=5):
-            active_users = self.SMACK_GUILD.get_role(371079720768634895)        # Execs
-            active_users.append(self.SMACK_GUILD.get_role(592939685723242496))  # Mods
-            active_users.append(self.SMACK_GUILD.get_role(286412638508941312))  # Senpai
-            active_users.append(self.SMACK_GUILD.get_role(286411614855626752))  # Old Exec
-            active_users.append(self.SMACK_GUILD.get_role(585601647149842465))  # Boost
-            active_users.append(self.SMACK_GUILD.get_role(607914165121843230))  # Member
+            active_users = self.SMACK_GUILD.get_role(371079720768634895).members    # Execs
+            active_users += self.SMACK_GUILD.get_role(592939685723242496).members   # Mods
+            active_users += self.SMACK_GUILD.get_role(286412638508941312).members   # Senpai
+            active_users += self.SMACK_GUILD.get_role(286411614855626752).members   # Old Exec
+            active_users += self.SMACK_GUILD.get_role(585601647149842465).members   # Boost
+            active_users += self.SMACK_GUILD.get_role(607914165121843230).members   # Member
+            active_users += self.SMACK_GUILD.get_role(658905100898533376).members   # Touchy
+
+            print(active_users)
 
             self._last_active_check = datetime.utcnow()
             self._active_users = active_users            
