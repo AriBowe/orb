@@ -119,9 +119,9 @@ class CommandsCog(bot_commands.Cog):
             results = self._generate_user_values(search_target)
 
         if target == 8 or target == 11:
-            await ctx.send("I'd give " + str(target) + " an " + str(results["ranking"]) + " out of 10")
+            await ctx.send(f"I'd give {target} an {results['ranking']} out of 10")
         else:
-            await ctx.send("I'd give " + str(target) + " an " + str(results["ranking"]) + " out of 10")
+            await ctx.send(f"I'd give {target} a {results['ranking']} out of 10")
             
 
     # Vore

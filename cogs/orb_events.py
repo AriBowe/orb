@@ -109,10 +109,6 @@ class Events(bot_commands.Cog):
 
     @bot_commands.Cog.listener()
     async def on_message(self, message):
-        print(message.clean_content)
-        
-        if message.author.id != 574121867942821888:
-            await message.channel.send(message.clean_content)
         # If message contains very cool, or otherwise a 1/2000 chance of reacting "very cool"
         if (re.search(r"\b(very cool)\b", message.content, re.IGNORECASE) and random.random() > 0.5) or random.randint(1, 2000) == 1:
             for emote in "🇻🇪🇷🇾🇨🇴🅾🇱": 
