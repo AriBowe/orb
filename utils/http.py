@@ -1,7 +1,7 @@
 import asyncio
 import aiohttp
 
-from utils import cache
+from utils import image_cache
 
 
 # The code here is due to AlexFlipnote
@@ -30,7 +30,7 @@ class HTTPSession(aiohttp.ClientSession):
 session = HTTPSession()
 
 
-@cache.async_cache()
+@image_cache.async_cache()
 async def query(url, method="get", res_method="text", *args, **kwargs):
     async with getattr(session, method.lower())(url, *args, **kwargs) as res:
         return await getattr(res, res_method)()
