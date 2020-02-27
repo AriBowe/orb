@@ -211,7 +211,7 @@ class Events(bot_commands.Cog):
         elif re.search(r"\b(:fox:)\b", message.content, re.IGNORECASE):
             await message.add_reaction("🦊")
 
-        elif re.search(r"\b(surely)\b", message,content, re.IGNORECASE):
+        elif re.search(r"\b(surely)\b", message.content, re.IGNORECASE):
             for emote in "🇸🇺🇷🇪🇱🇾":
                 await message.add_reaction(emote)
 
