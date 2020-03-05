@@ -1,13 +1,13 @@
-import json
 import discord
 import os
+import requests 
 
-from urllib.request import urlopen
+from discord.ext import commands 
+
 
 DICT_URL = "https://www.dictionaryapi.com/api/v3/references/thesaurus/json/"
 DICT_KEY = os.environ['DICT_KEY']
 
-TEST_URL = "https://www.dictionaryapi.com/api/v3/references/thesaurus/json/umpire?key=2213b92f-27e9-4c64-8099-330af1374f17"
 
 class Definition:
     """
@@ -55,17 +55,13 @@ class Definition:
         )
 
 def _get_dict_json(url):
-    file = urlopen(url)
-    data = json.loads(file.read().decode('utf-8'))
-    file.close()
-    return data
+    return requests.get(url=url).json()
 
 def _parse_dict_json(word):
     """
     Parses the JSON data and returns a Definition object
 
     Params:
-        data (dict): JSON data from the API
         word (str): word requiring definition
 
     Returns:
@@ -73,65 +69,82 @@ def _parse_dict_json(word):
         and whether or not it's offensive)
     """
 
-    URL = DICT_URL + word + DICT_KEY
-    data = _get_dict_json(URL)[1]['meta']
-
+    URL = DICT_URL + str(word) + f"?key={DICT_KEY}"
+    data = _get_dict_json(URL)
     try:
-
-        word_data = Definition(
-            data[1]['meta']['id'],
-            [
-                data[1]['def'][0]['sseq'][0][0][1]['dt'][0][1],
-                data[1]['shortdef'][0]
-            ],
-            data[1]['meta']['syns'][0],
-            data[1]['def'][0]['sseq'][0][0][1]['dt'][1][1][0]['t'],
+        defn_obj = Definition(
+            data[0]['meta']['id'],
+            data[0]['def'][0]['sseq'][0][0][1]['dt'][0][1],
+            data[0]['meta']['syns'][0],
+            data[0]['def'][0]['sseq'][0][0][1]['dt'][1][1][0]['t'],
             data[0]['meta']['offensive']
         )
 
-        return word_data
+        return defn_obj
 
-    except KeyError:
+    except TypeError:
         suggestion = ""
-        for word in data:
-            suggestion += f"{word}, "
+        if len(data) == 1:
+            return data[0]
+        else:
+            for word in data:
+                suggestion += f"{word}, "
 
-        return f"The request word could not be found ;A; did you mean {suggestion}?"
+        return f"The request word could not be found ;A; did you mean any of the following? \n{suggestion}"
 
-def send_def(ctx, word):
+def _create_embed(ctx, word):
+    """
+    Creates a discord.Embed object with info on word
+
+    Params:
+        ctx: context
+        word (str): word to be looked up
+    Returns:
+        embed (discord.Embed): discord embed containing relevant info on word
+    """
     definition = _parse_dict_json(word)
 
-    syn_string = ""
-    n = 0
-    for syn in definition.get_syn():
-        if definition.get_syn() is False:
-            return "No synonyms could be found for this word"
+    try:
+        syn_string = ""
+        n = 0
+        if len(definition.get_syns()) == 1:
+            return syn_string + definition.get_syns()[0]
         else:
-            n += 1
-            syn_string += f"{n}. {word}\\"
+            for syn in definition.get_syns():
+                if definition.get_syns() is False:
+                    return "No synonyms could be found for this word"
+                else:
+                    n += 1
+                    syn_string += f"{n}. {syn}\n"
 
-    embed = discord.Embed(
-        title=definition.get_word(),
-        description=f"1. {definition.get_defn[0]}\\ "
-        f"2. {definition.get_defn()[1]}\\"
-        f"__**Synonyms**__\\ {syn_string}\\"
-        f"__**Example**__\\{definition.get_examp()}",
-        footer=f"Definition request by {ctx.author.name}."
-    )
+        embed = discord.Embed(
+            title=definition.get_word(),
+            description=f"__**Definition**__\n {definition.get_defn()}\n "
+            f"__**Synonyms**__\n {syn_string}\n"
+            f"__**Example**__\n {definition.get_examp()}"
+        )
+        embed.set_footer(text=f"Definition requested by {ctx.author.name}.")
 
-    await ctx.message.channel.send(embed)
-    
-   class Define(commands.Cog):
+        return embed
+
+    except AttributeError:
+        return definition
+
+class Define(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command()
     @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
     async def define(self, ctx, word):
         """
         Defines a word using Merrian-Webster Dictionary
         """
         embed = _create_embed(ctx, word)
-        ctx.send(embed)
-     
+        try:
+            await ctx.send(embed=embed)
+        except AttributeError:
+            await ctx.send(embed)
+
 def setup(bot):
     bot.add_cog(Define(bot))
