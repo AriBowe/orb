@@ -208,8 +208,9 @@ class Events(bot_commands.Cog):
         #
         # await bot.process_commands(message)
         
-        elif re.search(r"\b(:fox:)\b", message.content, re.IGNORECASE):
-            await message.add_reaction("🦊")
+          # Commented out since it was interefering with command processor for o.fox
+#         elif re.search(r"\b(:fox:)\b", message.content, re.IGNORECASE):
+#             await message.add_reaction("🦊")
 
         elif re.search(r"\b(surely)\b", message.content, re.IGNORECASE):
             for emote in "🇸🇺🇷🇪🇱🇾":
