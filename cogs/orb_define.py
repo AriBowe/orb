@@ -120,3 +120,18 @@ def send_def(ctx, word):
     )
 
     await ctx.message.channel.send(embed)
+    
+   class Define(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
+    async def define(self, ctx, word):
+        """
+        Defines a word using Merrian-Webster Dictionary
+        """
+        embed = _create_embed(ctx, word)
+        ctx.send(embed)
+     
+def setup(bot):
+    bot.add_cog(Define(bot))
