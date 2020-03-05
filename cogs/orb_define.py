@@ -92,6 +92,16 @@ def _parse_dict_json(word):
 
         return f"The request word could not be found ;A; did you mean any of the following? \n{suggestion}"
 
+    except IndexError:
+        defn_obj = Definition(
+            data[0]['meta']['id'],
+            data[0]['def'][0]['sseq'][0][0][1]['dt'][0][1],
+            data[0]['meta']['syns'][0],
+            "No examples could be found.",
+            data[0]['meta']['offensive']
+        )
+        return defn_obj
+
 def _create_embed(ctx, word):
     """
     Creates a discord.Embed object with info on word
