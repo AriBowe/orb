@@ -3,7 +3,6 @@ import discord
 import os
 
 from urllib.request import urlopen
-from urllib.parse import quote as urlquote
 
 DICT_URL = "https://www.dictionaryapi.com/api/v3/references/thesaurus/json/"
 DICT_KEY = os.environ['DICT_KEY']
@@ -17,7 +16,7 @@ class Definition:
         word (str): the word itself
         defn (list): the definition of the word (list attr in case there are multiple defs)
         syns (list): synonyms for the word (contained as list object)
-        examp: an example of the word being used in a sentence
+        examp (str): an example of the word being used in a sentence
         offens (Bool): True if word is offensive, False otherwise
     """
     def __init__(self, word, defn, syns, examp, offens):
@@ -97,7 +96,27 @@ def _parse_dict_json(word):
         for word in data:
             suggestion += f"{word}, "
 
-        return f"Did you mean {suggestion}"
+        return f"The request word could not be found ;A; did you mean {suggestion}?"
 
 def send_def(ctx, word):
-    raise NotImplementedError
+    definition = _parse_dict_json(word)
+
+    syn_string = ""
+    n = 0
+    for syn in definition.get_syn():
+        if definition.get_syn() is False:
+            return "No synonyms could be found for this word"
+        else:
+            n += 1
+            syn_string += f"{n}. {word}\\"
+
+    embed = discord.Embed(
+        title=definition.get_word(),
+        description=f"1. {definition.get_defn[0]}\\ "
+        f"2. {definition.get_defn()[1]}\\"
+        f"__**Synonyms**__\\ {syn_string}\\"
+        f"__**Example**__\\{definition.get_examp()}",
+        footer=f"Definition request by {ctx.author.name}."
+    )
+
+    await ctx.message.channel.send(embed)
