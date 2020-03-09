@@ -3,7 +3,6 @@
 # Standard imports
 import discord
 import random
-
 from discord.ext import commands as bot_commands
 
 # Local bot imports
