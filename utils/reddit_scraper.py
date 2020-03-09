@@ -148,10 +148,10 @@ async def reddit_imgscrape(ctx, url):
         (commands.Context): context
         (str): json url
     """
+    current_channel = ctx.message.channel
+    author = ctx.message.author
+    
     try:
-        current_channel = ctx.message.channel
-        author = ctx.message.author
-
         await ctx.trigger_typing()
 
         rand_post = _get_rand_post(url) # RedditPost object
