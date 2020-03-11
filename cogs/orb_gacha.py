@@ -14,8 +14,9 @@ class Gacha(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @bot_commands.command
+    @bot_commands.command()
     async def gacha(self, ctx):
+        print("Rolling gacha")
         await ctx.send(random.choice(["Double!","Nothing!"]))
 
 def setup(bot):
