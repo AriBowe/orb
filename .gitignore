@@ -1,6 +1,9 @@
 # VS Code
 .vscode/launch.json
 
+# Firestore ket
+firestore_key.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -124,5 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+<<<<<<< HEAD
 
 firestore_key.json
+=======
+.vscode/settings.json
+
+# Bot images
+images.*
+>>>>>>> c7a1705398ba02f08727043f593faee375b772a0
