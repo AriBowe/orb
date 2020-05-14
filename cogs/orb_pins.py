@@ -42,7 +42,7 @@ class PinCog(bot_commands.Cog):
 
         if is_pushpin and (guild_id == 286411114969956352) and (ctx.channel.id != 606104185875857419 or ctx.channel.id != 548116269858291712) and reaction_count >= 6:      # SMACK
             await pin_message(self, ctx, guild_id, 606104185875857419, self.pins_store)
-        elif is_pushpin and (guild_id == 710474433420197968) and ctx.channel.id != 710485141642018878:                                                                      # 🦀
+        elif is_pushpin and (guild_id == 710474433420197968) and ctx.channel.id != 710485141642018878 and reaction_count >= 3:                                              # 🦀
             await pin_message(self, ctx, guild_id, 710485141642018878, self.pins_store)
         elif is_pushpin and (guild_id == 498089175484989440):                                                                                                               # Testing
             await pin_message(self, ctx, guild_id, 603496595669123072, self.pins_store)
