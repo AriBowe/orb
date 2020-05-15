@@ -131,3 +131,6 @@ dmypy.json
 
 # Bot images
 images.*
+
+# Config & data files
+/data

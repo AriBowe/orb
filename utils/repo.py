@@ -3,19 +3,25 @@ Datastore for bot-wide constants, seperated so that it's easier to edit. Do NOT 
 """
 
 import discord
+import json
 
 from discord.ext import commands as bot_commands
 
-VERSION_DATA = {
-            "Colour": "Sinopia",
-            "Version": 9.2,
-            "Build": 1,
-            "ColourHex": 0xcb410b
-        }
+with open("..data/config.json", "r") as config:
+    config = json.load(config)
+
+# VERSION_DATA = {
+#             "Colour": "Sinopia",
+#             "Version": 9.2,
+#             "Build": 1,
+#             "ColourHex": 0xcb410b
+#         }
+
+VERSION_DATA = config[version_data]
 
 ONLINE_STATUS = "Online"
 
-MESSAGE = discord.Game("with orbs. Try orb.help")
+MESSAGE = exec(config[message])
 
 PREFIXES = ["orb.", "o."]
 
