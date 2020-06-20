@@ -36,6 +36,11 @@ files.remove('__init__.py')
 files.remove('orb_fight_new.py')    # under development 
 files.remove('orb_economy.py')      # blank placeholder module
 files.remove('orb_gacha.py')        # blank placeholder module
+files.remove('orb_synergy.py')      # under development
+files.remove('orb_echo.py')         # under development
+files.remove('orb_define.py')       # lost the key
+files.remove('orb_music.py')        # under development
+
 for file in files:
     if file.endswith('.py'):
         file_name = file[:-3]
@@ -81,4 +86,4 @@ async def commands(ctx, target=None):
         #     #     output = "Error: Command not found"
         await ctx.send("I have a lot of commands, visit https://aribowe.github.io/orb/commands to see them all")
 
-bot.run(os.environ['DISCORD_TOKEN'], bot=True, reconnect=True)
+bot.run(repo.get_token(), bot=True, reconnect=True)
