@@ -73,7 +73,7 @@ class Events(bot_commands.Cog):
             (discord.ext.commands.errors): errors
         """
         if isinstance(error, errors.CommandNotFound):
-            await ctx.send(f'Invalid command. Please type {random.choice(PREFIXES)}commands to see a list of commands, or visit https://aribowe.github.io/orb/.')
+            await ctx.send(f'Invalid command. To see a list of commands visit https://aribowe.github.io/orb/.')
 
         elif isinstance(error, errors.MissingRequiredArgument) or isinstance(error, errors.BadArgument):
             await send_command_help(ctx)
@@ -212,7 +212,7 @@ class Events(bot_commands.Cog):
 #         elif re.search(r"\b(:fox:)\b", message.content, re.IGNORECASE):
 #             await message.add_reaction("🦊")
 
-        elif re.search(r"\b(surely)\b", message.content, re.IGNORECASE):
+        elif re.search(r"\b(surely)\b", message.content, re.IGNORECASE) and random.random() > 0.8:
             for emote in "🇸🇺🇷🇪🇱🇾":
                 await message.add_reaction(emote)
 

@@ -32,14 +32,19 @@ log = open("log.txt", mode="a")
 
 # Loads all the extensions 
 files = os.listdir('cogs')
-files.remove('__init__.py')
-files.remove('orb_fight_new.py')    # under development 
-files.remove('orb_economy.py')      # blank placeholder module
-files.remove('orb_gacha.py')        # blank placeholder module
-files.remove('orb_synergy.py')      # under development
-files.remove('orb_echo.py')         # under development
-files.remove('orb_define.py')       # lost the key
-files.remove('orb_music.py')        # under development
+for cog in repo.DISABLED:
+    try:
+        files.remove(f"{cog}.py")
+    except:
+        print(f"Failed to remove {cog}. Is it present?")
+# files.remove('__init__.py')
+# files.remove('orb_fight_new.py')    # under development 
+# files.remove('orb_economy.py')      # blank placeholder module
+# files.remove('orb_gacha.py')        # blank placeholder module
+# files.remove('orb_synergy.py')      # under development
+# files.remove('orb_echo.py')         # under development
+# files.remove('orb_define.py')       # lost the key
+# files.remove('orb_music.py')        # under development
 
 for file in files:
     if file.endswith('.py'):

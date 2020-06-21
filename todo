@@ -1,0 +1,29 @@
+Config tasks:
+Add banned channels to config
+Shift pins to config
+Integrate various other variables & shit into config - should be able to make the bot fully packagable by the end
+Generalised reaction system via config
+
+Backend rewrite:
+Add utils.cache & cache Firestore results for semi-regular uploads (15 mins?)
+- Route every Firestore call through this
+Push fight data to firestore
+
+Content:
+o.fight rewrite
+Write synergy
+Write echo
+(MAYBE) Web panel????
+- Github hosting?
+- Route through domain
+
+Bug fixes:
+Fix o.status bug
+Get orb_define API key(s)
+- Fix o.define bugs
+SPELLCHECK
+Ping time bug
+o.pin time offset
+
+Misc:
+Write up release notes

@@ -134,3 +134,4 @@ images.*
 
 # Config & data files
 /data
+.csv

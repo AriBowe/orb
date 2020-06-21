@@ -19,13 +19,17 @@ with open("data/config.json", "r") as config:
 
 VERSION_DATA = config['version_data']
 
-ONLINE_STATUS = "Online"
+ONLINE_STATUS = config['message']
 
 MESSAGE = exec(config['message'])
 
-PREFIXES = ["orb.", "o."]
+PREFIXES = config['prefixes']
 
 ADMINS = config['controllers']
+
+DISABLED = config['disabled_cogs']
+
+BANNED_CHANNELS = "x"
 
 # Get prefixes
 def get_prefix(bot, message):
@@ -33,4 +37,6 @@ def get_prefix(bot, message):
 
 # Get token
 def get_token():
+    if config['is_test']:
+        return config['test_token']
     return config['token']
