@@ -7,8 +7,7 @@ from discord.ext import commands as bot_commands
 import csv
 import os
 from google.cloud import firestore
-
-from utils.repo import ADMINS
+from utils import repo
 
 # Verifies if the command is allowed to be executed
 # This is a utility function and shouldn't be called on it's own (hence the lack of .command decorator)
@@ -23,11 +22,13 @@ def allowed_channel(ctx):
 
 # Connects to Cloud Firestore
 print("Verifiying with server")
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="firestore_key.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=repo.config['keys']['firestore_key_path']
 db = firestore.Client()
 print("Connected to Google Cloud Firestore")
 
 BANNED_CHANNELS = []
+
+ADMINS = repo.config['controllers']
 
 
 with open("data/banned_channels.csv", mode="r") as file:

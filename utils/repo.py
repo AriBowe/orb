@@ -18,25 +18,18 @@ with open("data/config.json", "r") as config:
 #         }
 
 VERSION_DATA = config['version_data']
-
 ONLINE_STATUS = config['message']
-
 MESSAGE = exec(config['message'])
-
 PREFIXES = config['prefixes']
-
-ADMINS = config['controllers']
-
-DISABLED = config['disabled_cogs']
-
 BANNED_CHANNELS = "x"
+PIN_DATA = config['optional_cogs']['pin_settings']
 
 # Get prefixes
 def get_prefix(bot, message):
-    return bot_commands.when_mentioned_or(*PREFIXES)(bot, message)
+    return bot_commands.when_mentioned_or(*config['prefixes'])(bot, message)
 
 # Get token
 def get_token():
     if config['is_test']:
-        return config['test_token']
-    return config['token']
+        return config['keys']['test_token']
+    return config['keys']['token']

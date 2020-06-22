@@ -13,10 +13,8 @@ import csv
 import re
 import sys
 from google.cloud import firestore
-
 from discord.ext import commands as bot_commands
 print("Base libraries successfully loaded")
-
 
 # Gets constants from files. Yay interlinking
 from cogs.orb_commands import COMMANDS_VERSION, COMMAND_DATA
@@ -32,19 +30,11 @@ log = open("log.txt", mode="a")
 
 # Loads all the extensions 
 files = os.listdir('cogs')
-for cog in repo.DISABLED:
+for cog in repo.config['disabled_cogs']:
     try:
         files.remove(f"{cog}.py")
     except:
         print(f"Failed to remove {cog}. Is it present?")
-# files.remove('__init__.py')
-# files.remove('orb_fight_new.py')    # under development 
-# files.remove('orb_economy.py')      # blank placeholder module
-# files.remove('orb_gacha.py')        # blank placeholder module
-# files.remove('orb_synergy.py')      # under development
-# files.remove('orb_echo.py')         # under development
-# files.remove('orb_define.py')       # lost the key
-# files.remove('orb_music.py')        # under development
 
 for file in files:
     if file.endswith('.py'):
@@ -53,14 +43,14 @@ for file in files:
         print(str(file_name) + '.py loaded!')
 print('Just a little bit more...')
 
+bot.run(repo.get_token(), bot=True, reconnect=True)
+
 # Orb bot help text (TODO: fix this so that it displays the built-in help command in Discord.py instead) 
 @bot.command()
 async def help(ctx):
     if allowed_channel(ctx):
         print("Help request received from", ctx.author.display_name)
         await ctx.send(u"Orb bot is a bot that does things. Features include:\n   - Reactions\n   - Posting Illya\n   - Ranking\nFor a list of commands see orb.commands, or check them out online at https://aribowe.github.io/orb/commands. To check the bot status, see orb.status.\nDeveloped by xiii™#0013 and 🌸Julianne🌸#6939.")
-
-
 
 # Lists commands
 @bot.command()
@@ -91,4 +81,4 @@ async def commands(ctx, target=None):
         #     #     output = "Error: Command not found"
         await ctx.send("I have a lot of commands, visit https://aribowe.github.io/orb/commands to see them all")
 
-bot.run(repo.get_token(), bot=True, reconnect=True)
+

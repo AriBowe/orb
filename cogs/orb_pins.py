@@ -10,12 +10,16 @@ from datetime import datetime, timedelta
 import asyncio
 import json
 from discord.ext import commands as bot_commands
+from utils import repo
 
 class PinCog(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.pins_store = []
-#         print("orb_pins loaded")
+        self.active_servers = []
+
+        for server in repo.PIN_DATA:
+            self.active_servers.append(int(server))
 
     @bot_commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
@@ -25,9 +29,9 @@ class PinCog(bot_commands.Cog):
         guild_id = ctx.guild.id
         reaction_count = reaction.count
         
-        async def pin_message(self, ctx, guild_id, pin_channel, pins_store):
+        async def pin_message(self, ctx, guild_id, pin_channel):
             message_id = ctx.id
-            if str(message_id) in pins_store:
+            if str(message_id) in self.pins_store:
                 return
                 
             posted_message = discord.Embed(description=str(ctx.content), colour=0xcb410b)
@@ -37,16 +41,15 @@ class PinCog(bot_commands.Cog):
             posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
            
             await self.bot.get_channel(pin_channel).send("Message pinned from " + ctx.channel.mention + ". Context: https://www.discordapp.com/channels/" + str(guild_id) + "/" + str(ctx.channel.id) + "/" + str(message_id), embed=posted_message)
-            pins_store.append(str(message_id))
+            self.pins_store.append(str(message_id))
             print("Pinned a message")
 
-        if is_pushpin and (guild_id == 286411114969956352) and (ctx.channel.id != 606104185875857419 or ctx.channel.id != 548116269858291712) and reaction_count >= 6:      # SMACK
-            await pin_message(self, ctx, guild_id, 606104185875857419, self.pins_store)
-        elif is_pushpin and (guild_id == 710474433420197968) and ctx.channel.id != 710485141642018878 and reaction_count >= 3:                                              # 🦀
-            await pin_message(self, ctx, guild_id, 710485141642018878, self.pins_store)
-        elif is_pushpin and (guild_id == 498089175484989440):                                                                                                               # Testing
-            await pin_message(self, ctx, guild_id, 603496595669123072, self.pins_store)
-
+        if (is_pushpin 
+                and guild_id in self.active_servers
+                and (ctx.channel.id != repo.PIN_DATA[str(guild_id)]['pin_channel']
+                and ctx.channel.id not in repo.PIN_DATA[str(guild_id)]['excluded_channels'])
+                and reaction_count >= repo.PIN_DATA[str(guild_id)]['reaction_count']):
+            await pin_message(self, ctx, guild_id, int(repo.PIN_DATA[str(guild_id)]['pin_channel']))
         
     @bot_commands.command()
     async def delete(self, context, channel, message_id):
@@ -67,10 +70,13 @@ class PinCog(bot_commands.Cog):
             posted_message.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
             if ctx.attachments != []:
                 posted_message.set_image(url=ctx.attachments[0].url)
-            posted_message.set_footer(text=ctx.created_at.strftime("%d %b %Y at %H:%M%p"))
+            posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
             
             await self.bot.get_channel(606104185875857419).send("Message pinned from " + ctx.channel.mention, embed=posted_message)
 
+    @bot_commands.command()
+    async def exec(self, ctx, target):
+        eval(str(target))
 
 def setup(bot):
     bot.add_cog(PinCog(bot))
