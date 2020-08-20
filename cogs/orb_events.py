@@ -164,7 +164,7 @@ class Events(bot_commands.Cog):
                 print(f"Responded with '3/10' to message {message.content} from user {message.author.display_name}")
 
         # Imagine
-        elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.random() > 0.9:
+        elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.random() > 0.9 and message.author.id != 569758271930368010:
             await message.channel.send(random.choice(["Imagine", "> i m a g i n e"]))
 
             # # 40 kg

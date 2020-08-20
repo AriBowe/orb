@@ -48,7 +48,7 @@ class ControlCog(bot_commands.Cog):
     # Manual speaking
     @bot_commands.command()
     async def say(self, ctx, channel, *, target=None):
-        if ctx.author.id in ADMINS:
+        if str(ctx.author.id) in ADMINS:
             if target == None:
                 await ctx.send("Need a message")
             else:

@@ -1,7 +1,7 @@
 Config tasks:
 [ ] Add banned channels to config
 [/] Shift pins to config
-[ ] Integrate various other variables & shit into config - should be able to make the bot fully packagable by the end
+[.] Integrate various other variables & shit into config - should be able to make the bot fully packagable by the end
 [ ] Generalised reaction system via config
 
 Backend rewrite:
@@ -11,8 +11,27 @@ Backend rewrite:
 
 Content:
 [ ] o.fight rewrite
-[ ] Write synergy
-[ ] Write echo
+
+[ ] Synergy - Democratised control
+[ ] - Plan
+[ ] - New channel command
+[ ] - Modify channel command
+[ ] - Delete channel command
+[ ] - New role command
+[ ] - Give role command
+[ ] - Modify role command
+[ ] - Remove role command
+[ ] - Delete role command
+
+[ ] Echo - Message memory
+[ ] - Plan
+[ ] - Determine data storage method & abstraction
+[ ] - Actually write
+
+[ ] Load Balancer
+[/] - Plan
+[.] - Write
+
 [ ] (MAYBE) Web panel????
 [ ] - Github hosting?
 [ ] - Route through domain
@@ -20,11 +39,13 @@ Content:
 Log:
 [ ] Transfer logging to file
 
+
+
 Bug fixes:
 [/] Fix o.status bug
 [ ] Get orb_define API key(s)
 [ ] - Fix o.define bugs
-[ ] SPELLCHECK
+[.] SPELLCHECK
 [/] Ping time bug
 [/] o.pin time offset
 

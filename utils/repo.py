@@ -23,6 +23,7 @@ MESSAGE = exec(config['message'])
 PREFIXES = config['prefixes']
 BANNED_CHANNELS = "x"
 PIN_DATA = config['optional_cogs']['pin_settings']
+LOAD_BALANCER = config['optional_cogs']['load_balancer_settings']
 
 # Get prefixes
 def get_prefix(bot, message):
