@@ -23,6 +23,7 @@ class PinCog(bot_commands.Cog):
 
     @bot_commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
+        vid_mode = False
         ctx = reaction.message
 
         is_pushpin = "📌" == str(reaction.emoji)
@@ -37,10 +38,23 @@ class PinCog(bot_commands.Cog):
             posted_message = discord.Embed(description=str(ctx.content), colour=0xcb410b)
             posted_message.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
             if ctx.attachments != []:
-                posted_message.set_image(url=ctx.attachments[0].url)
+                video_types = open("../data/pin_video.csv", "r")
+                video_types = video_types.read().split("\n")
+                for _type in video_types:
+                    if _type in ctx.attachments[0].url:
+                        vid_mode = True
+                        break
+
+                if (not vid_mode):
+                    posted_message.set_image(url=ctx.attachments[0].url)
+                else:
+                    posted_message.description = (ctx.attachments[0].url).split('/')[-1]
             posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
            
             await self.bot.get_channel(pin_channel).send("Message pinned from " + ctx.channel.mention + ". Context: https://www.discordapp.com/channels/" + str(guild_id) + "/" + str(ctx.channel.id) + "/" + str(message_id), embed=posted_message)
+            if(vid_mode):
+                await self.bot.get_channel(pin_channel).send(ctx.attachments[0].url)
+
             self.pins_store.append(str(message_id))
             print("Pinned a message")
 
@@ -69,10 +83,23 @@ class PinCog(bot_commands.Cog):
             posted_message = discord.Embed(description=str(ctx.content), colour=0xcb410b)
             posted_message.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
             if ctx.attachments != []:
-                posted_message.set_image(url=ctx.attachments[0].url)
+                video_types = open("../data/pin_video.csv", "r")
+                video_types = video_types.read().split("\n")
+                for _type in video_types:
+                    if _type in ctx.attachments[0].url:
+                        vid_mode = True
+                        break
+
+                if (not vid_mode):
+                    posted_message.set_image(url=ctx.attachments[0].url)
+                else:
+                    posted_message.description = (ctx.attachments[0].url).split('/')[-1]
             posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
             
             await self.bot.get_channel(606104185875857419).send("Message pinned from " + ctx.channel.mention, embed=posted_message)
+
+            if(vid_mode):
+                await self.bot.get_channel(606104185875857419).send(ctx.attachments[0].url)
 
     @bot_commands.command()
     async def exec(self, ctx, target):
