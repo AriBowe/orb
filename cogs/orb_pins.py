@@ -50,6 +50,7 @@ class PinCog(bot_commands.Cog):
                     posted_message.set_image(url=ctx.attachments[0].url)
                 else:
                     posted_message.description = (ctx.attachments[0].url).split('/')[-1]
+                    posted_message.description = f" [{(ctx.attachments[0].url).split('/')[-1]}]"
             posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
            
             await self.bot.get_channel(pin_channel).send(f"Message pinned from {ctx.channel.mention}. Context: https://www.discordapp.com/channels/{str(guild_id)}/{str(ctx.channel.id)}/{str(message_id)}", embed=posted_message)
@@ -74,7 +75,7 @@ class PinCog(bot_commands.Cog):
                 await ctx.delete()
                 await context.send("Done")
             except:
-                await context.send("Error")
+                await context.send(f"Error")
 
     @bot_commands.command()
     async def pin(self, context, channel_id, pin_id):
