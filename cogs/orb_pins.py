@@ -21,9 +21,9 @@ class PinCog(bot_commands.Cog):
         for server in repo.PIN_DATA:
             self.active_servers.append(int(server))
 
+
     @bot_commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        vid_mode = False
         ctx = reaction.message
 
         is_pushpin = "📌" == str(reaction.emoji)
@@ -32,13 +32,14 @@ class PinCog(bot_commands.Cog):
         
         async def pin_message(self, ctx, guild_id, pin_channel):
             message_id = ctx.id
+            vid_mode = False
             if str(message_id) in self.pins_store:
                 return
                 
             posted_message = discord.Embed(description=str(ctx.content), colour=0xcb410b)
             posted_message.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
             if ctx.attachments != []:
-                video_types = open("../data/pin_video.csv", "r")
+                video_types = open("data/pin_video.csv", "r")
                 video_types = video_types.read().split("\n")
                 for _type in video_types:
                     if _type in ctx.attachments[0].url:
@@ -51,9 +52,9 @@ class PinCog(bot_commands.Cog):
                     posted_message.description = (ctx.attachments[0].url).split('/')[-1]
             posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
            
-            await self.bot.get_channel(pin_channel).send("Message pinned from " + ctx.channel.mention + ". Context: https://www.discordapp.com/channels/" + str(guild_id) + "/" + str(ctx.channel.id) + "/" + str(message_id), embed=posted_message)
+            await self.bot.get_channel(pin_channel).send(f"Message pinned from {ctx.channel.mention}. Context: https://www.discordapp.com/channels/{str(guild_id)}/{str(ctx.channel.id)}/{str(message_id)}", embed=posted_message)
             if(vid_mode):
-                await self.bot.get_channel(pin_channel).send(ctx.attachments[0].url)
+                await self.bot.get_channel(pin_channel).send(ctx.attachments[0].url)                
 
             self.pins_store.append(str(message_id))
             print("Pinned a message")

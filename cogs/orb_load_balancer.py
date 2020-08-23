@@ -38,7 +38,6 @@ class LoadCog(bot_commands.Cog):
             self.message_counter = 0
 
             guild_id = ctx.guild.id
-            delete_list = []
 
             for user in self.active_users:
                 if (datetime.now() - self.active_users[user]).total_seconds() > repo.LOAD_BALANCER[str(guild_id)]['active_timeout']:
