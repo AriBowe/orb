@@ -178,11 +178,6 @@ class Events(bot_commands.Cog):
             # elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.randint(1,1000) == 420:
             #     await message.channel.send("https://i.kym-cdn.com/photos/images/newsfeed/001/455/798/54e.jpg")
 
-            # Level up
-        elif re.search(r"(leveled up!)", message.content, re.IGNORECASE) and message.author.id == 172002275412279296:
-            for emote in "🇬🇿":
-                await message.add_reaction(emote)
-
             # OwO
         elif re.search(r"\b(owo)\b", message.content, re.IGNORECASE):
             for emote in "🇴🇼🅾":
@@ -215,6 +210,10 @@ class Events(bot_commands.Cog):
         elif re.search(r"\b(surely)\b", message.content, re.IGNORECASE) and random.random() > 0.8:
             for emote in "🇸🇺🇷🇪🇱🇾":
                 await message.add_reaction(emote)
+
+        elif re.search(r"\b(thanks orb)\b", message.content, re.IGNORECASE):
+            if random.random() > 0.5:
+                await message.channel.send(f"No problem, {message.author.display_name}")
 
 def setup(bot):
     bot.add_cog(Events(bot))
