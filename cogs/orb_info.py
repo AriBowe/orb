@@ -3,9 +3,10 @@ import time
 import os
 import psutil
 import datetime
+import timeago
 
 from discord.ext import commands as bot_commands
-from utils import default, repo
+from utils import repo
 
 
 class Information(bot_commands.Cog):
@@ -29,7 +30,7 @@ class Information(bot_commands.Cog):
 
         embed = discord.Embed(colour=int(repo.VERSION_DATA["ColourHex"], 16))
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
-        embed.add_field(name="Last boot", value=default.timeago(datetime.datetime.now() - self.bot.uptime), inline=True)
+        embed.add_field(name="Last boot", value=timeago.format(datetime.datetime.now() - self.bot.uptime), inline=True)
         embed.add_field(
             name=f"Developers:",
             value="Ari Bowe, Julianne Cai",

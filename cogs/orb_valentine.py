@@ -12,7 +12,7 @@ from google.cloud import firestore
 from discord.ext import commands as bot_commands
 
 # Local bot imports
-from utils import default, repo
+from utils import repo
 from cogs.orb_control import allowed_channel, db
 
 
