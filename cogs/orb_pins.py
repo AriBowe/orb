@@ -49,8 +49,7 @@ class PinCog(bot_commands.Cog):
                 if (not vid_mode):
                     posted_message.set_image(url=ctx.attachments[0].url)
                 else:
-                    posted_message.description = (ctx.attachments[0].url).split('/')[-1]
-                    posted_message.description = f" [{(ctx.attachments[0].url).split('/')[-1]}]"
+                    posted_message.description += f" [{(ctx.attachments[0].url).split('/')[-1]}]"
             posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
            
             await self.bot.get_channel(pin_channel).send(f"Message pinned from {ctx.channel.mention}. Context: https://www.discordapp.com/channels/{str(guild_id)}/{str(ctx.channel.id)}/{str(message_id)}", embed=posted_message)
@@ -62,10 +61,16 @@ class PinCog(bot_commands.Cog):
 
         if (is_pushpin 
                 and guild_id in self.active_servers
-                and (ctx.channel.id != repo.PIN_DATA[str(guild_id)]['pin_channel']
-                and ctx.channel.id not in repo.PIN_DATA[str(guild_id)]['excluded_channels'])
-                and reaction_count >= repo.PIN_DATA[str(guild_id)]['reaction_count']):
-            await pin_message(self, ctx, guild_id, int(repo.PIN_DATA[str(guild_id)]['pin_channel']))
+                and (ctx.channel.id not in repo.PIN_DATA[str(guild_id)]['pin_channels']
+                and ctx.channel.id not in repo.PIN_DATA[str(guild_id)]['excluded_channels'])):
+            
+            if str(ctx.channel.id) in repo.PIN_DATA[str(guild_id)]['channel_switches']:
+                target_channel = repo.PIN_DATA[str(guild_id)]['channel_switches'][str(ctx.channel.id)]
+            else:
+                target_channel = 0
+            
+            if reaction_count >= repo.PIN_DATA[str(guild_id)]['reaction_counts'][target_channel]:
+                await pin_message(self, ctx, guild_id, int(repo.PIN_DATA[str(guild_id)]['pin_channels'][target_channel]))
         
     @bot_commands.command()
     async def delete(self, context, channel, message_id):
@@ -95,10 +100,10 @@ class PinCog(bot_commands.Cog):
                 if (not vid_mode):
                     posted_message.set_image(url=ctx.attachments[0].url)
                 else:
-                    posted_message.description = (ctx.attachments[0].url).split('/')[-1]
+                    posted_message.description += f" [{(ctx.attachments[0].url).split('/')[-1]}]"
             posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
             
-            await self.bot.get_channel(606104185875857419).send("Message pinned from " + ctx.channel.mention, embed=posted_message)
+            await self.bot.get_channel(606104185875857419).send(f"Message pinned from {ctx.channel.mention}. Context: https://www.discordapp.com/channels/{str(guild_id)}/{str(ctx.channel.id)}/{str(message_id)}", embed=posted_message)
 
             if(vid_mode):
                 await self.bot.get_channel(606104185875857419).send(ctx.attachments[0].url)
