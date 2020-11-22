@@ -21,6 +21,7 @@ VERSION_DATA = config['version_data']
 ONLINE_STATUS = config['message']
 MESSAGE = exec(config['message'])
 PREFIXES = config['prefixes']
+CONTROLLERS = config['controllers']
 BANNED_CHANNELS = "x"
 PIN_DATA = config['optional_cogs']['pin_settings']
 LOAD_BALANCER = config['optional_cogs']['load_balancer_settings']

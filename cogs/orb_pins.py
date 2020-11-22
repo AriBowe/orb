@@ -21,7 +21,7 @@ class PinCog(bot_commands.Cog):
         for server in repo.PIN_DATA:
             self.active_servers.append(int(server))
 
-
+    # Detects pin reactions
     @bot_commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         ctx = reaction.message
@@ -30,83 +30,82 @@ class PinCog(bot_commands.Cog):
         guild_id = ctx.guild.id
         reaction_count = reaction.count
         
-        async def pin_message(self, ctx, guild_id, pin_channel):
-            message_id = ctx.id
-            vid_mode = False
-            if str(message_id) in self.pins_store:
-                return
-                
-            posted_message = discord.Embed(description=str(ctx.content), colour=0xcb410b)
-            posted_message.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-            if ctx.attachments != []:
-                video_types = open("data/pin_video.csv", "r")
-                video_types = video_types.read().split("\n")
-                for _type in video_types:
-                    if _type in ctx.attachments[0].url:
-                        vid_mode = True
-                        break
-
-                if (not vid_mode):
-                    posted_message.set_image(url=ctx.attachments[0].url)
-                else:
-                    posted_message.description += f" [{(ctx.attachments[0].url).split('/')[-1]}]"
-            posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
-           
-            await self.bot.get_channel(pin_channel).send(f"Message pinned from {ctx.channel.mention}. Context: https://www.discordapp.com/channels/{str(guild_id)}/{str(ctx.channel.id)}/{str(message_id)}", embed=posted_message)
-            if(vid_mode):
-                await self.bot.get_channel(pin_channel).send(ctx.attachments[0].url)                
-
-            self.pins_store.append(str(message_id))
-            print("Pinned a message")
-
         if (is_pushpin 
                 and guild_id in self.active_servers
                 and (ctx.channel.id not in repo.PIN_DATA[str(guild_id)]['pin_channels']
                 and ctx.channel.id not in repo.PIN_DATA[str(guild_id)]['excluded_channels'])):
             
+            # Target channel selector
             if str(ctx.channel.id) in repo.PIN_DATA[str(guild_id)]['channel_switches']:
                 target_channel = repo.PIN_DATA[str(guild_id)]['channel_switches'][str(ctx.channel.id)]
             else:
                 target_channel = 0
-            
+
+            # Pin it
             if reaction_count >= repo.PIN_DATA[str(guild_id)]['reaction_counts'][target_channel]:
-                await pin_message(self, ctx, guild_id, int(repo.PIN_DATA[str(guild_id)]['pin_channels'][target_channel]))
+                await self.pin_message(ctx, guild_id, int(repo.PIN_DATA[str(guild_id)]['pin_channels'][target_channel]))
+
+    # Actual main pin function
+    async def pin_message(self, ctx, guild_id, pin_channel):
+        message_id = ctx.id
+        vid_mode = False
+
+        # Checks if the message has already been pinned. Due to how Discord deals with messages,
+        # we can ignore messages older than the current bot instance
+        if str(message_id) in self.pins_store:
+            return
+            
+        # Generate based embed    
+        posted_message = discord.Embed(description=str(ctx.content), colour=0xcb410b)
+        posted_message.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
         
+        # Manage attachments
+        if ctx.attachments != []:
+            vid_mode = ctx.attachments[0].url.split(".")[-1] in repo.config["video_formats"]
+
+            # video_types = open("data/pin_video.csv", "r")
+            # video_types = video_types.read().split("\n")
+            # for _type in video_types:
+            #     if _type in ctx.attachments[0].url:
+            #         vid_mode = True
+            #         break
+
+            if (not vid_mode):
+                posted_message.set_image(url=ctx.attachments[0].url)
+            else:
+                posted_message.description += f" [{(ctx.attachments[0].url).split('/')[-1]}]"
+        posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
+        
+        await self.bot.get_channel(pin_channel).send(f"Message pinned from {ctx.channel.mention}. context: https://www.discordapp.com/channels/{str(guild_id)}/{str(ctx.channel.id)}/{str(message_id)}", embed=posted_message)
+        if(vid_mode):
+            await self.bot.get_channel(pin_channel).send(ctx.attachments[0].url)                
+
+        self.pins_store.append(str(message_id))
+        # TODO: Log
+        print("Pinned a message")
+
     @bot_commands.command()
-    async def delete(self, context, channel, message_id):
-        if context.author.id == 138198892968804352:
+    async def delete(self, ctx, channel, message_id):
+        if ctx.author.id in repo.CONTROLLERS:
             ctx = await self.bot.get_channel(int(channel)).fetch_message(int(message_id))
             try:
                 await ctx.delete()
-                await context.send("Done")
+                await ctx.send("Done")
             except:
-                await context.send(f"Error")
+                await ctx.send("Error")
 
     @bot_commands.command()
-    async def pin(self, context, channel_id, pin_id):
-        if context.author.id == 138198892968804352:
+    async def pin(self, ctx, guild_id, channel_id, pin_id):
+        if str(ctx.author.id) in repo.CONTROLLERS:
             ctx = await self.bot.get_channel(int(channel_id)).fetch_message(int(pin_id))
 
-            posted_message = discord.Embed(description=str(ctx.content), colour=0xcb410b)
-            posted_message.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-            if ctx.attachments != []:
-                video_types = open("../data/pin_video.csv", "r")
-                video_types = video_types.read().split("\n")
-                for _type in video_types:
-                    if _type in ctx.attachments[0].url:
-                        vid_mode = True
-                        break
+            # Target channel selector
+            if channel_id in repo.PIN_DATA[guild_id]['channel_switches']:
+                target_channel = repo.PIN_DATA[guild_id]['channel_switches'][channel_id]
+            else:
+                target_channel = 0
 
-                if (not vid_mode):
-                    posted_message.set_image(url=ctx.attachments[0].url)
-                else:
-                    posted_message.description += f" [{(ctx.attachments[0].url).split('/')[-1]}]"
-            posted_message.set_footer(text=(ctx.created_at + timedelta(hours=10)).strftime("%d %b %Y at %I:%M%p AEST"))
-            
-            await self.bot.get_channel(606104185875857419).send(f"Message pinned from {ctx.channel.mention}. Context: https://www.discordapp.com/channels/{str(guild_id)}/{str(ctx.channel.id)}/{str(message_id)}", embed=posted_message)
-
-            if(vid_mode):
-                await self.bot.get_channel(606104185875857419).send(ctx.attachments[0].url)
+            await self.pin_message(ctx, guild_id, int(repo.PIN_DATA[guild_id]['pin_channels'][target_channel]))
 
     @bot_commands.command()
     async def exec(self, ctx, target):
