@@ -43,10 +43,10 @@ class PinCog(bot_commands.Cog):
 
             # Pin it
             if reaction_count >= repo.PIN_DATA[str(guild_id)]['reaction_counts'][target_channel]:
-                await self.pin_message(ctx, guild_id, int(repo.PIN_DATA[str(guild_id)]['pin_channels'][target_channel]))
+                await self._pin_message(ctx, guild_id, int(repo.PIN_DATA[str(guild_id)]['pin_channels'][target_channel]))
 
     # Actual main pin function
-    async def pin_message(self, ctx, guild_id, pin_channel):
+    async def _pin_message(self, ctx, guild_id, pin_channel):
         message_id = ctx.id
         vid_mode = False
 
@@ -55,20 +55,13 @@ class PinCog(bot_commands.Cog):
         if str(message_id) in self.pins_store:
             return
             
-        # Generate based embed    
+        # Generate base embed    
         posted_message = discord.Embed(description=str(ctx.content), colour=0xcb410b)
         posted_message.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
         
         # Manage attachments
         if ctx.attachments != []:
             vid_mode = ctx.attachments[0].url.split(".")[-1] in repo.config["video_formats"]
-
-            # video_types = open("data/pin_video.csv", "r")
-            # video_types = video_types.read().split("\n")
-            # for _type in video_types:
-            #     if _type in ctx.attachments[0].url:
-            #         vid_mode = True
-            #         break
 
             if (not vid_mode):
                 posted_message.set_image(url=ctx.attachments[0].url)
@@ -81,8 +74,7 @@ class PinCog(bot_commands.Cog):
             await self.bot.get_channel(pin_channel).send(ctx.attachments[0].url)                
 
         self.pins_store.append(str(message_id))
-        # TODO: Log
-        print("Pinned a message")
+        log_and_print("pins", f"Pinned message: '{str(ctx.content)}' by {ctx.author.display_name}. Attachments: {ctx.attachments == []}")
 
     @bot_commands.command()
     async def delete(self, ctx, channel, message_id):
@@ -105,11 +97,7 @@ class PinCog(bot_commands.Cog):
             else:
                 target_channel = 0
 
-            await self.pin_message(ctx, guild_id, int(repo.PIN_DATA[guild_id]['pin_channels'][target_channel]))
-
-    @bot_commands.command()
-    async def exec(self, ctx, target):
-        eval(str(target))
+            await self._pin_message(ctx, guild_id, int(repo.PIN_DATA[guild_id]['pin_channels'][target_channel]))
 
 def setup(bot):
     bot.add_cog(PinCog(bot))

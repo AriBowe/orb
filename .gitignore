@@ -138,3 +138,6 @@ images.*
 # Config & data files
 /data
 .csv
+
+# Todo
+todo

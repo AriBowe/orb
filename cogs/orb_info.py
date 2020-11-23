@@ -32,9 +32,8 @@ class Information(bot_commands.Cog):
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
         embed.add_field(name="Last boot", value=timeago.format(datetime.datetime.now() - self.bot.uptime), inline=True)
         embed.add_field(
-            name=f"Developers:",
+            name="Developers",
             value="Ari Bowe, Julianne Cai",
-            # value=', '.join([str(self.bot.get_user(x)) for x in self.config.owners]),
             inline=True)
         embed.add_field(name="Library", value="discord.py", inline=True)
         embed.add_field(name="Servers", value=f"{len(ctx.bot.guilds)} ( avg: {avg_members} users/server )", inline=True)

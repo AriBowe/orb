@@ -13,7 +13,7 @@ import traceback
 from discord.ext import commands as bot_commands
 from discord.ext.commands import errors
 from http.client import HTTPException, HTTPResponse
-from utils import repo
+from utils import repo, logger
 from utils.repo import VERSION_DATA, MESSAGE, PREFIXES
 from cogs.orb_control import db
 
@@ -37,7 +37,6 @@ async def send_command_help(ctx):
 class Events(bot_commands.Cog):
 
     def __init__(self, bot):
-        self.log = open("../log.txt", mode="a")
         self.bot = bot
     # Displays boot complete message
     
@@ -47,21 +46,21 @@ class Events(bot_commands.Cog):
             self.bot.uptime = datetime.datetime.now()
 
         await self.bot.change_presence(status=discord.Status.online, activity=MESSAGE)
-        print("\nORB Core", VERSION_DATA["Colour"], VERSION_DATA["Version"], "Build", VERSION_DATA["Build"])
-        print('------------------------------------------')
-        print('Bot is online and connected to Discord.')
-        print(f'Currently connected to {len(self.bot.guilds)} server.' if len(self.bot.guilds) == 1
+        logger.log_and_print("events", f"ORB Core {VERSION_DATA["Colour"]} {VERSION_DATA["Version"]} Build {VERSION_DATA["Build"]}")
+        logger.log_and_print("events", '------------------------------------------')
+        logger.log_and_print("events", 'Bot is online and connected to Discord.')
+        logger.log_and_print("events", f'Currently connected to {len(self.bot.guilds)} server.' if len(self.bot.guilds) == 1
               else f'Currently connected to {len(self.bot.guilds)} servers.')
-        print('------------------------------------------')
-        print('Bot Name: ' + self.bot.user.name)
-        print('Bot ID: ' + str(self.bot.user.id))
-        print('')
-        print('Discord.py Version: ' + discord.__version__)
-        print('Python Version: ' + sys.version[:5])
-        print('')
-        print('orb.py Version: ' + str(repo.VERSION_DATA["Version"]))
-        print('------------------------------------------')
-        self.log.write(f"------------------------------------------ \n Boot successful. \n BOT DATA: \n Core: {VERSION_DATA['Version']}, Build {VERSION_DATA['Build']} \n Connected to {len(self.bot.guilds)} servers \n Bot name: {self.bot.user.name} \n Bot ID: {self.bot.user.id} \n Discord.py version: {discord.__version__} \n Python version: {sys.version[:5]} \n ---------------------------")
+        logger.log_and_print("events", '------------------------------------------')
+        logger.log_and_print("events", f'Bot Name: {self.bot.user.name}')
+        logger.log_and_print("events", f'Bot ID: {str(self.bot.user.id)}')
+        logger.log_and_print("events", '')
+        logger.log_and_print("events", f'Discord.py Version: {discord.__version__}')
+        logger.log_and_print("events", f'Python Version:  {sys.version[:5]}')
+        logger.log_and_print("events", '')
+        logger.log_and_print("events", f'orb.py Version: {str(repo.VERSION_DATA["Version"])}')
+        logger.log_and_print("events", '------------------------------------------')
+        
 
     @bot_commands.Cog.listener()
     async def on_command_error(self, ctx, error: errors):
@@ -72,6 +71,7 @@ class Events(bot_commands.Cog):
             (discord.ext.commands.Context) ctx: Context
             (discord.ext.commands.errors): errors
         """
+        logger.log("on_command_error", f"{ctx.message.author}: \"{ctx.message.content}\" ({ctx.message.id})")
         if isinstance(error, errors.CommandNotFound):
             await ctx.send(f'Invalid command. To see a list of commands visit https://aribowe.github.io/orb/.')
 
@@ -100,12 +100,14 @@ class Events(bot_commands.Cog):
             # if HTTPResponse == 413:
             ctx.send('The file size is too large for me to send over Discord ;o;')
 
-    async def on_command(self, ctx):
-        """Prints user commands to console"""
-        try:
-            print(f'{ctx.guild.me} > {ctx.message.channel} > {ctx.message.author.name} > {ctx.message.clean_content}')
-        except AttributeError:
-            print(f'Private Message > {ctx.message.channel} > {ctx.message.author.name} > {ctx.message.clean_content}')
+    # Disabled
+    # @bot_commands.Cog.listener()
+    # async def on_command(self, ctx):
+    #     """Prints user commands to console"""
+    #     try:
+    #         logger.log("command", f'{ctx.guild.me} > {ctx.message.channel} > {ctx.message.author.name} > {ctx.message.clean_content}')
+    #     except AttributeError:
+    #         logger.log("command", f'Private Message > {ctx.message.channel} > {ctx.message.author.name} > {ctx.message.clean_content}')
 
     @bot_commands.Cog.listener()
     async def on_message(self, message):
@@ -116,15 +118,14 @@ class Events(bot_commands.Cog):
                
             if random.random() > 0.99:  #1/100 chance
                 await message.add_reaction("😎")
-            print("Reacted 'very cool' to message", "'" + message.content + "'", "from user", message.author.display_name)
+            logger.log("reaction", f"Reacted 'very cool' to '{message message.content}' from user {message.author.display_name}")
 
         # Girls aren't real
         elif re.search(r"\b(girl[']?s aren[']?t real)\b", message.content, re.IGNORECASE):
             reaction = random.choice(["🇹🇷🇺🇪", "🇫🇦🇨🇹"])
             for emote in reaction:
                 await message.add_reaction(emote)
-
-                print(f"Reacted {str(reaction)} to the message '{message.content}' from user {message.author.display_name}")
+            logger.log("reaction", f"Reacted {reaction} to the message '{message.content}' from user {message.author.display_name}")
 
         # Epic reaction time
         elif re.search(r"\b(epic)\b", message.content, re.IGNORECASE) and random.random() > 0.5:
@@ -132,27 +133,25 @@ class Events(bot_commands.Cog):
                 reaction = "🇪🅱🇮🇨"
                 for emote in reaction:
                     await message.add_reaction(emote)
-                #
-                # print(f"Reacted {emote}")
-
-                print(f"Reacted {reaction} to the message '{message.content}' from user {message.author.display_name}")
+                logger.log("reaction", f"Reacted '{reaction}' to the message '{message.content}' from user {message.author.display_name}")
+            
             else:
                 reaction = "🇪🇵🇮🇨"
                 for emote in reaction:
                     await message.add_reaction(emote)
-                print(f"Reacted {reaction} to the message '{message.content}' from user {message.author.display_name}")
+                logger.log("reaction", f"Reacted '{reaction}' to the message '{message.content}' from user {message.author.display_name}")
 
         # Big guy react
         elif re.search(r"\b(big guy)\b", message.content, re.IGNORECASE) and random.random() > 0.75:
             await message.channel.send("For you")
-            print(f"Responded with 'For you' to message {message.content} from user {message.author.display_name}")
+            logger.log("reaction", f"Responded with 'For you' to message '{message.content}' from user {message.author.display_name}")
+        
         # Awoo react
         elif re.search(r"\b(awoo+)\b", message.content, re.IGNORECASE):
             reaction = "🇦🇼🇴🅾"
             for emote in reaction:
                 await message.add_reaction(emote)
-
-            print(f"Reacted with {reaction} to message '{message.content}' from user {message.author.display_name}")
+            logger.log("reaction", f"Reacted with '{reaction}' to message '{message.content}' from user {message.author.display_name}")
 
         # 3/10
         elif re.search(r"\b(asuna)\b", message.content, re.IGNORECASE) or re.search(r"\b(sword art online)\b",
@@ -161,11 +160,13 @@ class Events(bot_commands.Cog):
                 r"\b(SAO)\b", message.content, re.IGNORECASE):
             if random.random() > 0.9:
                 await message.channel.send("3/10")
-                print(f"Responded with '3/10' to message {message.content} from user {message.author.display_name}")
+                logger.log("reaction", f"Responded with '3/10' to message '{message.content}' from user {message.author.display_name}")
 
         # Imagine
         elif re.search(r"\b(imagine)\b", message.content, re.IGNORECASE) and random.random() > 0.9 and message.author.id != 569758271930368010:
-            await message.channel.send(random.choice(["Imagine", "> i m a g i n e"]))
+            response = random.choice(["Imagine", "> i m a g i n e"])
+            await message.channel.send(response)
+            logger.log("reaction", f"Responded with '{response}' to message '{message.content}' from user {message.author.display_name}")
 
             # # 40 kg
             # elif re.search(r"\b(40[ ]?kg)\b", message.content, re.IGNORECASE) and random.random() > 0.95:
@@ -182,38 +183,32 @@ class Events(bot_commands.Cog):
         elif re.search(r"\b(owo)\b", message.content, re.IGNORECASE):
             for emote in "🇴🇼🅾":
                 await message.add_reaction(emote)
+                logger.log("reaction", f"Reacted with 'owo' to message '{message.content}' from user {message.author.display_name}")
 
             # Data are is the wrong way to say it
         elif re.search(r"\b(data are)\b", message.content, re.IGNORECASE):
             await message.add_reaction(self.bot.get_emoji(415384489733128195))
+            logger.log("reaction", f"Reacted with ':nomorethinkin:' to message '{message.content}' from user {message.author.display_name}")
 
             # Owl
         elif re.search(r"\b(🦉)\b", message.content, re.IGNORECASE) and message.author.id == 243656780222038017:
             await message.add_reaction("🦉")
+            logger.log("reaction", f"Reacted with '🦉' to message '{message.content}' from user {message.author.display_name}")
 
             # Orb
         elif re.search(r"(\b|:)(orb)(\b|:|^.)", message.content, re.IGNORECASE) and random.random() > 0.99:
             await message.add_reaction(self.bot.get_emoji(587198415348170773))
-
-            # # Gay
-            # elif re.search(r"\b(gays)\b", message.content, re.IGNORECASE) and random.random() > 0.99:
-            #     await message.add_reaction("🇬")
-            #     await message.add_reaction("🇦")
-            #     await message.add_reaction("🇾")
-        #
-        # await bot.process_commands(message)
-        
-          # Commented out since it was interefering with command processor for o.fox
-#         elif re.search(r"\b(:fox:)\b", message.content, re.IGNORECASE):
-#             await message.add_reaction("🦊")
+            logger.log("reaction", f"Reacted with ':orb:' to message '{message.content}' from user {message.author.display_name}")
 
         elif re.search(r"\b(surely)\b", message.content, re.IGNORECASE) and random.random() > 0.8:
             for emote in "🇸🇺🇷🇪🇱🇾":
                 await message.add_reaction(emote)
+                logger.log("reaction", f"Reacted with 'surely' to message '{message.content}' from user {message.author.display_name}")
 
         elif re.search(r"\b(thanks orb)\b", message.content, re.IGNORECASE):
             if random.random() > 0.5:
                 await message.channel.send(f"No problem, {message.author.display_name}")
+            logger.log("reaction", f"Responded with 'No problem, {message.author.display_name}' to message '{message.content}' from user {message.author.display_name}")
 
 def setup(bot):
     bot.add_cog(Events(bot))

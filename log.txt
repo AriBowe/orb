@@ -1,0 +1,58 @@
+2020-11-23 18:16:35.377287: [core] 
+
+---BOOT COMPLETE---
+Base libraries successfully loaded
+2020-11-23 18:16:35.416913: [core] orb_animals.py loaded!
+2020-11-23 18:16:35.422918: [core] orb_commands.py loaded!
+2020-11-23 18:16:35.431374: [core] orb_control.py loaded!
+2020-11-23 18:16:35.436379: [core] orb_events.py loaded!
+2020-11-23 18:16:35.438381: [core] orb_fight.py loaded!
+2020-11-23 18:16:35.460401: [core] orb_info.py loaded!
+2020-11-23 18:16:35.462402: [core] orb_load_balancer.py loaded!
+2020-11-23 18:16:35.463404: [core] orb_memes.py loaded!
+2020-11-23 18:16:35.465405: [core] orb_pins.py loaded!
+2020-11-23 18:16:35.465405: [core] Just a little bit more...
+2020-11-23 18:16:38.512332: [events] ------------------------------------------ 
+ Boot successful. 
+ BOT DATA: 
+ Core: 10.0, Build 0 
+ Connected to 2 servers 
+ Bot name: ORBeta 
+ Bot ID: 574121867942821888 
+ Discord.py version: 1.4.1 
+ Python version: 3.8.2 
+ ---------------------------
+2020-11-23 18:16:51.150368: [command error] xiii™#0013: o.hhhh (780346112144834570)
+2020-11-23 18:18:37.970699: [core] 
+
+---BOOT COMPLETE---
+Base libraries successfully loaded
+2020-11-23 18:18:38.005731: [core] orb_animals.py loaded!
+2020-11-23 18:18:38.010736: [core] orb_commands.py loaded!
+2020-11-23 18:18:38.017742: [core] orb_control.py loaded!
+2020-11-23 18:19:04.836293: [core] 
+
+---BOOT COMPLETE---
+Base libraries successfully loaded
+2020-11-23 18:19:04.871325: [core] orb_animals.py loaded!
+2020-11-23 18:19:04.875242: [core] orb_commands.py loaded!
+2020-11-23 18:19:04.883249: [core] orb_control.py loaded!
+2020-11-23 18:19:04.887253: [core] orb_events.py loaded!
+2020-11-23 18:19:04.889255: [core] orb_fight.py loaded!
+2020-11-23 18:19:04.910274: [core] orb_info.py loaded!
+2020-11-23 18:19:04.911275: [core] orb_load_balancer.py loaded!
+2020-11-23 18:19:04.913277: [core] orb_memes.py loaded!
+2020-11-23 18:19:04.915279: [core] orb_pins.py loaded!
+2020-11-23 18:19:04.915279: [core] Just a little bit more...
+2020-11-23 18:19:07.844852: [events] ------------------------------------------ 
+ Boot successful. 
+ BOT DATA: 
+ Core: 10.0, Build 0 
+ Connected to 2 servers 
+ Bot name: ORBeta 
+ Bot ID: 574121867942821888 
+ Discord.py version: 1.4.1 
+ Python version: 3.8.2 
+ ---------------------------
+2020-11-23 18:19:10.474715: [command] Private Message > Direct Message with xiii™#0013 > xiii™ > o.aboutbot
+2020-11-23 18:19:14.990187: [on_command_error] xiii™#0013: "o.asfijga" (780346715102117889)

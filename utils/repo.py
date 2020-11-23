@@ -19,7 +19,7 @@ with open("data/config.json", "r") as config:
 
 VERSION_DATA = config['version_data']
 ONLINE_STATUS = config['message']
-MESSAGE = exec(config['message'])
+MESSAGE = eval(config['message'])
 PREFIXES = config['prefixes']
 CONTROLLERS = config['controllers']
 BANNED_CHANNELS = "x"

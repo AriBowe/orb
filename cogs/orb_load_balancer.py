@@ -30,8 +30,6 @@ class LoadCog(bot_commands.Cog):
         user = ctx.author.id
         self.active_users[user] = datetime.now()        
 
-        print("tick")
-
         # Message counter, will only read every 10 messages for performance
         self.message_counter += 1
         if self.message_counter >= 10:
