@@ -7,7 +7,7 @@ import json
 
 from discord.ext import commands as bot_commands
 
-with open("data/config.json", "r") as config:
+with open("data/config.json", "r", encoding="utf-8") as config:
     config = json.load(config)
 
 # VERSION_DATA = {
@@ -17,6 +17,7 @@ with open("data/config.json", "r") as config:
 #             "ColourHex": 0xcb410b
 #         }
 
+# Aliases
 VERSION_DATA = config['version_data']
 ONLINE_STATUS = config['message']
 MESSAGE = eval(config['message'])
@@ -25,6 +26,7 @@ CONTROLLERS = config['controllers']
 BANNED_CHANNELS = "x"
 PIN_DATA = config['optional_cogs']['pin_settings']
 LOAD_BALANCER = config['optional_cogs']['load_balancer_settings']
+REACTIONS = config['reaction_data']
 
 # Get prefixes
 def get_prefix(bot, message):

@@ -65,6 +65,9 @@ class CommandsCog(bot_commands.Cog):
         # Returns the generated values
         return data
 
+    async def get_image(self):
+        pass
+
     # Secreto
     @bot_commands.command()
     async def secret(self, ctx):

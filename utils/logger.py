@@ -10,7 +10,7 @@ def log(source, content):
     Logs a message to the file
     """
     # Builds or opens log file
-    with open("log.txt", mode="a") as log_file:
+    with open("log.txt", mode="a", encoding="utf-8") as log_file:
         log_file.write(f"{datetime.now()}: [{source}] {content}\n")
 
 def log_and_print(source, content):
