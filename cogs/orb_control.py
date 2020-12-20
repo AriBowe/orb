@@ -21,10 +21,10 @@ def allowed_channel(ctx):
         return True
 
 # Connects to Cloud Firestore
-logger.log_and_print("Verifiying with server")
+logger.log_and_print("control", "Verifiying with server")
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=repo.config['keys']['firestore_key_path']
 db = firestore.Client()
-logger.log_and_print("Connected to Google Cloud Firestore")
+logger.log_and_print("control", "Connected to Google Cloud Firestore")
 
 BANNED_CHANNELS = []
 
@@ -63,7 +63,7 @@ class ControlCog(bot_commands.Cog):
             with open("data/banned_channels.csv", mode="r", newline="") as file:
                 reader = csv.reader(file, delimiter=",")
                 for line in reader:
-                    BANNED_CHANNELS.append(int(line[0]))'
+                    BANNED_CHANNELS.append(int(line[0]))
             logger.log_and_print("control", "Updated internal banned channels list")
             await ctx.send("Done!")
 
@@ -81,7 +81,7 @@ class ControlCog(bot_commands.Cog):
     @bot_commands.command()
     async def remove_banned(self, ctx, target):
         if ctx.author.id in ADMINS:
-            log_and_print("control", f"Removing {target} from banned channels list")
+            logger.log_and_print("control", f"Removing {target} from banned channels list")
             temp = []
             with open("data/banned_channels.csv", mode="r", newline="") as file:
                 try:
