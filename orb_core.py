@@ -34,9 +34,8 @@ for cog in repo.config['disabled_cogs']:
 
 for file in files:
     if file.endswith('.py'):
-        file_name = file[:-3]
-        bot.load_extension(f'cogs.{file_name}')
-        logger.log("core", str(file_name) + '.py loaded!')
+        bot.load_extension(f"cogs.{file[:-3]}")
+        logger.log("core", f"{str(file[:-3])}.py loaded!")
 logger.log("core", 'Just a little bit more...')
 
 bot.run(repo.get_token(), bot=True, reconnect=True)
