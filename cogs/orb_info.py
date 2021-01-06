@@ -3,9 +3,10 @@ import time
 import os
 import psutil
 import datetime
+import timeago
 
 from discord.ext import commands as bot_commands
-from utils import default, repo
+from utils import repo
 
 
 class Information(bot_commands.Cog):
@@ -18,10 +19,8 @@ class Information(bot_commands.Cog):
     @bot_commands.command()
     async def ping(self, ctx):
         """Measures ping"""
-        before = time.monotonic()
         message = await ctx.send('Pong!')
-        ping = (time.monotonic() - before)
-        await message.edit(content=f'Pong! | `{int(ping) * 1000} ms`')
+        await message.edit(content=f'Pong! | `{round(self.bot.latency * 1000)} ms`')
 
     @bot_commands.command(aliases=['botinfo', 'botstats', 'botstatus', 'status'])
     async def aboutbot(self, ctx):
@@ -29,13 +28,12 @@ class Information(bot_commands.Cog):
         ram_usage = self.process.memory_full_info().rss / 1024**2
         avg_members = round(len(self.bot.users) / len(self.bot.guilds))
 
-        embed = discord.Embed(colour=repo.VERSION_DATA["ColourHex"])
+        embed = discord.Embed(colour=int(repo.VERSION_DATA["ColourHex"], 16))
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
-        embed.add_field(name="Last boot", value=default.timeago(datetime.datetime.now() - self.bot.uptime), inline=True)
+        embed.add_field(name="Last boot", value=timeago.format(datetime.datetime.now() - self.bot.uptime), inline=True)
         embed.add_field(
-            name=f"Developers:",
+            name="Developers",
             value="Ari Bowe, Julianne Cai",
-            # value=', '.join([str(self.bot.get_user(x)) for x in self.config.owners]),
             inline=True)
         embed.add_field(name="Library", value="discord.py", inline=True)
         embed.add_field(name="Servers", value=f"{len(ctx.bot.guilds)} ( avg: {avg_members} users/server )", inline=True)
@@ -78,20 +76,6 @@ class Information(bot_commands.Cog):
 
             embed.add_field(name='Roles', value='N/A' if len(roles) == 0 else ', '.join(roles), inline=True)
             await ctx.send(content=f'ℹ About **{member.display_name}**', embed=embed)
-
-    # General bot status - user visible
-    # @bot_commands.command()
-    # async def status(ctx):
-    #     if allowed_channel(ctx):
-    #         print("Status requested from", ctx.author.display_name)
-    #         embed=discord.Embed(title="", color=repo.VERSION_DATA["ColourHex"])
-    #         embed.set_author(name="ORB STATUS")
-    #         embed.add_field(name="Core Version", value=repo.VERSION_DATA["Version"], inline=True)
-    #         embed.add_field(name="Core Build", value=repo.VERSION_DATA["Build"], inline=True)
-    #         embed.add_field(name="Commands Version", value=COMMANDS_VERSION["Version"], inline=True)
-    #         embed.add_field(name="Online Status", value=repo.ONLINE_STATUS, inline=False)
-    #         await ctx.send(embed=embed)
-
 
 def setup(bot):
     bot.add_cog(Information(bot))

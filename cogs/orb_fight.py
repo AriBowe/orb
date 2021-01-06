@@ -10,7 +10,6 @@ from cogs.orb_control import allowed_channel
 class FightCog(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-#         print("orb_fight loaded")
 
     # Fight someone
     # TODO: Split this up, it's massive
@@ -28,15 +27,12 @@ class FightCog(bot_commands.Cog):
                 writer.writerow([user_id, _str, _def, _spd])
 
         if allowed_channel(ctx):
-            print("")
             if target is None:
                 await ctx.send("You can't fight nothing")
                 return None
             elif len(ctx.message.mentions) != 1:
                 await ctx.send("Please tag a user to fight them")
                 return None
-            else:
-                print(ctx.author.display_name + " is fighting " + target)
 
             target = ctx.message.mentions[0]
             caller = ctx.author
@@ -93,28 +89,6 @@ class FightCog(bot_commands.Cog):
 
                 caller_name = caller.display_name
                 target_name = target.display_name
-
-                # print("---")
-                # print("Caller")
-                # print("id: " + caller)
-                # print("name: " + caller_name)
-                # print("found: " + str(caller_found))
-                # print("str: " + str(caller_str))
-                # print("def: " + str(caller_def))
-                # print("spd: " + str(caller_spd))
-                # print("luck: " + str(caller_luck))
-                # print("health: " + str(caller_health))
-                # print("---")
-                # print("Target")
-                # print("id: " + target)
-                # print("name: " + target_name)
-                # print("found: " + str(target_found))
-                # print("str: " + str(target_str))
-                # print("def: " + str(target_def))
-                # print("spd: " + str(target_spd))
-                # print("luck: " + str(target_luck))
-                # print("health: " + str(target_health))
-                # print("---")
 
                 if caller_spd + caller_luck + 3 >= target_spd + target_luck or random.random() < 0.8:
                     await ctx.send("**" + random.choice([str(caller_name + " started a fight with " + target_name), str(caller_name + " is fighting " + target_name), str(caller_name + " and " + target_name + " are fighting!")]) + "**")

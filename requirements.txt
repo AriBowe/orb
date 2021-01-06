@@ -1,5 +1,5 @@
 # Discord (Of course)
-discord.py==1.2.4
+discord.py==1.4.1
 ffmpeg==1.4
 youtube_dl==2019.10.16
 google-cloud-firestore==1.6.0

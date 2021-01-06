@@ -1,0 +1,61 @@
+[.] In progress
+[?] May cancel
+[/] Completed
+[X] Cancelled
+[ ] Planned
+
+Config tasks:
+[?] Add banned channels to config
+[/] Shift pins to config
+[/] Remove magic numbers & generalise pin code
+[/] Migrate video formats to config
+[.] Integrate various other variables & shit into config - should be able to make the bot fully packagable by the end
+[X] Generalised reaction system via config
+
+Backend rewrite:
+[ ] Add utils.cache & cache Firestore results for semi-regular uploads (15 mins?)
+[ ] - Route every Firestore call through this
+[ ] Push fight data to firestore
+
+Content:
+[ ] o.fight rewrite
+
+[ ] Synergy - Democratised control:
+[ ] - Plan
+[ ] - New channel command
+[ ] - Modify channel command
+[ ] - Delete channel command
+[ ] - New role command
+[ ] - Give role command
+[ ] - Modify role command
+[ ] - Remove role command
+[ ] - Delete role command
+
+[ ] Echo - Message memory
+[ ] - Plan
+[ ] - Determine data storage method & abstraction
+[ ] - Actually write
+
+[ ] Load Balancer:
+[/] - Plan
+[.] - Write
+
+[ ] (MAYBE) Web panel????
+[ ] - Github hosting?
+[ ] - Route through domain
+
+Log:
+[/] Set up logging system
+[/] Migrate print commands to logs
+[/] Add logging to all new commands
+
+Bug fixes:
+[/] Fix o.status bug
+[X] Get orb_define API key(s)
+[X] - Fix o.define bugs
+[.] SPELLCHECK
+[/] Ping time bug
+[/] o.pin time offset
+
+Misc:
+[ ] Write up release notes

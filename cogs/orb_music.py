@@ -160,7 +160,6 @@ class MusicPlayer:
                 try:
                     self._guild.voice_client.play(source, after=lambda _: self.bot.loop.call_soon_threadsafe(self.next.set))
                 except AttributeError:
-                    print("Playback ended")
             self.np = await self._channel.send(f'**Now Playing:** __{source.title}__ requested by '
                                             f'{source.requester}')
             await self.next.wait()
@@ -188,7 +187,6 @@ class Music(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.players = {}
-        print("orb_music loaded")
 
     async def cleanup(self, guild):
         try:
@@ -220,7 +218,7 @@ class Music(bot_commands.Cog):
         elif isinstance(error, bot_commands.CommandInvokeError):
             await ctx.send("This command raised an error. Please check the title and resubmit")
 
-        print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+        log_and_print("music", f"Ignoring exception in command {ctx.command}, file={sys.stderr}")
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
     def get_player(self, ctx):
@@ -335,7 +333,6 @@ class Music(bot_commands.Cog):
             return
 
         player = self.get_player(ctx)
-        print(player.loop_song)
     
         if player.loop_song:
             player.loop_song = False

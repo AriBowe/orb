@@ -1,8 +1,11 @@
 # VS Code
 .vscode/launch.json
 
-# Firestore ket
+# Firestore key
 firestore_key.json
+
+# Log file
+log.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -131,3 +134,10 @@ dmypy.json
 
 # Bot images
 images.*
+
+# Config & data files
+/data
+.csv
+
+# Todo
+todo

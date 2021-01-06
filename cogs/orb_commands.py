@@ -42,7 +42,6 @@ COMMAND_DATA = {
 class CommandsCog(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-#         print("orb_commands loaded")
 
     # Allows generation and storage of user values (BDE, rank, and vore)
     def _generate_user_values(self, name: str):
@@ -66,6 +65,9 @@ class CommandsCog(bot_commands.Cog):
         # Returns the generated values
         return data
 
+    async def get_image(self):
+        pass
+
     # Secreto
     @bot_commands.command()
     async def secret(self, ctx):
@@ -73,7 +75,6 @@ class CommandsCog(bot_commands.Cog):
         Easter egg command
         """
         if allowed_channel(ctx):
-            print("Secret called. " + ctx.author.display_name + " is curious")
             await ctx.send(random.choice([":wink:", "Shhhh", ":thinking:"]))
 
     # Rank command
@@ -84,9 +85,7 @@ class CommandsCog(bot_commands.Cog):
         """
         # Check if allowed channel
         if not allowed_channel(ctx):
-            return
-
-        print("Ranking", target, "for user", ctx.author.display_name, "(id", ctx.author.id, ")")        
+            return     
 
         # Exceptions
         if target is None:
@@ -134,8 +133,6 @@ class CommandsCog(bot_commands.Cog):
         if not allowed_channel(ctx):
             return
 
-        print("Checking if", target, " is vored, for user", ctx.author.display_name, "(id", ctx.author.id, ")")        
-
         # Exceptions
         if target is None:
             await ctx.send("I can't vore nothing")
@@ -178,8 +175,6 @@ class CommandsCog(bot_commands.Cog):
         if not allowed_channel(ctx):
             return
 
-        print("BDE ranking", target, "for user", ctx.author.display_name, "(id", ctx.author.id, ")")        
-
         # Exceptions
         if target is None:
             await ctx.send("I can't rank the BDE of nothing")
@@ -213,19 +208,14 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def fishy(self, ctx):
         if allowed_channel(ctx):
-            print("Fishing with", ctx.author.display_name)
             rand = random.randint(1,15)
             if rand <= 8:
-                print("No catch")
                 pass
             elif rand < 14:
-                print("Not my job")
                 await ctx.send(random.choice(["Not my job", "Wrong bot", ":thinking:"]))
             elif rand == 14:
-                print("Caught wrench")
                 await ctx.send(":fishing_pole_and_fish:  |  " + ctx.author.display_name + ", you caught: :wrench:! You paid :yen: 10 for casting.")
             else:
-                print("Caught AIDS")
                 await ctx.send(":fishing_pole_and_fish:  |  " + ctx.author.display_name + ", you caught: AIDS! You paid :yen: 10 for casting.")
 
 
@@ -233,7 +223,6 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def ban(self, ctx, *, target=None):
         if allowed_channel(ctx):
-            print("Ban on", target, "called for by", ctx.author.display_name)
             if random.randint(1, 5) == 1:
                 await ctx.send("No")
             else:
@@ -256,7 +245,6 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def bully(self, ctx, *, target=None):
         if allowed_channel(ctx):
-            print("Bullying", target, "for", ctx.author.display_name)
             if target is None:
                 await ctx.send("I can't bully nothing")
             elif re.match(r"(^|\s|.)nothing($| $| .)", target, re.IGNORECASE):
@@ -277,7 +265,6 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def illya(self, ctx):
         if allowed_channel(ctx):
-            print("Illya called by", ctx.author.display_name)
             if random.randint(1, 50) == 2:
                 await ctx.trigger_typing()
                 await ctx.send(file=discord.File(fp="images/lolice.gif"))
@@ -289,7 +276,6 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def gembutt(self, ctx):
         if allowed_channel(ctx):
-            print("Gembutt called by", ctx.author.display_name)
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/gembutt/gembutt (" + str(random.randint(1, 4)) + ").jpg"))
 
@@ -297,7 +283,6 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def kagepro(self, ctx):
         if allowed_channel(ctx):
-            print("Kagepro called by", ctx.author.display_name)
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/kagepro/kagepro (" + str(random.randint(1, 55)) + ").jpg"))
 
@@ -305,7 +290,6 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def yorimoi(self, ctx):
         if allowed_channel(ctx):
-            print("Yorimoi called by", ctx.author.display_name)
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/yorimoi/yorimoi (" + str(random.randint(1, 48)) + ").jpg"))
 
@@ -313,7 +297,6 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def fatepost(self, ctx):
         if allowed_channel(ctx):
-            print("Fatepost called by", ctx.author.display_name)
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/fate/fatepost (" + str(random.randint(1, 56)) + ").jpg"))
 
@@ -321,7 +304,6 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def rinpost(self, ctx):
         if allowed_channel(ctx):
-            print("Rinpost called by", ctx.author.display_name)
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/rinpost/rin (" + str(random.randint(1, 46)) + ").jpg"))
 
@@ -329,7 +311,6 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def touhou(self, ctx):
         if allowed_channel(ctx):
-            print("Touhou called by", ctx.author.display_name)
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/touhou/touhou (" + str(random.randint(1, 83)) + ").jpg"))
 
@@ -396,7 +377,6 @@ class CommandsCog(bot_commands.Cog):
         
         if allowed_channel(ctx):
             output = ""
-            print("Translating", target, "for", ctx.author.display_name)
             if target is None:
                 await ctx.send(":thinking:")
             else:
