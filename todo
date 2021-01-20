@@ -10,7 +10,7 @@ Config tasks:
 [/] Remove magic numbers & generalise pin code
 [/] Migrate video formats to config
 [.] Integrate various other variables & shit into config - should be able to make the bot fully packagable by the end
-[X] Generalised reaction system via config
+[/] Generalised reaction system via config
 
 Backend rewrite:
 [ ] Add utils.cache & cache Firestore results for semi-regular uploads (15 mins?)
@@ -59,3 +59,5 @@ Bug fixes:
 
 Misc:
 [ ] Write up release notes
+[ ] Generalise image function
+[/] Sauce

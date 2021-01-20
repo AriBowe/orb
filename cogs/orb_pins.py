@@ -12,6 +12,7 @@ import json
 from discord.ext import commands as bot_commands
 from utils import repo
 
+
 class PinCog(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -74,7 +75,7 @@ class PinCog(bot_commands.Cog):
             await self.bot.get_channel(pin_channel).send(ctx.attachments[0].url)                
 
         self.pins_store.append(str(message_id))
-        log_and_print("pins", f"Pinned message: '{str(ctx.content)}' by {ctx.author.display_name}. Attachments: {ctx.attachments == []}")
+        logger.log_and_print("pins", f"Pinned message: '{str(ctx.content)}' by {ctx.author.display_name}. Attachments: {ctx.attachments == []}")
 
     @bot_commands.command()
     async def delete(self, ctx, channel, message_id):

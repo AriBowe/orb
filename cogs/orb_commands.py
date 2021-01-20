@@ -256,11 +256,6 @@ class CommandsCog(bot_commands.Cog):
             else:
                 await ctx.send(random.choice([("Bullying " + target), (target + " is a meanie!"), (target + " please stop speaking")]), )
 
-    # This will never get used mark my words
-    @bot_commands.command()
-    async def fuckmeintheass(self, ctx):
-        await ctx.add_reaction("🍆")
-
     # Illya
     @bot_commands.command()
     async def illya(self, ctx):
