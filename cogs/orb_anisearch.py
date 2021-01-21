@@ -31,11 +31,9 @@ class AniSearch(bot_commands.Cog):
         self.SMACK_GUILD = self.bot.get_guild(286411114969956352)
         self.SMACK_ID = 286411114969956352
 
-        # if ctx.guild.id != self.SMACK_ID:
-        #     await ctx.send("Sorry, but my powers only extend to SMACK UQ!")
-        #     return
-
-        print(ctx.message.attachments)
+        if ctx.guild.id != self.SMACK_ID:
+            await ctx.send("Sorry, but my powers only extend to SMACK UQ!")
+            return
 
         if(len(ctx.message.attachments) != 1):
             await ctx.send("I need an image to track down!")
