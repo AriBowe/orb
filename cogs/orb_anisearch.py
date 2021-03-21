@@ -7,6 +7,7 @@ import discord
 import random
 import requests
 import json
+import urllib.parse
 
 # Conditional module imports
 from datetime import datetime, timedelta
@@ -44,16 +45,23 @@ class AniSearch(bot_commands.Cog):
         print(response_json["docs"][0])
         top_result = response_json['docs'][0]
 
-        title = top_result['title_english']
-        desc = f'Episode {top_result["episode"]} at {str(timedelta(seconds=top_result["at"]))}'
-        url = f'https://anilist.co/anime/{top_result["anilist_id"]}'
+        if(top_result["similarity"] * 100 > 90):
+            title = top_result['title_english']
+            desc = f'Episode {top_result["episode"]} at {str(timedelta(seconds=top_result["at"]))}'
+            url = f'https://anilist.co/anime/{top_result["anilist_id"]}'
 
-        embed = discord.Embed(title=title, description=desc, url=url)
-        embed.set_footer(text=f"Confidence: {top_result['similarity'] * 100}%")
-        embed.set_image(url=ctx.message.attachments[0].url)
-        await ctx.send(f"Here's what I found:", embed=embed)
+            url_filename = urllib.parse.quote(top_result["filename"], safe="~()*!.\'")
 
-        return
+            img = f'https://trace.moe/thumbnail.php?anilist_id={top_result["anilist_id"]}&file={url_filename}&t={top_result["at"]}&token={top_result["tokenthumb"]}'
+            print(f"Image link: {img}")
+
+            embed = discord.Embed(title=title, description=desc, url=url)
+            embed.set_footer(text=f"Confidence: {top_result['similarity'] * 100}%")
+            embed.set_image(url=img)
+            await ctx.send(f"Here's what I found:", embed=embed)
+            return
+        else:
+            await ctx.send(f"I couldn't find a good enough match ;w;")
 
 def setup(bot):
     bot.add_cog(AniSearch(bot))
