@@ -5,6 +5,7 @@ Command expansion cog, handles all general commands
 import discord
 from discord.ext import commands as bot_commands
 import random
+import time
 import csv
 import re
 import os
@@ -13,8 +14,8 @@ from google.cloud import firestore
 from cogs.orb_control import allowed_channel, db
 
 COMMANDS_VERSION = {
-    "Version": "6",
-    "Count": "13"
+    "Version": "7",
+    "Count": "17"
 }
 
 # PUBLIC list of commands, not all of them
@@ -36,7 +37,11 @@ COMMAND_DATA = {
     "yorimoi": ("Posts Yorimoi pictures", "None"),
     "kagepro": ("Posts images from the Kagerou Project", "None"),
     "vore": ("Says whether you vore people or get vored", "Any input"),
-    "fight": ("Duel another user", "A valid user tag")
+    "fight": ("Duel another user", "A valid user tag"),
+    "nimble": ("Horses. Lots of horses.", "None"),
+    "haze": ("Do your assignment", "None"),
+    "pablo": ("Personal flamingos", "None"),
+    "dad": ("Hi x, I'm y joke", "Any input")
 }
 
 class CommandsCog(bot_commands.Cog):
@@ -255,6 +260,52 @@ class CommandsCog(bot_commands.Cog):
                 await ctx.send(random.choice([("You're asking to be bullied? Isn't that kind of pathetic?"), ("You're a meanie!"), ("You're a dumb dumb")]), )
             else:
                 await ctx.send(random.choice([("Bullying " + target), (target + " is a meanie!"), (target + " please stop speaking")]), )
+
+    # Nimble
+    @bot_commands.command()
+    async def nimble(self, ctx):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/nimble/horse" + str(random.randint(1, 20)) + ".jpg"))
+
+    # Dad jokes
+    @bot_commands.command()
+    async def dad(self, ctx, *args):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+            await ctx.send("Hi, {}, I'm {}!".format(' '.join(args), ctx.author.name))
+
+    # Pablo
+    @bot_commands.command()
+    async def pablo(self, ctx):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+            if (random.randint(1,10) <= 5):
+                await ctx.send(file=discord.File(fp="images/pablo/pablo1.jpg"))
+                await ctx.send("> 3 OUT OF 5 OF THE INFINITY FLAMINGO GAUNTLET COSMETIC KIT HAS BEEN GATHERED")
+            else:
+                await ctx.send(file=discord.File(fp="images/pablo/pablo2.jpg"))
+            
+    # Haze
+    @bot_commands.command()
+    async def haze(self, ctx):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+            if random.randint(1,10) == 5:
+                await ctx.send("I want EVERY assignment done in:")
+                await ctx.send("5")
+                time.sleep(1)
+                await ctx.send("4")
+                time.sleep(1)
+                await ctx.send("3")
+                time.sleep(1)
+                await ctx.send("2")
+                time.sleep(1)
+                await ctx.send("1")
+                time.sleep(1)
+                await ctx.send("Thanks for finishing those assignments! Remember: Liars get SMACK'd")
+            else:
+                await ctx.send(random.choice([("Haze, you should be doing your assignment"), ("I swear on Sumako - if that assignment isn't done yet..."), ('"cranes are great" - Haze'), ("I don't want to hear you complaining about your assignments... EVER")]), )
 
     # Illya
     @bot_commands.command()
