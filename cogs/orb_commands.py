@@ -2,6 +2,7 @@
 Command expansion cog, handles all general commands
 """
 
+import datetime
 import discord
 from discord.ext import commands as bot_commands
 import random
@@ -9,7 +10,10 @@ import time
 import csv
 import re
 import os
+import requests
+from datetime import date, datetime
 from google.cloud import firestore
+from bs4 import BeautifulSoup
 
 from cogs.orb_control import allowed_channel, db
 
@@ -21,10 +25,10 @@ COMMANDS_VERSION = {
 # PUBLIC list of commands, not all of them
 COMMAND_DATA = {
     "ping": ("Pings the bot, with various responses", "None"),
-    "help": ("Displays help blurb", "None"), 
+    "help": ("Displays help blurb", "None"),
     "status": ("Supplies info on orb's status", "None"),
-    "commands": ("Lists all commands", "Any command name, or all"), 
-    
+    "commands": ("Lists all commands", "Any command name, or all"),
+
     "ban": ("'Bans' the user named (hint: doesn't work)", "Any input"),
     "bully": ("Bullies the user named", "Any input"),
     "rank": ("Ranks something", "Any input"),
@@ -41,8 +45,11 @@ COMMAND_DATA = {
     "nimble": ("Horses. Lots of horses.", "None"),
     "haze": ("Do your assignment", "None"),
     "pablo": ("Personal flamingos", "None"),
-    "dad": ("Hi x, I'm y joke", "Any input")
+    "dad": ("Hi x, I'm y joke", "Any input"),
+    "azsry": ("Posts a programming meme", "None"),
+    "covid": ("Posts most recent COVID-19 data for Australia from Qld Health", "None")
 }
+
 
 class CommandsCog(bot_commands.Cog):
     def __init__(self, bot):
@@ -59,9 +66,9 @@ class CommandsCog(bot_commands.Cog):
         Returns (dict): The generated values as a dictionary. Generated values are: BDE (int), ranking (int), and vore (bool)
         """
         data = {
-            "bde": random.randint(1,100),
-            "ranking": random.randint(1,10),
-            "vore": bool(random.randint(0,1)),
+            "bde": random.randint(1, 100),
+            "ranking": random.randint(1, 10),
+            "vore": bool(random.randint(0, 1)),
         }
 
         # Store generated values
@@ -90,12 +97,12 @@ class CommandsCog(bot_commands.Cog):
         """
         # Check if allowed channel
         if not allowed_channel(ctx):
-            return     
+            return
 
         # Exceptions
         if target is None:
             await ctx.send("I can't rank nothing")
-            return    
+            return
         elif re.match(r"(^|\s|.)@everyone($| $| .)", target, re.IGNORECASE):
             await ctx.send("I'm onto your schemes")
             return
@@ -126,9 +133,9 @@ class CommandsCog(bot_commands.Cog):
             await ctx.send(f"I'd give {target} an {results['ranking']} out of 10")
         else:
             await ctx.send(f"I'd give {target} a {results['ranking']} out of 10")
-            
 
     # Vore
+
     @bot_commands.command()
     async def vore(self, ctx, *, target=None):
         """
@@ -141,7 +148,7 @@ class CommandsCog(bot_commands.Cog):
         # Exceptions
         if target is None:
             await ctx.send("I can't vore nothing")
-            return    
+            return
         elif re.match(r"(^|\s|.)@everyone($| $| .)", target, re.IGNORECASE):
             await ctx.send("I'm onto your schemes")
             return
@@ -183,7 +190,7 @@ class CommandsCog(bot_commands.Cog):
         # Exceptions
         if target is None:
             await ctx.send("I can't rank the BDE of nothing")
-            return    
+            return
         elif re.match(r"(^|\s|.)@everyone($| $| .)", target, re.IGNORECASE):
             await ctx.send("I'm onto your schemes")
             return
@@ -213,7 +220,7 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def fishy(self, ctx):
         if allowed_channel(ctx):
-            rand = random.randint(1,15)
+            rand = random.randint(1, 15)
             if rand <= 8:
                 pass
             elif rand < 14:
@@ -223,8 +230,8 @@ class CommandsCog(bot_commands.Cog):
             else:
                 await ctx.send(":fishing_pole_and_fish:  |  " + ctx.author.display_name + ", you caught: AIDS! You paid :yen: 10 for casting.")
 
-
     # Meme ban
+
     @bot_commands.command()
     async def ban(self, ctx, *, target=None):
         if allowed_channel(ctx):
@@ -280,18 +287,18 @@ class CommandsCog(bot_commands.Cog):
     async def pablo(self, ctx):
         if allowed_channel(ctx):
             await ctx.trigger_typing()
-            if (random.randint(1,10) <= 5):
+            if (random.randint(1, 10) <= 5):
                 await ctx.send(file=discord.File(fp="images/pablo/pablo1.jpg"))
                 await ctx.send("> 3 OUT OF 5 OF THE INFINITY FLAMINGO GAUNTLET COSMETIC KIT HAS BEEN GATHERED")
             else:
                 await ctx.send(file=discord.File(fp="images/pablo/pablo2.jpg"))
-            
+
     # Haze
     @bot_commands.command()
     async def haze(self, ctx):
         if allowed_channel(ctx):
             await ctx.trigger_typing()
-            if random.randint(1,10) == 5:
+            if random.randint(1, 10) == 5:
                 await ctx.send("I want EVERY assignment done in:")
                 await ctx.send("5")
                 time.sleep(1)
@@ -317,6 +324,26 @@ class CommandsCog(bot_commands.Cog):
             else:
                 await ctx.trigger_typing()
                 await ctx.send(file=discord.File(fp="images/illya/illya (" + str(random.randint(1, 47)) + ").jpg"))
+
+    # Azsry
+    @bot_commands.command()
+    async def azsry(self, ctx):
+        if not allowed_channel(ctx):
+            return
+
+        msgs = [
+            """In C++ we don't say "Missing asterisk" we say ```error C2664: 'void std::vector<block,std::alocator<_Ty> >::push_back(const block &)': cannot convert argument 1 from 'std::_Vector_iterator<std::_Vector_val<std::_Simple_types<block> > >' to 'block &&'``` and i think that's beautiful""",
+            "If A has friends then they can play with A's privates as well.",
+            """```cpp
+C++; // makes C bigger, returns old value```
+            """,
+            """"Knock Knock"
+"Who's there?"
+*very long pause*
+"Java\""""
+        ]
+
+        await ctx.send(random.choice(msgs))
 
     # Gembutt
     @bot_commands.command()
@@ -393,34 +420,34 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def translate(self, ctx, *, target=None):
         TRANSLATE_DICT = {
-        "a": "ka",
-        "b": "tu",
-        "c": "mi",
-        "d": "te",
-        "e": "ku",
-        "f": "ru",
-        "g": "ji",
-        "h": "ri",
-        "i": "ki",
-        "j": "zu",
-        "k": "me",
-        "l": "ta",
-        "m": "rin",
-        "n": "to",
-        "o": "mo",
-        "p": "no",
-        "q": "ke",
-        "r": "shi",
-        "s": "ari",
-        "t": "chi",
-        "u": "do",
-        "v": "ru",
-        "w": "mei",
-        "x": "na",
-        "y": "fu",
-        "z": "zi"
+            "a": "ka",
+            "b": "tu",
+            "c": "mi",
+            "d": "te",
+            "e": "ku",
+            "f": "ru",
+            "g": "ji",
+            "h": "ri",
+            "i": "ki",
+            "j": "zu",
+            "k": "me",
+            "l": "ta",
+            "m": "rin",
+            "n": "to",
+            "o": "mo",
+            "p": "no",
+            "q": "ke",
+            "r": "shi",
+            "s": "ari",
+            "t": "chi",
+            "u": "do",
+            "v": "ru",
+            "w": "mei",
+            "x": "na",
+            "y": "fu",
+            "z": "zi"
         }
-        
+
         if allowed_channel(ctx):
             output = ""
             if target is None:
@@ -432,10 +459,50 @@ class CommandsCog(bot_commands.Cog):
                     except:
                         output += char
 
-                translation = discord.Embed(description=str(output), colour=0xcb410b)
-                translation.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+                translation = discord.Embed(
+                    description=str(output), colour=0xcb410b)
+                translation.set_author(
+                    name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
 
                 await ctx.send(embed=translation)
+
+    # COVID info
+    @bot_commands.command()
+    async def covid(self, ctx):
+        if not allowed_channel(ctx):
+            return
+
+        req = requests.get("https://www.health.gov.au/news/health-alerts/novel-coronavirus-2019-ncov-health-alert")
+
+        soup = BeautifulSoup(req.text, features="html.parser")
+        alert_data = soup.find_all("ul", "field-health-alert-metadata__list")
+        regex_results = re.findall("<\/small>(.*)?<\/li>", str(alert_data[0]))
+
+        covid_alert_txt, last_update = regex_results
+        covid_alert = regex_results[0] == "Active"
+
+        req = requests.get("https://www.covid19.qld.gov.au/")
+        soup = BeautifulSoup(req.text, features="html.parser")
+        stat_data = soup.find_all("span", "qg-statistics__stat-number")
+
+        stat_data = re.sub(",", "", str(stat_data))
+
+        regex_results = re.findall("(\d+)", str(stat_data))[:4]
+
+        daily_cases, total_cases, tests_conducted, total_vaccines = regex_results
+
+        embed_data = {
+            "title": f"COVID-19 information for {date.today()}",
+            "type": "rich",
+            "description": f"Alert: {covid_alert_txt} (Last updated {last_update})\n\nCases (last 24h): {daily_cases}\nTotal cases: {total_cases}\nTests conducted: {tests_conducted}\n Total vaccine doses: {total_vaccines}",
+            "url": "https://www.covid19.qld.gov.au/",
+            "color": 0xf55d42 if covid_alert else 0x11c255,
+        }
+        embed_obj = discord.Embed.from_dict(embed_data)
+        embed_obj.set_image(url="https://www.qld.gov.au/__data/assets/image/0012/110460/Opengraph-default-thumbnail.png")
+
+        await ctx.send(embed=embed_obj)
+
 
 def setup(bot):
     bot.add_cog(CommandsCog(bot))
