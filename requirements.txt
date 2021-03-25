@@ -6,3 +6,4 @@ google-cloud-firestore>=1.6.0
 timeago
 psutil>=5.6.7
 saucenao-api==2.3.0
+beautifulsoup4==4.9.3
