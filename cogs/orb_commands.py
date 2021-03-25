@@ -18,8 +18,8 @@ from bs4 import BeautifulSoup
 from cogs.orb_control import allowed_channel, db
 
 COMMANDS_VERSION = {
-    "Version": "7",
-    "Count": "17"
+    "Version": "8",
+    "Count": "23"
 }
 
 # PUBLIC list of commands, not all of them
