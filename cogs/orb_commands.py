@@ -4,6 +4,7 @@ Command expansion cog, handles all general commands
 
 import datetime
 import discord
+import asyncio
 from discord.ext import commands as bot_commands
 import random
 import time
@@ -345,11 +346,11 @@ class CommandsCog(bot_commands.Cog):
             if random.randint(1, 10) > 8:
                 await ctx.send("I want EVERY assignment done in:")
                 await ctx.send("3")
-                time.sleep(1)
+                await asyncio.sleep(1)
                 await ctx.send("2")
-                time.sleep(1)
+                await asyncio.sleep(1)
                 await ctx.send("1")
-                time.sleep(1)
+                await asyncio.sleep(1)
                 await ctx.send("Thanks for finishing those assignments! Remember: Liars get SMACK'd")
             else:
                 await ctx.send(random.choice([("HAZE! ASSIGNMENTS! NOW!"), ("I swear on Sumako - if that assignment isn't done yet..."), ('"cranes are great" - Haze'), ("I don't want to hear you complaining about your assignments... EVER")]), )
