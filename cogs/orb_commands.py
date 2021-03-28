@@ -19,8 +19,8 @@ from bs4 import BeautifulSoup
 from cogs.orb_control import allowed_channel, db
 
 COMMANDS_VERSION = {
-    "Version": "8",
-    "Count": "23"
+    "Version": "9",
+    "Count": "26"
 }
 
 # PUBLIC list of commands, not all of them
@@ -50,7 +50,8 @@ COMMAND_DATA = {
     "azsry": ("Posts a programming meme", "None"),
     "covid": ("Posts most recent COVID-19 data for Australia from Qld Health", "None"),
     "gundam": ("Posts the 'watch gundam!' image", "None"),
-    "nido": ("Sends out one of his personal phrases", "None")
+    "nido": ("Sends out one of his personal phrases", "None"),
+    "salty": ("Posts a picture of some salt implying it is you", "None")
 }
 
 
