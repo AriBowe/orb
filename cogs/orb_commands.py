@@ -42,13 +42,14 @@ COMMAND_DATA = {
     "kagepro": ("Posts images from the Kagerou Project", "None"),
     "vore": ("Says whether you vore people or get vored", "Any input"),
     "fight": ("Duel another user", "A valid user tag"),
-    "nimble": ("Horses. Lots of horses.", "None"),
-    "haze": ("Do your assignment", "None"),
-    "pablo": ("Personal flamingos", "None"),
+    "nimble": ("Posts horses. Lots of horses.", "None"),
+    "haze": ("Tells Haze to do his assignment", "None"),
+    "pablo": ("Posts Pablo's flamingos", "None"),
     "dad": ("Hi x, I'm y joke", "Any input"),
     "azsry": ("Posts a programming meme", "None"),
     "covid": ("Posts most recent COVID-19 data for Australia from Qld Health", "None"),
-    "gundam": ("Posts the 'watch gundam!' image", "None")
+    "gundam": ("Posts the 'watch gundam!' image", "None"),
+    "nido": ("Sends out one of his personal phrases", "None")
 }
 
 
@@ -269,6 +270,34 @@ class CommandsCog(bot_commands.Cog):
             else:
                 await ctx.send(random.choice([("Bullying " + target), (target + " is a meanie!"), (target + " please stop speaking")]), )
 
+    # Commands
+    @bot_commands.command()
+    async def commands(self, ctx):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+
+            command_list = ""
+            for key in COMMAND_DATA.keys():
+                explanation, inputReq = COMMAND_DATA[key]
+                
+                output = "**{}** | {}".format(key, explanation)
+                if (inputReq != "None"):
+                    output += " << *{}*".format(inputReq)
+
+                command_list += output+"\n"
+
+            await ctx.send(command_list)
+
+    # Nido
+    @bot_commands.command()
+    async def nido(self, ctx):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+            phrases = ["Grime is better than Kpop", "Honda Odyssey best car", "We live in a society", "Haze needs to do his assignment", 
+                       "Initial D best anime", "If Honda made a manuelle Odyssey in brown there would be no need for any other cars",
+                       "Northside is a cult", "The C in SMACK stands for \"corrupt\""]
+            await ctx.send(random.choice(phrases))
+
     # Salty
     @bot_commands.command()
     async def salty(self, ctx):
@@ -299,10 +328,10 @@ class CommandsCog(bot_commands.Cog):
 
     # Pablo
     @bot_commands.command()
-    async def pablo(self, ctx, gauntlet=False):
+    async def pablo(self, ctx, arg=False):
         if allowed_channel(ctx):
             await ctx.trigger_typing()
-            if (random.randint(1, 10) <= 5 or gauntlet):
+            if (random.randint(1, 10) <= 5 or gauntlet == "gauntlet"):
                 await ctx.send(file=discord.File(fp="images/pablo/pablo1.jpg"))
                 await ctx.send("> 3 OUT OF 5 OF THE INFINITY FLAMINGO GAUNTLET COSMETIC KIT HAS BEEN GATHERED")
             else:
