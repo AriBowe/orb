@@ -4,6 +4,7 @@ Command expansion cog, handles all general commands
 
 import datetime
 import discord
+import asyncio
 from discord.ext import commands as bot_commands
 import random
 import time
@@ -18,8 +19,8 @@ from bs4 import BeautifulSoup
 from cogs.orb_control import allowed_channel, db
 
 COMMANDS_VERSION = {
-    "Version": "8",
-    "Count": "23"
+    "Version": "9",
+    "Count": "26"
 }
 
 # PUBLIC list of commands, not all of them
@@ -42,12 +43,15 @@ COMMAND_DATA = {
     "kagepro": ("Posts images from the Kagerou Project", "None"),
     "vore": ("Says whether you vore people or get vored", "Any input"),
     "fight": ("Duel another user", "A valid user tag"),
-    "nimble": ("Horses. Lots of horses.", "None"),
-    "haze": ("Do your assignment", "None"),
-    "pablo": ("Personal flamingos", "None"),
+    "nimble": ("Posts horses. Lots of horses.", "None"),
+    "haze": ("Tells Haze to do his assignment", "None"),
+    "pablo": ("Posts Pablo's flamingos", "None"),
     "dad": ("Hi x, I'm y joke", "Any input"),
     "azsry": ("Posts a programming meme", "None"),
-    "covid": ("Posts most recent COVID-19 data for Australia from Qld Health", "None")
+    "covid": ("Posts most recent COVID-19 data for Australia from Qld Health", "None"),
+    "gundam": ("Posts the 'watch gundam!' image", "None"),
+    "nido": ("Sends out one of his personal phrases", "None"),
+    "salty": ("Posts a picture of some salt implying it is you", "None")
 }
 
 
@@ -268,6 +272,48 @@ class CommandsCog(bot_commands.Cog):
             else:
                 await ctx.send(random.choice([("Bullying " + target), (target + " is a meanie!"), (target + " please stop speaking")]), )
 
+    # Commands
+    @bot_commands.command()
+    async def commands(self, ctx):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+
+            command_list = ""
+            for key in COMMAND_DATA.keys():
+                explanation, inputReq = COMMAND_DATA[key]
+                
+                output = "**{}** | {}".format(key, explanation)
+                if (inputReq != "None"):
+                    output += " << *{}*".format(inputReq)
+
+                command_list += output+"\n"
+
+            await ctx.send(command_list)
+
+    # Nido
+    @bot_commands.command()
+    async def nido(self, ctx):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+            phrases = ["Grime is better than Kpop", "Honda Odyssey best car", "We live in a society", "Haze needs to do his assignment", 
+                       "Initial D best anime", "If Honda made a manuelle Odyssey in brown there would be no need for any other cars",
+                       "Northside is a cult", "The C in SMACK stands for \"corrupt\""]
+            await ctx.send(random.choice(phrases))
+
+    # Salty
+    @bot_commands.command()
+    async def salty(self, ctx):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/salty.jpeg"))
+
+    # Gundam
+    @bot_commands.command()
+    async def gundam(self, ctx):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/gundam.png"))
+
     # Nimble
     @bot_commands.command()
     async def nimble(self, ctx):
@@ -284,10 +330,10 @@ class CommandsCog(bot_commands.Cog):
 
     # Pablo
     @bot_commands.command()
-    async def pablo(self, ctx):
+    async def pablo(self, ctx, arg=False):
         if allowed_channel(ctx):
             await ctx.trigger_typing()
-            if (random.randint(1, 10) <= 5):
+            if (random.randint(1, 10) <= 5 or gauntlet == "gauntlet"):
                 await ctx.send(file=discord.File(fp="images/pablo/pablo1.jpg"))
                 await ctx.send("> 3 OUT OF 5 OF THE INFINITY FLAMINGO GAUNTLET COSMETIC KIT HAS BEEN GATHERED")
             else:
@@ -298,21 +344,17 @@ class CommandsCog(bot_commands.Cog):
     async def haze(self, ctx):
         if allowed_channel(ctx):
             await ctx.trigger_typing()
-            if random.randint(1, 10) == 5:
+            if random.randint(1, 10) > 8:
                 await ctx.send("I want EVERY assignment done in:")
-                await ctx.send("5")
-                time.sleep(1)
-                await ctx.send("4")
-                time.sleep(1)
                 await ctx.send("3")
-                time.sleep(1)
+                await asyncio.sleep(1)
                 await ctx.send("2")
-                time.sleep(1)
+                await asyncio.sleep(1)
                 await ctx.send("1")
-                time.sleep(1)
+                await asyncio.sleep(1)
                 await ctx.send("Thanks for finishing those assignments! Remember: Liars get SMACK'd")
             else:
-                await ctx.send(random.choice([("Haze, you should be doing your assignment"), ("I swear on Sumako - if that assignment isn't done yet..."), ('"cranes are great" - Haze'), ("I don't want to hear you complaining about your assignments... EVER")]), )
+                await ctx.send(random.choice([("HAZE! ASSIGNMENTS! NOW!"), ("I swear on Sumako - if that assignment isn't done yet..."), ('"cranes are great" - Haze'), ("I don't want to hear you complaining about your assignments... EVER")]), )
 
     # Illya
     @bot_commands.command()
