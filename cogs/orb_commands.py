@@ -481,20 +481,28 @@ C++; // makes C bigger, returns old value```
         covid_alert_txt, last_update = regex_results
         covid_alert = regex_results[0] == "Active"
 
-        req = requests.get("https://www.covid19.qld.gov.au/")
+        req = requests.get("https://www.qld.gov.au/health/conditions/health-alerts/coronavirus-covid-19/current-status/urgent-covid-19-update")
         soup = BeautifulSoup(req.text, features="html.parser")
-        stat_data = soup.find_all("span", "qg-statistics__stat-number")
 
-        stat_data = re.sub(",", "", str(stat_data))
+        daily_cases = soup.select(".new > span")[0].decode_contents()
+        total_cases = soup.select(".cases > span")[0].decode_contents()
+        tests_conducted = soup.select(".tested > span")[0].decode_contents()
+        total_vaccines = soup.select(".vaccine > span")[0].decode_contents()
 
-        regex_results = re.findall("(\d+)", str(stat_data))[:4]
+        if len(soup.select(".alert-warning")) != 0:
+            active_alerts = "\n\n----------------------\n\n"
 
-        daily_cases, total_cases, tests_conducted, total_vaccines = regex_results
+        for x in soup.select(".alert-warning"):
+            temp_soup = BeautifulSoup(str(x), features="html.parser")
+            active_alerts += temp_soup.get_text().strip() + "\n\n"
+
+        active_alerts += "----------------------\n\n"
+
 
         embed_data = {
             "title": f"COVID-19 information for {date.today()}",
             "type": "rich",
-            "description": f"Alert: {covid_alert_txt} (Last updated {last_update})\n\nCases (last 24h): {daily_cases}\nTotal cases: {total_cases}\nTests conducted: {tests_conducted}\n Total vaccine doses: {total_vaccines}",
+            "description": f"Alert: {covid_alert_txt} (Last updated {last_update}){active_alerts}Cases (last 24h): {daily_cases}\nTotal cases: {total_cases}\nTests conducted: {tests_conducted}\n Total vaccine doses: {total_vaccines}",
             "url": "https://www.covid19.qld.gov.au/",
             "color": 0xf55d42 if covid_alert else 0x11c255,
         }
