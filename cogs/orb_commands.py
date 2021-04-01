@@ -2,7 +2,6 @@
 Command expansion cog, handles all general commands
 """
 
-import datetime
 import discord
 import asyncio
 from discord.ext import commands as bot_commands
@@ -292,13 +291,28 @@ class CommandsCog(bot_commands.Cog):
 
     # Nido
     @bot_commands.command()
-    async def nido(self, ctx):
+    async def nido(self, ctx, explain=None):
         if allowed_channel(ctx):
             await ctx.trigger_typing()
             phrases = ["Grime is better than Kpop", "Honda Odyssey best car", "We live in a society", "Haze needs to do his assignment", 
                        "Initial D best anime", "If Honda made a manuelle Odyssey in brown there would be no need for any other cars",
                        "Northside is a cult", "The C in SMACK stands for \"corrupt\""]
-            await ctx.send(random.choice(phrases))
+
+            # punishment for pinning a message that misquoted what I had said about #humans and #onis (Nidowott#4381)
+            if (explain != "explain"):
+                current = datetime.now()
+                if (str(ctx.author) == "Xfilez#1298" and (random.randint(0,10) >= 5 or current.strftime("%a") == "Fri")):
+                    await ctx.send("(-1) **Karma** - after pinning that image of my sponsorship, your command will be cursed.")
+                else:
+                    await ctx.send(random.choice(phrases))
+            else:
+                await ctx.trigger_typing()
+                await ctx.send("It's quite simple really.")
+                await asyncio.sleep(0.5)
+                await ctx.send("> - It picks a random number from 0 to 10. Whenever it is greater than 4, you get the curse.")
+                await ctx.send("> - If the day is Friday, you will always get the curse. You don't get to enjoy Fridays.")
+                await asyncio.sleep(0.5)
+                await ctx.send("\nHave fun! :)\n- Pablo\nP.S If you formally apologise to all of the humans, we can talk about exorcising your command")
 
     # Salty
     @bot_commands.command()
