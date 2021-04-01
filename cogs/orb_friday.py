@@ -1,6 +1,6 @@
 import discord
-#from datetime import datetime, timedelta
-import datetime
+from datetime import datetime, timedelta
+#import datetime
 #import schedule
 import asyncio
 from discord.ext import commands as bot_commands
@@ -21,9 +21,10 @@ class FridayCog(bot_commands.Cog):
     async def announcement(self):
         channel = self.bot.get_channel(823075283942375458)
 
-        current = datetime.datetime.now()
+        current = datetime.now()
         if (current.strftime("%a") == "Fri" and current.strftime("%H") == "09" and current.strftime("%M") == "00"):
-            channel.send("asd")
+            await ctx.send(file=discord.File(fp="images/happyFriday.mp4"))
+            await ctx.send(":tuturu: SMACK! Happy Friday!!")
             
 def setup(bot):
     bot.add_cog(FridayCog(bot))
