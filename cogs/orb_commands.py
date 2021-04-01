@@ -325,12 +325,16 @@ class CommandsCog(bot_commands.Cog):
     @bot_commands.command()
     async def dad(self, ctx, *args):
         if allowed_channel(ctx):
-            await ctx.trigger_typing()
-            await ctx.send("Hi, {}, I'm {}!".format(' '.join(args), ctx.author.name))
+            if len(args) > 0:
+                await ctx.trigger_typing()
+                await ctx.send("Hi, {}, I'm orb!".format(' '.join(args)))
+            else:
+                await ctx.trigger_typing()
+                await ctx.send("Hi, *\"Person who doesn't know how to use this command\"*, I'm orb. Please enter at least one phrase to mock!")
 
     # Pablo
     @bot_commands.command()
-    async def pablo(self, ctx, arg=False):
+    async def pablo(self, ctx, gauntlet=None):
         if allowed_channel(ctx):
             await ctx.trigger_typing()
             if (random.randint(1, 10) <= 5 or gauntlet == "gauntlet"):
