@@ -299,20 +299,25 @@ class CommandsCog(bot_commands.Cog):
                        "Northside is a cult", "The C in SMACK stands for \"corrupt\""]
 
             # punishment for pinning a message that misquoted what I had said about #humans and #onis (Nidowott#4381)
-            if (explain != "explain"):
-                current = datetime.now()
-                if (str(ctx.author) == "Xfilez#1298" and (random.randint(0,10) >= 5 or current.strftime("%a") == "Fri")):
-                    await ctx.send("(-1) **Karma** - after pinning that image of my sponsorship, your command will be cursed.")
+            if (("I <3 humans" not in ctx.author.display_name) and str(ctx.author) == "Nidowott#4381"):
+                if (explain != "explain"):
+                    current = datetime.now()
+                    # randomly decides whether or not to apply karma to the message
+                    if (random.randint(0,10) >= 5 or current.strftime("%a") == "Fri"):
+                        await ctx.send("(-1) **Karma** - after pinning that image of my sponsorship, your command will be cursed.")
+                    else:
+                        await ctx.send(random.choice(phrases))
                 else:
-                    await ctx.send(random.choice(phrases))
+                    # explanation of the chances
+                    await ctx.trigger_typing()
+                    await ctx.send("It's quite simple really.")
+                    await asyncio.sleep(0.5)
+                    await ctx.send("> - It picks a random number from 0 to 10. Whenever it is greater than 4, you get the curse.")
+                    await ctx.send("> - If the day is Friday, you will always get the curse. You don't get to enjoy Fridays.")
+                    await asyncio.sleep(0.5)
+                    await ctx.send("\nHave fun! :smile:\n- Pablo\nP.S Come and talk if you want to exorcise your command :wink:")
             else:
-                await ctx.trigger_typing()
-                await ctx.send("It's quite simple really.")
-                await asyncio.sleep(0.5)
-                await ctx.send("> - It picks a random number from 0 to 10. Whenever it is greater than 4, you get the curse.")
-                await ctx.send("> - If the day is Friday, you will always get the curse. You don't get to enjoy Fridays.")
-                await asyncio.sleep(0.5)
-                await ctx.send("\nHave fun! :)\n- Pablo\nP.S If you formally apologise to all of the humans, we can talk about exorcising your command")
+                await ctx.send(random.choice(phrases))
 
     # Salty
     @bot_commands.command()
