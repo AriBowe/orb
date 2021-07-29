@@ -234,7 +234,6 @@ class CommandsCog(bot_commands.Cog):
                 await ctx.send(":fishing_pole_and_fish:  |  " + ctx.author.display_name + ", you caught: AIDS! You paid :yen: 10 for casting.")
 
     # Meme ban
-
     @bot_commands.command()
     async def ban(self, ctx, *, target=None):
         if allowed_channel(ctx):
@@ -356,11 +355,14 @@ class CommandsCog(bot_commands.Cog):
     async def pablo(self, ctx, gauntlet=None):
         if allowed_channel(ctx):
             await ctx.trigger_typing()
-            if (random.randint(1, 10) <= 5 or gauntlet == "gauntlet"):
-                await ctx.send(file=discord.File(fp="images/pablo/pablo1.jpg"))
-                await ctx.send("> 3 OUT OF 5 OF THE INFINITY FLAMINGO GAUNTLET COSMETIC KIT HAS BEEN GATHERED")
-            else:
+            if (gauntlet == "gauntlet"):
+                await ctx.send(file=discord.File(fp="images/pablo/infinity_final.png"))
+                await ctx.send("> 5 OUT OF 5 OF THE INFINITY FLAMINGO GAUNTLET COSMETIC KIT HAS BEEN GATHERED")
+            elif (gauntlet == "flamingo"):
                 await ctx.send(file=discord.File(fp="images/pablo/pablo2.jpg"))
+            else:
+                if (random.randint(1,10) >= 5):
+                    await ctx.send(file=discord.File(fp="images/pablo/pablo2.jpg"))
 
     # Haze
     @bot_commands.command()
