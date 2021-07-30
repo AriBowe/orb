@@ -19,7 +19,7 @@ from cogs.orb_control import allowed_channel, db
 
 COMMANDS_VERSION = {
     "Version": "9",
-    "Count": "26"
+    "Count": "27"
 }
 
 # PUBLIC list of commands, not all of them
@@ -324,6 +324,37 @@ class CommandsCog(bot_commands.Cog):
         if allowed_channel(ctx):
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/salty.jpeg"))
+
+    # Dev
+    @bot_commands.command()
+    async def dev(self, ctx, cmd = None):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+            if not cmd:
+                await ctx.send('Please choose one of the following arguments:\n*follow*\t*unfollow*')
+                return
+
+            # check with command they would like to execute
+            id = ctx.author.id
+            if cmd in ['follow', 'Follow']:
+                # write their ID to the file as a new line
+                followers = open('data/followers.txt', 'w')
+                followers.write(str(id) + '\n')
+                followers.close()
+                await ctx.send('You are now following orb updates!')
+
+            elif cmd in ['unfollow', 'Unfollow']:
+                '''followers = open('data/followers.txt', 'rw')
+                # check if any of the IDs match our author's ID
+                lines = followers.readlines()
+                for line in range(len(lines)):
+                    if lines[line] == id:
+                        # a match has been found, remove it
+                        del lines[line]
+                        
+                await ctx.send('You are no longer following orb updates!')'''
+                await ctx.send('Work in progress.')
+            
 
     # Gundam
     @bot_commands.command()

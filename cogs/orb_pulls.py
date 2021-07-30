@@ -1,14 +1,18 @@
 import discord
 import requests
 import asyncio
+import os
 from discord.utils import get
 from discord.ext import commands as bot_commands
 from discord.ext import tasks
 from discord import DMChannel
 
 client = discord.Client()
-url = 'https://api.github.com/repos/AriBowe/orb/pulls'
+
+FOLLOWERS = 'data/followers.txt'
+URL = 'https://api.github.com/repos/AriBowe/orb/pulls'
 url2 = 'https://api.github.com/repos/paulrusthewalrus/paulio.github.io/pulls'
+
 myobj = {'somekey': 'somevalue'}
 info = ['title', 'body', 'html_url', 'id', 'created_at']
 
@@ -25,6 +29,7 @@ Finds all relevant information about the user who made the request
 async def find_user_info(resp):
     user = {}
     full = resp['user']
+    # find all important information and store it respectively
     user['name'] = full['login']
     user['profile'] = full['html_url']
     user['type'] = full['type']
@@ -87,11 +92,30 @@ async def format_all_embeds(pullRequests):
         all_embeds.append(await format_embed(pull))
     return all_embeds
 
-#92848285739393024 PABLO'S ID
-
 class PullsCog(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    '''
+    Return a user object given the user ID
+    '''
+    async def find_user(self, userId):
+        return await self.bot.fetch_user("{}".format(userId))
+
+    '''
+    Get all user objects that need to be informated
+    '''
+    async def find_all_users(self, directory):
+        users = []
+        followers = open(directory, 'r')
+        lines = followers.readlines()
+        # iterate through all lines finding all the user IDs
+        for line in lines:
+            # add the respective user obejcts to our list
+            if (len(line.strip()) > 0):
+                users.append(await self.find_user(line))
+        followers.close()
+        return users
         
     @bot_commands.Cog.listener()
     async def on_ready(self):
@@ -100,16 +124,18 @@ class PullsCog(bot_commands.Cog):
     @tasks.loop(minutes=0.1) # every 6 seconds ATM
     async def embed(self):
         channel = self.bot.get_channel(823075283942375458)
-        pablo = await self.bot.fetch_user("92848285739393024")
-        xiii = await self.bot.fetch_user("138198892968804352")
+        users = await self.find_all_users(FOLLOWERS)
+        #xiii = await self.bot.fetch_user("138198892968804352")
 
+        # make the request and format all related embeds respective of response
         resp = await get_response(url2, data = myobj)
         pullRequests = await populate_prs(resp)
         all_embeds = await format_all_embeds(pullRequests)
 
+        # send the pull request to all followers
         for embed in all_embeds:
-            await DMChannel.send(pablo, embed = embed)
-            #await channel.send(embed = embed)
+            for user in users:
+                await DMChannel.send(user, embed = embed)
             
 def setup(bot):
     bot.add_cog(PullsCog(bot))
