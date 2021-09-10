@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 import asyncio
 import json
 from discord.ext import commands as bot_commands
-from utils import repo
+from utils import repo, logger
 
 
 class PinCog(bot_commands.Cog):

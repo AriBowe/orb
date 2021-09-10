@@ -16,9 +16,9 @@ class FridayCog(bot_commands.Cog):
     async def announcement(self):
         channel = self.bot.get_channel(286411114969956352)
         current = datetime.now()
-        if (current.strftime("%a") == "Fri" and current.strftime("%H") == "09" and current.strftime("%M") == "00"):
+        if (current.strftime("%a") == "Thu" and current.strftime("%H") == "23" and current.strftime("%M") == "00"):
             await channel.send(file=discord.File(fp="images/happyFriday.mp4"))
-            await channel.send(":sumakotuturu: SMACK! Happy Friday!")
+            await channel.send("SMACK! Happy Friday!")
             
 def setup(bot):
     bot.add_cog(FridayCog(bot))
