@@ -160,8 +160,7 @@ class MusicPlayer:
                 try:
                     self._guild.voice_client.play(source, after=lambda _: self.bot.loop.call_soon_threadsafe(self.next.set))
                 except AttributeError:
-            self.np = await self._channel.send(f'**Now Playing:** __{source.title}__ requested by '
-                                            f'{source.requester}')
+                    self.np = await self._channel.send(f'**Now Playing:** __{source.title}__ requested by 'f'{source.requester}')
             await self.next.wait()
 
             # Make sure the FFmpeg process is cleaned up.
