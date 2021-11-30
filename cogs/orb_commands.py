@@ -279,7 +279,7 @@ class CommandsCog(bot_commands.Cog):
             command_list = ""
             for key in COMMAND_DATA.keys():
                 explanation, inputReq = COMMAND_DATA[key]
-                
+
                 output = "**{}** | {}".format(key, explanation)
                 if (inputReq != "None"):
                     output += " << *{}*".format(inputReq)
@@ -293,7 +293,7 @@ class CommandsCog(bot_commands.Cog):
     async def nido(self, ctx, explain=None):
         if allowed_channel(ctx):
             await ctx.trigger_typing()
-            phrases = ["Grime is better than Kpop", "Honda Odyssey best car", "We live in a society", "Haze needs to do his assignment", 
+            phrases = ["Grime is better than Kpop", "Honda Odyssey best car", "We live in a society", "Haze needs to do his assignment",
                        "Initial D best anime", "If Honda made a manuelle Odyssey in brown there would be no need for any other cars",
                        "Northside is a cult", "The C in SMACK stands for \"corrupt\""]
 
@@ -302,7 +302,7 @@ class CommandsCog(bot_commands.Cog):
                 if (explain != "explain"):
                     current = datetime.now()
                     # randomly decides whether or not to apply karma to the message
-                    if (random.randint(0,10) >= 5 or current.strftime("%a") == "Fri"):
+                    if (random.randint(0, 10) >= 5 or current.strftime("%a") == "Fri"):
                         await ctx.send("(-1) **Karma** - after pinning that image of my sponsorship, your command will be cursed.")
                     else:
                         await ctx.send(random.choice(phrases))
@@ -327,7 +327,7 @@ class CommandsCog(bot_commands.Cog):
 
     # Dev
     @bot_commands.command()
-    async def dev(self, ctx, cmd = None):
+    async def dev(self, ctx, cmd=None):
         if allowed_channel(ctx):
             await ctx.trigger_typing()
             if not cmd:
@@ -344,19 +344,39 @@ class CommandsCog(bot_commands.Cog):
                 await ctx.send('You are now following orb updates!')
 
             elif cmd in ['unfollow', 'Unfollow']:
-                '''followers = open('data/followers.txt', 'rw')
-                # check if any of the IDs match our author's ID
-                lines = followers.readlines()
-                for line in range(len(lines)):
-                    if lines[line] == id:
-                        # a match has been found, remove it
-                        del lines[line]
-                        
-                await ctx.send('You are no longer following orb updates!')'''
-                await ctx.send('Work in progress.')
-            
+                lines = []
+                #followers = open('data/followers.txt', 'w')
+
+                with open('data/followers.txt', 'r') as f:
+                    lines = f.readlines()
+
+                with open('data/followers.txt', 'w') as f:
+                    for line in lines:
+                        # if " " in line:
+                        # print(True)
+
+                        #print(line.strip(), type(line.strip()))
+                        #print(id, type(id))
+
+                        if (line.strip() != str(id)):
+                            f.write(line)
+
+                    '''for line in range(len(lines)):
+                        lineId = lines[line][0:-1]
+                        lines[line].replace(str(id), '')'''
+
+                    '''if lineId == id:
+                            # a match has been found, remove it
+                            followers.truncate(size)
+                            size -= len(line)'''
+
+                # followers.close()
+
+                await ctx.send('You are no longer following orb updates!')
+                # await ctx.send('Work in progress.')
 
     # Gundam
+
     @bot_commands.command()
     async def gundam(self, ctx):
         if allowed_channel(ctx):
@@ -392,7 +412,7 @@ class CommandsCog(bot_commands.Cog):
             elif (gauntlet == "flamingo"):
                 await ctx.send(file=discord.File(fp="images/pablo/pablo2.jpg"))
             else:
-                if (random.randint(1,10) >= 5):
+                if (random.randint(1, 10) >= 5):
                     await ctx.send(file=discord.File(fp="images/pablo/pablo2.jpg"))
 
     # Haze
@@ -570,7 +590,8 @@ C++; // makes C bigger, returns old value```
         if not allowed_channel(ctx):
             return
 
-        req = requests.get("https://www.health.gov.au/news/health-alerts/novel-coronavirus-2019-ncov-health-alert")
+        req = requests.get(
+            "https://www.health.gov.au/news/health-alerts/novel-coronavirus-2019-ncov-health-alert")
 
         soup = BeautifulSoup(req.text, features="html.parser")
         alert_data = soup.find_all("ul", "field-health-alert-metadata__list")
@@ -579,7 +600,8 @@ C++; // makes C bigger, returns old value```
         covid_alert_txt, last_update = regex_results
         covid_alert = regex_results[0] == "Active"
 
-        req = requests.get("https://www.qld.gov.au/health/conditions/health-alerts/coronavirus-covid-19/current-status/urgent-covid-19-update")
+        req = requests.get(
+            "https://www.qld.gov.au/health/conditions/health-alerts/coronavirus-covid-19/current-status/urgent-covid-19-update")
         soup = BeautifulSoup(req.text, features="html.parser")
 
         daily_cases = soup.select(".new > span")[0].decode_contents()
@@ -596,7 +618,6 @@ C++; // makes C bigger, returns old value```
 
         active_alerts += "----------------------\n\n"
 
-
         embed_data = {
             "title": f"COVID-19 information for {date.today()}",
             "type": "rich",
@@ -605,7 +626,8 @@ C++; // makes C bigger, returns old value```
             "color": 0xf55d42 if covid_alert else 0x11c255,
         }
         embed_obj = discord.Embed.from_dict(embed_data)
-        embed_obj.set_image(url="https://www.qld.gov.au/__data/assets/image/0012/110460/Opengraph-default-thumbnail.png")
+        embed_obj.set_image(
+            url="https://www.qld.gov.au/__data/assets/image/0012/110460/Opengraph-default-thumbnail.png")
 
         await ctx.send(embed=embed_obj)
 

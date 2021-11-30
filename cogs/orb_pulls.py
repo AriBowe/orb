@@ -19,6 +19,8 @@ info = ['title', 'body', 'html_url', 'id', 'created_at']
 '''
 Get all information from the github api about any new pull requests in orb
 '''
+
+
 async def get_response(request, data):
     full = requests.get(request, data)
     return list(full.json())
@@ -26,6 +28,8 @@ async def get_response(request, data):
 '''
 Finds all relevant information about the user who made the request
 '''
+
+
 async def find_user_info(resp):
     user = {}
     full = resp['user']
@@ -40,6 +44,8 @@ async def find_user_info(resp):
 '''
 Populates the pr dictionary with all relevant information
 '''
+
+
 async def populate_prs(resp):
     pull_requests = {}
     for pull in resp:
@@ -57,6 +63,8 @@ async def populate_prs(resp):
 '''
 create one embed to format up
 '''
+
+
 async def format_embed(pull):
     # check if a description to the commit exists
     footer = False
@@ -65,32 +73,34 @@ async def format_embed(pull):
         approximately ''' + pull['CREATED_AT']
         footer = True
 
-    # setup initial embed 
-    embed = discord.Embed(title = pull['TITLE'],
-            url = pull['HTML_URL'],
-            description = pull['BODY'],
-            color = 0xFF5733)
+    # setup initial embed
+    embed = discord.Embed(title=pull['TITLE'],
+                          url=pull['HTML_URL'],
+                          description=pull['BODY'],
+                          color=0xFF5733)
 
     # get the author going
-    embed.set_author(name = pull['USER']['name'],
-        url = pull['USER']['profile'],
-        icon_url = pull['USER']['avatar'])
+    embed.set_author(name=pull['USER']['name'],
+                     url=pull['USER']['profile'],
+                     icon_url=pull['USER']['avatar'])
 
-    # if there was some body text, include this in the footer
-    if footer:
-        embed.set_footer(text = '''This pull request was posted at 
-        approximately ''' + pull['CREATED_AT'])
+    # Create a footer with the time of the pull request
+    embed.set_footer(text='''This pull request was posted at 
+    approximately ''' + pull['CREATED_AT'])
 
     return embed
 
 '''
 format all embeds up
 '''
+
+
 async def format_all_embeds(pullRequests):
     all_embeds = []
     for pull in pullRequests.values():
         all_embeds.append(await format_embed(pull))
     return all_embeds
+
 
 class PullsCog(bot_commands.Cog):
     def __init__(self, bot):
@@ -116,26 +126,28 @@ class PullsCog(bot_commands.Cog):
                 users.append(await self.find_user(line))
         followers.close()
         return users
-        
+
     @bot_commands.Cog.listener()
     async def on_ready(self):
         await self.embed.start()
 
-    @tasks.loop(minutes=0.1) # every 6 seconds ATM
+    @tasks.loop(minutes=0.2)  # every 12 seconds ATM
     async def embed(self):
         channel = self.bot.get_channel(823075283942375458)
         users = await self.find_all_users(FOLLOWERS)
-        #xiii = await self.bot.fetch_user("138198892968804352")
+        # xiii = await self.bot.fetch_user("138198892968804352")
 
         # make the request and format all related embeds respective of response
-        resp = await get_response(url2, data = myobj)
+        resp = await get_response(url2, data=myobj)
+
         pullRequests = await populate_prs(resp)
         all_embeds = await format_all_embeds(pullRequests)
 
         # send the pull request to all followers
         for embed in all_embeds:
             for user in users:
-                await DMChannel.send(user, embed = embed)
-            
+                await DMChannel.send(user, embed=embed)
+
+
 def setup(bot):
     bot.add_cog(PullsCog(bot))
