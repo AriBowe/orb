@@ -11,7 +11,6 @@ client = discord.Client()
 
 FOLLOWERS = 'data/followers.txt'
 URL = 'https://api.github.com/repos/AriBowe/orb/pulls'
-url2 = 'https://api.github.com/repos/paulrusthewalrus/paulio.github.io/pulls'
 
 myobj = {'somekey': 'somevalue'}
 info = ['title', 'body', 'html_url', 'id', 'created_at']
@@ -105,6 +104,7 @@ async def format_all_embeds(pullRequests):
 class PullsCog(bot_commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.embed()
 
     '''
     Return a user object given the user ID
@@ -131,14 +131,13 @@ class PullsCog(bot_commands.Cog):
     async def on_ready(self):
         await self.embed.start()
 
-    @tasks.loop(minutes=0.2)  # every 12 seconds ATM
+    @tasks.loop(hours=3)  # every 3 hours at the moment
     async def embed(self):
         channel = self.bot.get_channel(823075283942375458)
         users = await self.find_all_users(FOLLOWERS)
-        # xiii = await self.bot.fetch_user("138198892968804352")
 
         # make the request and format all related embeds respective of response
-        resp = await get_response(url2, data=myobj)
+        resp = await get_response(URL, data=myobj)
 
         pullRequests = await populate_prs(resp)
         all_embeds = await format_all_embeds(pullRequests)
