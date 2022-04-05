@@ -14,12 +14,15 @@ import requests
 from datetime import date, datetime
 from google.cloud import firestore
 from bs4 import BeautifulSoup
+from mcstatus import JavaServer
+import math
 
 from cogs.orb_control import allowed_channel, db
+from utils.repo import SMACKCRAFT
 
 COMMANDS_VERSION = {
-    "Version": "9",
-    "Count": "27"
+    "Version": "10",
+    "Count": "28"
 }
 
 # PUBLIC list of commands, not all of them
@@ -324,6 +327,23 @@ class CommandsCog(bot_commands.Cog):
         if allowed_channel(ctx):
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/salty.jpeg"))
+
+    @bot_commands.command(aliases=["mc"])
+    async def smackcraft(self, ctx):
+        if allowed_channel(ctx):
+            smckcrft = JavaServer.lookup(SMACKCRAFT) # move this to config later
+
+            try:
+                status = smckcrft.status()
+                embed = discord.Embed(title="SMACKcraft", description=status.description, color=0x287233)
+                embed.add_field(name="Active Players:", value=str(status.players.online))
+                embed.add_field(name="Version:", value=str(status.version.name))
+                embed.add_field(name="Latency:", value=round(status.latency, 2))
+
+                await ctx.send(embed=embed)
+
+            except Exception as e:
+                await ctx.send("An error was encountered when trying to query the server. Is it offline?")
 
     # Dev
     @bot_commands.command()
