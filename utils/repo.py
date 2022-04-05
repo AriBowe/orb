@@ -27,7 +27,9 @@ BANNED_CHANNELS = "x"
 PIN_DATA = config['optional_cogs']['pin_settings']
 LOAD_BALANCER = config['optional_cogs']['load_balancer_settings']
 REACTIONS = config['reaction_data']
-SMACKCRAFT = config['smackcraft']
+
+# Consts
+SMACKCRAFT = "103.62.50.44:25565" # As of (06/04/2022)
 
 # Get prefixes
 def get_prefix(bot, message):
