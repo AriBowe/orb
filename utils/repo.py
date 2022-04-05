@@ -28,6 +28,9 @@ PIN_DATA = config['optional_cogs']['pin_settings']
 LOAD_BALANCER = config['optional_cogs']['load_balancer_settings']
 REACTIONS = config['reaction_data']
 
+# Consts
+SMACKCRAFT = "103.62.50.44:25565" # As of (06/04/2022)
+
 # Get prefixes
 def get_prefix(bot, message):
     return bot_commands.when_mentioned_or(*config['prefixes'])(bot, message)
