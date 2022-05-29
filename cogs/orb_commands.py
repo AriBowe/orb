@@ -2,6 +2,8 @@
 Command expansion cog, handles all general commands
 """
 
+from functools import reduce
+import json
 import discord
 import asyncio
 from discord.ext import commands as bot_commands
@@ -335,8 +337,13 @@ class CommandsCog(bot_commands.Cog):
 
             try:
                 status = smckcrft.status()
+                query = smckcrft.query()
                 embed = discord.Embed(title="SMACKcraft", description=status.description, color=0x287233)
-                embed.add_field(name="Active Players:", value=str(status.players.online))
+                #embed.add_field(name="Active Players:", value=str(status.players.sample))
+                if status.players.online > 0:
+                    embed.add_field(name=f"Active Players: ({status.players.online})", value=reduce(comma, query.players.names)) #reduce with ,???
+                else:
+                    embed.add_field(name="Active Players:", value="0")
                 embed.add_field(name="Version:", value=str(status.version.name))
                 embed.add_field(name="Latency:", value=round(status.latency, 2))
 
@@ -651,6 +658,8 @@ C++; // makes C bigger, returns old value```
 
         await ctx.send(embed=embed_obj)
 
+def comma(a, b):
+    return str(a) + ", " + str(b)
 
 def setup(bot):
     bot.add_cog(CommandsCog(bot))

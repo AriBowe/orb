@@ -14,7 +14,7 @@ class FridayCog(bot_commands.Cog):
 
     @tasks.loop(minutes=1.0)
     async def announcement(self):
-        channel = self.bot.get_channel(286411114969956352)
+        channel = self.bot.get_channel(945640859053989938)
         current = datetime.now()
         if (current.strftime("%a") == "Thu" and current.strftime("%H") == "23" and current.strftime("%M") == "00"):
             await channel.send(file=discord.File(fp="images/happyFriday.mp4"))
