@@ -330,6 +330,13 @@ class CommandsCog(bot_commands.Cog):
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/salty.jpeg"))
 
+    # slay
+    @bot_commands.command()
+    async def slay(self, ctx):
+        phrases = ["yass 😚!", "slayy! 😜😝", "omg 😍😍😍"]
+        if allowed_channel(ctx):
+            await ctx.send(random.choice(phrases))
+
     @bot_commands.command(aliases=["mc"])
     async def smackcraft(self, ctx):
         if allowed_channel(ctx):
@@ -510,6 +517,20 @@ C++; // makes C bigger, returns old value```
         if allowed_channel(ctx):
             await ctx.trigger_typing()
             await ctx.send(file=discord.File(fp="images/yorimoi/yorimoi (" + str(random.randint(1, 48)) + ").jpg"))
+
+    # Bandori
+    @bot_commands.command()
+    async def bandori(self, ctx):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/bandori/bandori " + str(random.randint(1, 35)) + ".png"))
+
+    # Kokoro
+    @bot_commands.command()
+    async def kokoro(self, ctx):
+        if allowed_channel(ctx):
+            await ctx.trigger_typing()
+            await ctx.send(file=discord.File(fp="images/kokoro/kokoro_" + str(random.randint(1, 54)) + ".png"))
 
     # Fatepost
     @bot_commands.command()
