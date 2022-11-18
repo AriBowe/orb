@@ -1,20 +1,20 @@
-orb.py - A useless discord bot
+orb.py Rewrite
 ------------------------------
 
-Orb is a discord bot I made for the SMACK UQ
-discord server (and for fun).
-Feel free to add it to any server you want.
+Orb is a discord bot I made several years ago for the SMACK UQ
+Discord server (and for fun). I've been gradually improving on
+it and trying to clean it up since the initial release, but
+frankly the codebase is a mess and I think it's time to start
+again. This is a clean-slate rebuild of the bot.
 
-Feature docs can be found at https://aribowe.github.io/orb
+Previously I accepted PRs as long as they looked right, but
+I've decided that from Rewrite onwards I won't be accepting
+code submissions. This is partially because I felt the goal of
+the bot was moving away from what I wanted, partially so I can
+use this as an (admittedly simple) sample of my work, and 
+partially because it's my bot and I can do what I want.
 
-I host my bot on a cheap hosthatch server,
-however it should run on any local machine. To host
-your own instance, replace the string in the config
-file with your own bot token. If you have any 
-requests or comments, send me a message at xiii™#0013
-on discord.
+I do still take suggestions, so feel free to send me any!
 
 ## ACKNOWLEDGEMENTS:
-- Quantum Cucumber and their bot Quantum Bot (https://github.com/Quantum-Cucumber/quantum-bot) for help with pins, bugs, and discord in general
-- EvieePy's music.py (https://gist.github.com/EvieePy/ab667b74e9758433b3eb806c53a19f34) for the basic framework and design behind a music bot
-- AlexFlipnote's discord_bot.py (https://github.com/AlexFlipnote/discord_bot.py) for several utility modules
+- None for now
