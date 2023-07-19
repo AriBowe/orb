@@ -1,0 +1,8 @@
+{
+    "keys": {
+        "token": "NTY5NzU4MjcxOTMwMzY4MDEw.XVZKKw.6xxQ9FTby8ygUMtkX-VPPlYDzuA",
+        "test_token": "NTc0MTIxODY3OTQyODIxODg4.XNVc-g.kEwito38IA9D4q060-x5TkuzPNY",
+        "firestore_key_path": "firestore_key.json",
+        "saucenao_api_key": "937dc78bb8614f564dd9cb5254b887a8f1c360fe"
+    }
+}

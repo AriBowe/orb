@@ -32,7 +32,7 @@ graph TD;
 ```
 
 ## Module Structure:
-Each module includes a section of inline JSON which defines some base attributes. These are as follows:
+Each module includes a section of inline JSON named modDef, which defines some base attributes. These are as follows:
 ```json
 {
     "type": "moduleType",
@@ -43,11 +43,27 @@ Each module includes a section of inline JSON which defines some base attributes
     ],
     "provides": [             // A list of commands provided by the module
         "exampleCommand": {
-            "triggers": [
+            "alttriggers": [
                 "o.example",
                 "o.alternateTrigger"
             ],
             "description": "User-facing command description"
         }
     ]
-}```
+}
+```
+
+Every module assumes that some form of `logger` is available
+
+## Util Structure:
+Each util includes a section of inline JSON named utilDef, which defines some base attributes. These are as follows:
+```json
+{
+    "type": "utilType",
+    "name": "Example util",
+    "requires": [             // A list of utils required by this module
+        "exampleUtilType",
+        "anotherExampleUtilType"
+    ]
+}
+```
