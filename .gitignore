@@ -8,7 +8,7 @@ firestore_key.json
 log.txt
 
 # API Keys
-utils/keys.json
+config/keys.json
 
 # Todo
 todo
