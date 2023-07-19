@@ -38,8 +38,8 @@ class PinModule(commands.Cog):
         
         if (is_pushpin 
                 and guild_id in self.active_servers
-                # and (ctx.channel.id not in self.data[str(guild_id)]['pin_channels']
-                and ctx.channel.id not in self.data[str(guild_id)]['excluded_channels']):
+                and (ctx.channel.id not in self.data[str(guild_id)]['pin_channels']
+                and ctx.channel.id not in self.data[str(guild_id)]['excluded_channels'])):
             
             # Target channel selector
             if str(ctx.channel.id) in self.data[str(guild_id)]['channel_switches']:

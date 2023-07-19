@@ -39,4 +39,4 @@ async def on_message(message):
 
 with open("config\keys.json") as config:
     config = json.load(config)
-    bot.run(config['keys']['test_token'], reconnect=True)
+    bot.run(config['keys']['token'], reconnect=True)
