@@ -37,6 +37,6 @@ async def on_message(message):
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
 
-with open("config\keys.json") as config:
+with open("config/keys.json") as config:
     config = json.load(config)
-    bot.run(config['keys']['token'], reconnect=True)
+    bot.run(config['keys']['test_token'], reconnect=True)

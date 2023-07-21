@@ -1,12 +1,63 @@
 {
-    "498089175484989440": {
+    "286411114969956352": {
         "pin_channels": [
-            749158404005560340
+            606104185875857419,
+            796297788169125888
         ],
         "excluded_channels": [
+            293634556597108737,
+            1031172238159904830,
+            752002854671351898
         ],
         "channel_switches": {
+            "510668832403095575": 1,
+            "789311203846520833": 1,
+            "595223227421163530": 1
         },
+        "reaction_counts": [6, 6]
+    },
+    "976282949299347476": {
+        "pin_channels": [
+            1063303508864016476
+        ],
+        "excluded_channels": [],
+        "channel_switches": [],
+        "reaction_counts": [5]
+    },
+    "710474433420197968": {
+        "pin_channels": [
+            710485141642018878
+        ],
+        "excluded_channels": [],
+        "channel_switches": {},
+        "reaction_counts": [3]
+    },
+    "498089175484989440": {
+        "pin_channels": [
+            603496595669123072,
+            749158404005560340
+        ],
+        "excluded_channels": [],
+        "channel_switches": {
+            "588317945344557056": 1,
+            "579281409403781131": 1
+        },
+        "reaction_counts": [1, 1]
+    },
+    "596313242918191113": {
+        "pin_channels": [
+            747069453203931312
+        ],
+        "excluded_channels": [],
+        "channel_switches": {},
         "reaction_counts": [1]
+    },
+    "1116760659384868884": {
+        "pin_channels": [
+            1116764005864833064
+        ],
+        "excluded_channels": [],
+        "channel_switches": {},
+        "reaction_counts": [3]
     }
 }

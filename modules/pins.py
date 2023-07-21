@@ -20,7 +20,7 @@ class PinModule(commands.Cog):
         self.bot = bot
         self.pins_store = []
         self.active_servers = []
-        self.data = json.load(open("config\pins_config.json"))
+        self.data = json.load(open("config/pins_config.json"))
 
         for server in self.data:
             self.active_servers.append(int(server))
@@ -38,6 +38,7 @@ class PinModule(commands.Cog):
         
         if (is_pushpin 
                 and guild_id in self.active_servers
+                and ctx.id not in self.pins_store
                 and (ctx.channel.id not in self.data[str(guild_id)]['pin_channels']
                 and ctx.channel.id not in self.data[str(guild_id)]['excluded_channels'])):
             
@@ -49,6 +50,7 @@ class PinModule(commands.Cog):
 
             # Pin it
             if reaction_count >= self.data[str(guild_id)]['reaction_counts'][target_channel]:
+                self.pins_store.append(ctx.id)
                 await self._pin_message(ctx, guild_id, int(self.data[str(guild_id)]['pin_channels'][target_channel]))
 
     # Actual main pin function
