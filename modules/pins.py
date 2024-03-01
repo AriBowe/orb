@@ -7,6 +7,7 @@ import utils.logger
 modDef = json.loads("""{
     "type": "pins",
     "name": "Pushpin",
+    "standalone:" 1,
     "requires": [
     ],
     "provides": [

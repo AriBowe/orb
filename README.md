@@ -37,6 +37,7 @@ Each module includes a section of inline JSON named modDef, which defines some b
 {
     "type": "moduleType",
     "name": "Example module",
+    "standalone": 1
     "requires": [             // A list of utils required by this module
         "exampleUtilType",
         "anotherExampleUtilType"
@@ -52,6 +53,8 @@ Each module includes a section of inline JSON named modDef, which defines some b
     ]
 }
 ```
+
+Modules may choose to maintain supporting files in a folder labelled mod_*moduleName*. This is not required, but should be specified by setting the config `standalone` field to 0
 
 Every module assumes that some form of `logger` is available
 
