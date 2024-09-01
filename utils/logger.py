@@ -1,9 +1,12 @@
-utilDef = """{
+import json
+
+utilDef = json.loads("""{
     "type": "logger",
     "name": "logger",
+    "selftest": 1,
     "requires": [
     ]
-}"""
+}""")
 
 # Priorities are as follows:
 # 1: Notice         (Business as usual)
@@ -18,7 +21,7 @@ logf = open("log.txt", "at")
 
 # Logs an event
 def _log(content, source="unknown", priority="1"):
-    log = f"{datetime.now().replace(microsecond=0)}: [{source}] {content}"
+    log = f"{datetime.now().replace(microsecond=0)}: [{source}]\t{content}"
     print(log)
     if priority > 1:
         logf.write(log)

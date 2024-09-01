@@ -1,5 +1,5 @@
 import discord
-import json, os, re, importlib, asyncio
+import json, os, re, importlib, asyncio, unittest
 from discord.ext import commands
 
 # Load utils
@@ -27,7 +27,7 @@ asyncio.run(load_mods())
 
 @bot.event
 async def on_ready():
-    log("Bot successfully initialised")
+    log("Bot successfully initialised", 2)
 
 @bot.event
 async def on_message(message):

@@ -37,7 +37,7 @@ Each module includes a section of inline JSON named modDef, which defines some b
 {
     "type": "moduleType",
     "name": "Example module",
-    "standalone": 1
+    "standalone": 1,          // Does the module run without support files?
     "requires": [             // A list of utils required by this module
         "exampleUtilType",
         "anotherExampleUtilType"
@@ -64,6 +64,7 @@ Each util includes a section of inline JSON named utilDef, which defines some ba
 {
     "type": "utilType",
     "name": "Example util",
+    "selftest": 1,            // The util has a self-test function
     "requires": [             // A list of utils required by this module
         "exampleUtilType",
         "anotherExampleUtilType"

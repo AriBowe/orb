@@ -7,7 +7,7 @@ import utils.logger
 modDef = json.loads("""{
     "type": "pins",
     "name": "Pushpin",
-    "standalone:" 1,
+    "standalone": 1,
     "requires": [
     ],
     "provides": [
@@ -53,6 +53,7 @@ class PinModule(commands.Cog):
             if reaction_count >= self.data[str(guild_id)]['reaction_counts'][target_channel]:
                 self.pins_store.append(ctx.id)
                 await self._pin_message(ctx, guild_id, int(self.data[str(guild_id)]['pin_channels'][target_channel]))
+                log(f"Pinned message ID {ctx.id} in {guild_id}, channel {ctx.channel.id}")
 
     # Actual main pin function
     async def _pin_message(self, ctx, guild_id, pin_channel):
