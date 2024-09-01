@@ -8,28 +8,16 @@ Previously I accepted PRs as long as they looked right, but I've decided that fr
 I do still take suggestions, so feel free to send me any!
 
 ## Acknowledgements:
-- None for now
+- Some structure/best-practice tips from [FallenDeity's Discord Bot Masterclass](https://fallendeity.github.io/discord.py-masterclass) are used in orb_core.py
 
 ## Overview:
 Orb comprises of a few different pieces. `orb_core` is the intial file which manages startup and keeps everything  working together nicely. Utils are 'core' modules for orb which provide abstract functionality such as database access via a facade-style design pattern. There may only be one util for one type of functionality, but the intent is that these can be swapped out at any time with no issue. Utils can directly access orb_core's config data if needed, by requesting this from the core.
 
-Among these is the bootstrapper util, which doesn't  actually provide a utility service. Instead, it loads modules, which provide actual user-facing functionality. Bootstrapper is responsible for checking if each module is
-compatible with orb's current setup, running startup tests, and loading it.
+Util are defined in their `utilDef` variable, which is in a JSON format. These specs are currently in development, but should not be changed once fully stablised.
 
-Util types are defined in the `/utils/utils.json`. These specs are currently in development, but should not be changed once fully stablised.
-
-`orb_core` loads configuration data from a config.json file. This specifies information such as Discord status, activated or deactivated modules, and API keys. The spec of this config file is defined in the `config` directory. Other utils may store their own configs by prefixing them with their name, i.e.
+`orb_core` loads configuration data from a config.json file. This specifies information such as Discord status, activated or deactivated modules, and API keys. The spec of this config file is defined in the `config` directory. Other modules & utils may store their own configs by prefixing them with their name, i.e.
 `pin_config.json` for pins.
 
-Orb's general structure can be seen in the diagram above.
-
-```mermaid
-graph TD;
-    orb_core-->sq[other utils]
-    orb_core-->bootstrapper;
-    config.json-.->orb_core;
-    bootstrapper-->modules;
-```
 
 ## Module Structure:
 Each module includes a section of inline JSON named modDef, which defines some base attributes. These are as follows:
@@ -43,7 +31,7 @@ Each module includes a section of inline JSON named modDef, which defines some b
         "anotherExampleUtilType"
     ],
     "provides": [             // A list of commands provided by the module
-        "exampleCommand": {
+        "exampleCommand": {   // This should be the command trigger phrase
             "alttriggers": [
                 "o.example",
                 "o.alternateTrigger"
